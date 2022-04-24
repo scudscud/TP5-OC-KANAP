@@ -1,16 +1,16 @@
-//* recuperer une information précise
-function getproductdetail() {
-  fetch("http://localhost:3000/api/products/107fb5b75607497b96722bda5b504926")
-    .then(function (res) {
-      if (res.ok) {
-        return res.json();
-      }
-    })
-    .then(function (detail) {
-        console.log(detail);
-    })
-}
-const details = getproductdetail()
+// //* recuperer une information précise
+// function getproductdetail() {
+//   fetch("http://localhost:3000/api/products/107fb5b75607497b96722bda5b504926")
+//     .then(function (res) {
+//       if (res.ok) {
+//         return res.json();
+//       }
+//     })
+//     .then(function (detail) {
+//         console.log(detail);
+//     })
+// }
+// const details = getproductdetail()
 
 //*insertion des produits sur la page index
 const adItemIndex = document.getElementById("items");
