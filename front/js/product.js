@@ -1,6 +1,6 @@
 //* recuperer une information précise
 let IdProduct = window.location.search.split("?id=").join("");
-let itemImg = document.querySelectorAll("div.item__img");
+let itemImg = document.querySelector("div.item__img");
 console.log(itemImg);
 // let itemImg = document.getElementById("im");
 // console.log(itemImg);
@@ -18,7 +18,7 @@ const getproductdetail = async() => {
       }
     })
     .then((detail) => {
-        itemImg.textContent = `<img src='${detail.imageUrl}' alt='${detail.altTxt}'>`
+        itemImg.innerHTML = `<img src="${detail.imageUrl}" alt="${detail.altTxt}">`
        
         
         titleprod.textContent = `${detail.name}`;
