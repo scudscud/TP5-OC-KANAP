@@ -34,15 +34,4 @@ const getproductdetail = async () => {
 
 const details = getproductdetail();
 
-// detail.colors.forEach((color) => {
-            //     colors.innerHTML = `<option value="${detail.colors}">${detail.colors}</option>
-            //     `
-            // });
 
-            // for ( let i = 0; i < 1 ; i++ ) {colors.innerHTML = `<option value="${detail.colors}">${detail.colors}</option>
-            // `
-            //     console.log(detail.colors);
-          //   for ( let i = 0; i < 1 ; i++ ){
-          //     colors.innerHTML = `<option value="vert">vert</option>
-          //     <option value="blanc">blanc</option>`
-          // }
