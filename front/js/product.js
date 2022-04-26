@@ -22,7 +22,7 @@ const getproductdetail = async () => {
             for ( let i = 0; i < detail.colors.length; i++ ) {
                colors.innerHTML += `<option value="${detail.colors[i]}">${detail.colors[i]}</option>
                 `
-                console.log(detail.colors);
+                console.log(detail.colors[i]);
             }
             // detail.colors.forEach(([i]) => {
             //     colors.innerHTML += `<option value="${colors[i]}">${colors[i]}</option>`
