@@ -24,7 +24,11 @@ const getproductdetail = async () => {
                 `
                 console.log(detail.colors);
             }
-          
+            // detail.colors.forEach(([i]) => {
+            //     colors.innerHTML += `<option value="${colors[i]}">${colors[i]}</option>`
+            //     console.log(detail.colors);
+            //  });
+            
         });
 };
 
