@@ -1,5 +1,8 @@
-//*insertion des produits sur la page index
 // const adItemIndex = document.getElementById("items");
+
+
+
+//*insertion des produits sur la page index*\\
 
 const getproduct = async () => {
   await fetch("http://localhost:3000/api/products")
