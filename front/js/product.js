@@ -25,8 +25,9 @@ const getproductdetail = async () => {
       title.textContent = `${product.name}`;
       price.textContent = `${product.price}`;
       description.textContent = `${product.description}`;
-      //** affichage du choix des couleurs **//
-      product.colors.forEach((n, i) =>{
+      console.log(product);
+      //** affichage du choix des couleurs **//+
+      product.colors.forEach((n,i) => {
         colors.innerHTML += `<option value=${product.colors[i]}>${product.colors[i]}</option>`;
         let choicecolor = colors.addEventListener('input',(i) => { 
           console.log(i.target.value);
@@ -34,7 +35,7 @@ const getproductdetail = async () => {
         
       });
       
-    });
+    
      // console.log(`${product.price}`);
     console.log(IdProduct);
     // //* ecoute de la quantité **\\
@@ -44,8 +45,9 @@ const getproductdetail = async () => {
     // })   
   
 
-};
+});
 
+}
 
 const addToBasket = async () => {
   await getproductdetail();
@@ -54,18 +56,18 @@ const addToBasket = async () => {
     console.log(IdProduct);
   
 
-})
+  })
 
-}
+};
 
 
 
 getproductdetail();
-addToBasket()
+addToBasket();
 //********** même resultat boucle for  ************//
 // for ( let i = 0; i < detail.colors.length; i++ ) {
 //    colors.innerHTML += `<option value="${detail.colors[i]}">${detail.colors[i]}</option>
 //     `
 //     console.log(detail.colors[i]);
 // }
-// product.colors.forEach((n, i) =>
+// 
