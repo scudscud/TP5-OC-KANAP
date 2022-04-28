@@ -49,7 +49,7 @@ let addToBasket = () => {
       if(colors.value === ''){
           alert("veuillez renseigner une couleur")
       }
-      else if(quantity.value > parseInt(quantity.max) || quantity.value <= parseInt(quantity.min) ){
+      else if(quantity.value > parseInt(quantity.max) || quantity.value < parseInt(quantity.min) ){
           alert("veuillez renseigner une quantitée entre 1 et 100")
       }
       else{
@@ -79,7 +79,7 @@ let addToBasket = () => {
           addCart()
           getCart()
           saveCart(order)
-          alert("Article(s) ajouté(s) au panier")
+         
       }
     }
 
