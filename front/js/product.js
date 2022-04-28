@@ -56,23 +56,28 @@ let addToBasket = () => {
           const order = [IdProduct,quantity.value,colors.value]
          
     
-          function saveCart(cart){
+         const saveCart = (cart) => {
               localStorage.setItem("order",JSON.stringify(cart));
           }
 
-         function getCart ()  {
-           return JSON.parse(localStorage.getItem("order"))           
+       const getCart = () => {
+           let cart = localStorage.getItem("order");
+           if (cart == null){
+             return[];
+           }else {
+             return JSON.parse(cart)
+            }         
           }
 
-         function addCart (product)  {
-          let prodcutcart = getCart();
+        const addCart = (product) => {
+          let cart = getCart();
           cart.push(product);
-          saveCart(prodcutcart);
+          saveCart(cart);
 
 
           }
           addCart()
-          getCart(order)
+          getCart()
           saveCart(order)
           alert("Article(s) ajouté(s) au panier")
       }
