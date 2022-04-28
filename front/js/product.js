@@ -12,7 +12,7 @@ let product = [];
 
 const getproductdetail = async () => {
    await  fetch(`http://localhost:3000/api/products/${IdProduct}`)
-    .then( (res) => res.json())
+    .then((res) => res.json())
     .then ((data) => { product = (data)}); 
   }
 
@@ -20,12 +20,13 @@ const productdetail = async () => {
 await  getproductdetail();
       document.title = `${product.name}`
       itemImg.innerHTML = `<img src="${product.imageUrl}" alt="${product.altTxt}">`
-      title.textContent = `${product.name}`;
-      price.textContent = `${product.price}`;
-      description.textContent = `${product.description}`;
+      title.textContent = `${product.name}`
+      price.textContent = `${product.price}`
+      description.textContent = `${product.description}`
       //** affichage du choix des couleurs **//
-      product.colors.forEach((n, i) => {
-        colors.innerHTML += `<option value=${product.colors[i]}>${product.colors[i]}</option>`;
+      product.colors.forEach((n,i,y) => {
+        colors.innerHTML += `<option value=${product.colors[i]}>${product.colors[i]}</option>`
+        console.log(colors[0]);
       })   
   };
 // console.log(`${product.price}`);
@@ -40,29 +41,47 @@ await  getproductdetail();
 let addToBasket = () => {
 
   document.getElementById('addToCart').addEventListener('click', () => {
-   const cart = Object.assign({},{
-    quantityProduct : quantity.value, 
-    
-    colorProduct : colors.value,
-    
-    idBasket : IdProduct,
+   
+    if((colors.value === '')&&(quantity.value <= parseInt(quantity.min) || quantity.value > parseInt(quantity.max))){
+      alert("veuillez renseigner une couleur et une quantitée")
     }
+    else{
+      if(colors.value === ''){
+          alert("veuillez renseigner une couleur")
+      }
+      else if(quantity.value > parseInt(quantity.max) || quantity.value <= parseInt(quantity.min) ){
+          alert("veuillez renseigner une quantitée entre 1 et 100")
+      }
+      else{
+          const order = [IdProduct,quantity.value,colors.value]
+         
     
-    )
-    console.log(cart);
+          function saveCart(cart){
+              localStorage.setItem("order",JSON.stringify(cart));
+          }
+
+         function getCart ()  {
+           return JSON.parse(localStorage.getItem("order"))           
+          }
+
+         function addCart (product)  {
+          let prodcutcart = getCart();
+          cart.push(product);
+          saveCart(prodcutcart);
+
+
+          }
+          addCart()
+          getCart(order)
+          saveCart(order)
+          alert("Article(s) ajouté(s) au panier")
+      }
+    }
+
+
 })
 
-}
-
-
-
-
-
-
-
-
-
-
+};
 
 
 
