@@ -7,61 +7,27 @@
 //* variable de récupération de l'ID produit *\\
 let IdProduct = window.location.search.split("?id=").join("");
 let itemImg = document.querySelector(".item__img");
-
+let product = [];
 //*  requete pour obtenir les détails de la descritpion produit *\\
 
 const getproductdetail = async () => {
    await  fetch(`http://localhost:3000/api/products/${IdProduct}`)
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-    })
-    .then((product) => {
-      //** affichage de la description du produit **\\
-     console.log(product);
-      document.title = `${product.name}`;
-      itemImg.innerHTML = `<img src="${product.imageUrl}" alt="${product.altTxt}">`;
-      title.textContent = `${product.name}`;
-      price.textContent = `${product.price}`;
-      description.textContent = `${product.description}`;
-      //** affichage du choix des couleurs **//
-      product.colors.forEach((n, i) => {
-        colors.innerHTML += `<option value=${product.colors[i]}>${product.colors[i]}</option>`;
-        let choicecolor = colors.addEventListener('input', (i) => {
-         
-        });
-
-      });
-}
-    )};
+    .then( (res) => res.json())
+    .then ((data) => { product = (data)}); 
+  }
 
 const productdetail = async () => {
-await getproductdetail()
-.then((res) => {
-  if (res.ok) {
-    return res.json();
-  }
-})
-  .then((product) => {
-      //** affichage de la description du produit **\\
-     console.log(product);
-      document.title = `${product.name}`;
-      itemImg.innerHTML = `<img src="${product.imageUrl}" alt="${product.altTxt}">`;
+await  getproductdetail();
+      document.title = `${product.name}`
+      itemImg.innerHTML = `<img src="${product.imageUrl}" alt="${product.altTxt}">`
       title.textContent = `${product.name}`;
       price.textContent = `${product.price}`;
       description.textContent = `${product.description}`;
       //** affichage du choix des couleurs **//
       product.colors.forEach((n, i) => {
         colors.innerHTML += `<option value=${product.colors[i]}>${product.colors[i]}</option>`;
-        let choicecolor = colors.addEventListener('input', (i) => {
-         
-        });
-
-      });
-
-    });
-  }
+      })   
+  };
 // console.log(`${product.price}`);
 
 // //* ecoute de la quantité **\\
@@ -70,32 +36,33 @@ await getproductdetail()
 
 // })   
 
+//* addtobasket *\\
+let addToBasket = () => {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const addToBasket = async () => {
-  await getproductdetail();
-  quantity.addEventListener('input',(e) => {
-    console.log(e.target.value);
-    console.log(IdProduct);
-  
-
+  document.getElementById('addToCart').addEventListener('click', () => {
+   const cart = Object.assign({},{
+    quantityProduct : quantity.value, 
+    
+    colorProduct : colors.value,
+    
+    idBasket : IdProduct,
+    }
+    
+    )
+    console.log(cart);
 })
 
 }
+
+
+
+
+
+
+
+
+
+
 
 
 

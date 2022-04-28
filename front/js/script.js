@@ -1,18 +1,13 @@
-// const adItemIndex = document.getElementById("items");
 
+//*insertion des produits sur la page index methode async + forEach *\\
 
-
-//*insertion des produits sur la page index*\\
-
-const getproduct = async () => {
+const getproduct = async ()  => {
   await fetch("http://localhost:3000/api/products")
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-    })
-
-    .then((products) => {
+    .then((res) => 
+      res.json()
+      
+    )
+        .then(products => {
       products.forEach((product) => {
         items.innerHTML += `<a href="./product.html?id=${product._id}">
 <article><img src=${product.imageUrl} alt=${product.altTxt}>
@@ -23,8 +18,13 @@ const getproduct = async () => {
         console.log(product);
       })
     })
-};
-
-getproduct();
-
+  };
  
+
+  getproduct();
+ 
+//****************************************************************************************//
+
+//** insertion des produits sur la page methode function "callback" + for **\\
+
+
