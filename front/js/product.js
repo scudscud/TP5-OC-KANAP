@@ -58,7 +58,7 @@ let addToBasket = () => {
       if(colors.value === ''){
         colors.style.borderColor = "red"; setTimeout(()=>{colors.style.borderColor = "inherit";},800)
       colors.animate([{transform: `translateX(1%)`}],{duration: 200, iterations: 4})
-      addToCart.style.background = "##cc2900"; setTimeout(()=>{addToCart.style.background = "";},800)
+      addToCart.style.background = "#cc2900"; setTimeout(()=>{addToCart.style.background = "";},800);
       addToCart.animate([ {transform: `translateX(2%)`},{transform: `translatey(2%)`}],{duration: 200, iterations: 4})
           // alert("veuillez renseigner une couleur")
       }
