@@ -85,34 +85,38 @@ let addToBasket = () => {
       else{
         animBouttonAgree();
         // alert("veuillez renseigner une quantitée entre 1 et 100")
-        const order = Object.assign({},{idProductCart: IdProduct},{quantityProdcutCart: quantity.value},{colorProductCart: colors.value});
+        const order = [IdProduct,quantity.value,colors.value]
 
           //** enregistrement du panier dans local storage **\\ 
-         const saveCart = (cart) => {
-              localStorage.setItem("order",JSON.stringify(cart));
-          }
+         function saveCart(cart) {
+          localStorage.setItem("order", JSON.stringify(cart));
+        }
 
        const getCart = () => {
            let cart = localStorage.getItem("order");
-           if (cart == null){
+           if(cart == null){
              return[];
            }else {
              return JSON.parse(cart)
             }         
-          };
+          }
 
         const addCart = (product) => {
           let cart = getCart();
-          cart.push(product);
+           cart.push(product)
           saveCart(cart);
-          };
-          
-          addCart()
-          getCart()
-          saveCart(order)       
+       
+        }
+        addCart();
+        getCart();
+        saveCart(order);
+
+
       }
+     
     }
 })
+
 };
 
 getproductdetail();
