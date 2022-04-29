@@ -37,36 +37,54 @@ await  getproductdetail();
 
 // })   
 
-//* addtobasket *\\
 const durationcolor = 800;
+//** animation couleur erreur ajout au panier **\\
+// const animColorError =colors.style.borderColor = "red"; setTimeout(()=>{colors.style.borderColor = "inherit";},`${durationcolor}`);
+// colors.animate([{transform: `translateX(1%)`}],{duration: 200, iterations: 4});
+// //** animation quantité erreur ajout au panier **\\
+// const animQuantityError = quantity.style.borderColor = "red"; setTimeout(()=>{quantity.style.borderColor = "inherit";},800);
+// quantity.animate([ {transform: `translate(4%)`}],{duration: 200, iterations: 4});
+// //** animation boutton erreur ajout au panier **\\
+// const animBouttonErreur = addToCart.style.background = "#cc2900"; setTimeout(()=>{addToCart.style.background = "";},800);
+// addToCart.animate([ {transform: `translateX(2%)`},{transform: `translatey(2%)`}],{duration: 200, iterations: 4});
+
+
+//* ajout au panier si caractéristiques sont bonnes addtobasket *\\
+
 let addToBasket = () => {
 
   document.getElementById('addToCart').addEventListener('click', () => {
    
     if((colors.value === '')&&(quantity.value < parseInt(quantity.min) || quantity.value > parseInt(quantity.max))){
-      colors.style.borderColor = "red"; setTimeout(()=>{colors.style.borderColor = "inherit";},      `${durationcolor}`)
-      colors.animate([{transform: `translateX(1%)`}],{duration: 200, iterations: 4})
-      quantity.style.borderColor = "red"; setTimeout(()=>{quantity.style.borderColor = "inherit";},800)
-      quantity.animate([ {transform: `translate(4%)`}],{duration: 200, iterations: 4})
-      // addToCart.style.boxShadow = "#cc0099"; setTimeout(()=>{addToCart.style.boxShadow = "";},2000)
-      addToCart.style.background = "#cc2900"; setTimeout(()=>{addToCart.style.background = "";},800)
-      addToCart.animate([ {transform: `translateX(2%)`},{transform: `translatey(2%)`}],{duration: 200, iterations: 4})
+      //** animation couleur erreur ajout au panier **\\
+      colors.style.borderColor = "red"; setTimeout(()=>{colors.style.borderColor = "inherit";},`${durationcolor}`);
+      colors.animate([{transform: `translateX(1%)`}],{duration: 200, iterations: 4});
+      //** animation quantité erreur ajout au panier **\\
+      const animQuantityError = quantity.style.borderColor = "red"; setTimeout(()=>{quantity.style.borderColor = "inherit";},800);
+      quantity.animate([ {transform: `translate(4%)`}],{duration: 200, iterations: 4});
+      //** animation boutton erreur ajout au panier **\\
+      const animBouttonErreur = addToCart.style.background = "#cc2900"; setTimeout(()=>{addToCart.style.background = "";},800);
+      addToCart.animate([ {transform: `translateX(2%)`},{transform: `translatey(2%)`}],{duration: 200, iterations: 4});
       // alert("veuillez renseigner une couleur et une quantitée")
       
     }
     else{
       if(colors.value === ''){
-        colors.style.borderColor = "red"; setTimeout(()=>{colors.style.borderColor = "inherit";},800)
-      colors.animate([{transform: `translateX(1%)`}],{duration: 200, iterations: 4})
-      addToCart.style.background = "#cc2900"; setTimeout(()=>{addToCart.style.background = "";},800);
-      addToCart.animate([ {transform: `translateX(2%)`},{transform: `translatey(2%)`}],{duration: 200, iterations: 4})
+        //** animation couleur erreur ajout au panier **\\
+        colors.style.borderColor = "red"; setTimeout(()=>{colors.style.borderColor = "inherit";},`${durationcolor}`);
+        colors.animate([{transform: `translateX(1%)`}],{duration: 200, iterations: 4});
+        //** animation boutton erreur ajout au panier **\\
+        addToCart.style.background = "#cc2900"; setTimeout(()=>{addToCart.style.background = "";},800);
+      addToCart.animate([ {transform: `translateX(2%)`},{transform: `translatey(2%)`}],{duration: 200, iterations: 4});
           // alert("veuillez renseigner une couleur")
       }
       else if(quantity.value > parseInt(quantity.max) || quantity.value < parseInt(quantity.min) ){
-        quantity.style.borderColor = "red"; setTimeout(()=>{quantity.style.borderColor = "inherit";},800)
-        quantity.animate([ {transform: `translate(4%)`}],{duration: 200, iterations: 4})
-        addToCart.style.background = "#cc2900"; setTimeout(()=>{addToCart.style.background = "";},800)
-      addToCart.animate([ {transform: `translateX(2%)`},{transform: `translatey(2%)`}],{duration: 200, iterations: 4})
+         //** animation quantité erreur ajout au panier **\\
+      quantity.style.borderColor = "red"; setTimeout(()=>{quantity.style.borderColor = "inherit";},800);
+      quantity.animate([ {transform: `translate(4%)`}],{duration: 200, iterations: 4});
+        //** animation boutton erreur ajout au panier **\\
+         addToCart.style.background = "#cc2900"; setTimeout(()=>{addToCart.style.background = "";},800);
+         addToCart.animate([ {transform: `translateX(2%)`},{transform: `translatey(2%)`}],{duration: 200, iterations: 4});
         // alert("veuillez renseigner une quantitée entre 1 et 100")
           
       }
