@@ -5,8 +5,8 @@
 
 //* insertion des détails de la description produit sur la page produit *\\
 //* variable de récupération de l'ID produit *\\
-let IdProduct = window.location.search.split("?id=").join("");
-
+const IdProduct = window.location.search.split("?id=").join("");
+const productId = `${IdProduct}`
 let itemImg = document.querySelector(".item__img");
 let product = [];
 
@@ -27,7 +27,7 @@ await  getproductdetail();
       price.textContent = `${product.price}`
       description.textContent = `${product.description}`
       //** affichage du choix des couleurs **//
-      product.colors.forEach((n,i,y) => {
+      product.colors.forEach((n,i) => {
         colors.innerHTML += `<option value=${product.colors[i]}>${product.colors[i]}</option>`
         
       })   
@@ -85,7 +85,7 @@ let addToBasket = () => {
       else{
         animBouttonAgree();
         // alert("veuillez renseigner une quantitée entre 1 et 100")
-        const order = [IdProduct,quantity.value,colors.value]
+        const order = [IdProduct, quantity.value, colors.value, product.price]
 
           //** enregistrement du panier dans local storage **\\ 
          function saveCart(cart) {
@@ -103,7 +103,7 @@ let addToBasket = () => {
 
         const addCart = (product) => {
           let cart = getCart();
-           cart.push(product)
+          cart.push(product)
           saveCart(cart);
        
         }
@@ -127,3 +127,4 @@ addToBasket();
 //    colors.innerHTML += `<option value="${detail.colors[i]}">${detail.colors[i]}</option>
 //     `
 //     console.log(detail.colors[i]);
+// const order = Object.assign({},{idProductCart: IdProduct},{quantityProdcutCart: quantity.value},{colorProductCart: colors.value})

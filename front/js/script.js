@@ -4,7 +4,7 @@
 const getproduct = async ()  => {
   await fetch("http://localhost:3000/api/products")
     .then((res) => res.json()
-      
+    
     )
         .then((products) => {
       products.forEach((product) => {
@@ -19,10 +19,7 @@ const getproduct = async ()  => {
     })
   };
  
-  const price = ( entryprice, sl ) => {
-    console.log("prix d'entre"+ entryprice + "sl mis a :" + sl);
-  }
-  price(23500,1300);
+ 
   getproduct();
  
 //****************************************************************************************//
