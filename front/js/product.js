@@ -6,7 +6,6 @@
 //* insertion des détails de la description produit sur la page produit *\\
 //* variable de récupération de l'ID produit *\\
 const IdProduct = window.location.search.split("?id=").join("");
-const productId = `${IdProduct}`
 let itemImg = document.querySelector(".item__img");
 let product = [];
 
@@ -21,6 +20,7 @@ const getproductdetail = async () => {
   //* insertion des résultats de la requête dans la page *\\
 const productdetail = async () => {
 await  getproductdetail();
+console.log(product);
       document.title = `${product.name}`
       itemImg.innerHTML = `<img src="${product.imageUrl}" alt="${product.altTxt}">`
       title.textContent = `${product.name}`

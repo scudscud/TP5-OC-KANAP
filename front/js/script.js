@@ -3,9 +3,9 @@
 
 const getproduct = async ()  => {
   await fetch("http://localhost:3000/api/products")
-    .then((res) => res.json()
+    .then((res) => res.json())
     
-    )
+   
         .then((products) => {
       products.forEach((product) => {
         items.innerHTML += `<a href="./product.html?id=${product._id}">
