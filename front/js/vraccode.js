@@ -40,3 +40,20 @@ let addproduct = cart.find(i => i.id == IdProduct)
             cart.quantity = 1; 
            
           }
+
+
+
+          const getCart = async () => {
+            let cart = []
+            
+             cart.forEach((i) => {
+               localStorage.key(i)
+               if (cart == null){
+                 return [];
+               }
+               else { 
+                 console.log(Cart);
+             Cart = JSON.parse(cart)
+               }
+            }
+             )}

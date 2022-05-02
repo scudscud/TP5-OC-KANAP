@@ -108,25 +108,36 @@ let addToBasket = () => {
       } else {
         animBouttonAgree();
         // alert("veuillez renseigner une quantitée entre 1 et 100")
-        const order = [IdProduct, quantity.value, colors.value, product.price];
+        const order = [{id: IdProduct, quantity: quantity.value,color: colors.value,price: product.price}];
 
         //** enregistrement du panier dans local storage **\\
         function saveCart(cart) {
-          localStorage.setItem("order", JSON.stringify(cart));
+          localStorage.setItem("order", JSON.stringify(order));
         }
 
         const getCart = () => {
           let cart = localStorage.getItem("order");
-          if (cart == null) {
-            return [];
-          } else {
+          if (cart === null) {
+            return []
+            cart.push(order);
+          } else { 
             return JSON.parse(cart);
           }
+          
         };
 
         const addCart = (product) => {
           let cart = getCart();
-          cart.push(product);
+          let addproduct = cart.find(product => IdProduct == localStorage.key )
+          if(addproduct != undefined){
+            console.log(cart)
+            cart[1] = quantity.value; 
+             }
+          else {
+            cart = order; 
+            
+          }
+          
           saveCart(cart);
         };
         addCart();
