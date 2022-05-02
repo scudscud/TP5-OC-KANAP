@@ -13,8 +13,8 @@ const getCart = async () => {
  
 
         const fetchItem = async () => { 
-       
-        Cart = JSON.parse(localStorage.getItem("order"))
+       await  getCart()
+        
       
         fetch(`http://localhost:3000/api/products/${Cart[0].id}`)        
     .then((res) => res.json()) 
