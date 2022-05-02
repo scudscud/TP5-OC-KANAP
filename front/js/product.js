@@ -112,37 +112,41 @@ let addToBasket = () => {
 
         //** enregistrement du panier dans local storage **\\
         function saveCart(cart) {
-          localStorage.setItem("order", JSON.stringify(order));
+          localStorage.setItem("order", JSON.stringify(cart))
         }
 
         const getCart = () => {
           let cart = localStorage.getItem("order");
           if (cart === null) {
+            console.log(cart)
             return []
-            cart.push(order);
+            
           } else { 
-            return JSON.parse(cart);
+            return JSON.parse(cart)
           }
           
         };
 
         const addCart = (product) => {
           let cart = getCart();
-          let addproduct = cart.find(product => IdProduct == localStorage.key )
+          
+          let addproduct = cart.find(i => IdProduct == cart.id )&&(o => colors.value == cart.color )
           if(addproduct != undefined){
-            console.log(cart)
-            cart[1] = quantity.value; 
+            console.log(cart.quantity)
+            cart.quantity = quantity.value
+            
              }
           else {
-            cart = order; 
-            
+            cart.push(order)
+             
+             
           }
           
-          saveCart(cart);
+          saveCart(cart)
         };
-        addCart();
-        getCart();
-        saveCart(order);
+        addCart()
+        getCart()
+        
       }
     }
   });

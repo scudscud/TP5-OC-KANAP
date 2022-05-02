@@ -2,7 +2,7 @@ const getCart = async () => {
     let cart = localStorage.getItem("order");
     for (var i = 0; i < localStorage.length; i++) 
     if (cart == null){
-      
+      return []
       
     }else { 
        
