@@ -129,10 +129,10 @@ let addToBasket = () => {
 
         const addCart = (product) => {
           let cart = getCart();
-          
+          console.log(cart)
           let addproduct = cart.find(i => IdProduct == cart.id )&&(o => colors.value == cart.color )
           if(addproduct != undefined){
-            console.log(cart.quantity)
+           
             cart.quantity = quantity.value
             
              }

@@ -1,49 +1,55 @@
 const getCart = async () => {
     let cart = localStorage.getItem("order");
-    for (var i = 0; i < localStorage.length; i++) 
+    // for (var i = 0; i < localStorage.length; i++) 
     if (cart == null){
       return []
       
     }else { 
        
-     Cart = JSON.parse(cart)
+     return Cart = JSON.parse(cart)
       
     }
  }
  
 
         const fetchItem = async () => { 
-       await  getCart()
+       await  getCart();
+       
+       
+       Cart.forEach((i,o) => {
         
-      
-        fetch(`http://localhost:3000/api/products/${Cart[0].id}`)        
-    .then((res) => res.json()) 
-    .then ((data) => {
-      Cart.forEach(() => {
-        cart__items.innerHTML = `<article class="cart__item" data-id="${Cart[0].id}" data-color="${Cart.color}">
+      fetch(`http://localhost:3000/api/products/${Cart[o][0].id}`)        
+            
+        .then((res) => res.json()) 
+        .then ((data) => {
+          console.log(Cart)
+     
+        
+        cart__items.innerHTML += `<article class="cart__item" data-id="${Cart[o][0].id}" data-color="${Cart[o][0].color}">
          <div class="cart__item__img">
          <img src="${data.imageUrl}" alt="">
          </div>
          <div class="cart__item__content">
            <div class="cart__item__content__description">
              <h2>${data.name}</h2>
-             <p>${Cart[0].color}</p>
-             <p>${Cart[0].price}€</p>
+             <p>${Cart[o][0].color}</p>
+             <p>${Cart[o][0].price}€</p>
            </div>
            <div class="cart__item__content__settings">
              <div class="cart__item__content__settings__quantity">
                <p>Qté :  </p>
-               <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${Cart[0].quantity}">
+               <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${Cart[o][0].quantity}">
              </div>
              <div class="cart__item__content__settings__delete">
                <p class="deleteItem">Supprimer</p>
              </div>
            </div>
          </div>
-       </article> `
-           
+       </article> `     
      }     
-     )   })
+     )  
+     }
+     )
     };
    
 //         const SpawnItem = async () =>  {
@@ -79,4 +85,4 @@ const getCart = async () => {
 
 
 fetchItem()
-getCart()
+
