@@ -6,12 +6,14 @@ const getCart = async () => {
     // for (var i = 0; i < localStorage.length; i++) 
     if (cart == null){
       
-      emptybasket.innerHTML = `<p > 
-      Aucun de nos articles ne vous plait <br>
-      Votre panier est vide <br>
+      emptybasket.innerHTML = `<p > OUPSS <br> <br>
+      Aucun de nos articles ne vous plait ? <br>
+      Votre panier est vide
+       <br>
+       <br>
       <a href="./index.html" style="text-decoration:none" >Retour à nos produits </a></p>`
 
-      return []
+      return Cart = []
       
     }else { 
        
