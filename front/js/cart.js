@@ -1,7 +1,21 @@
+
+emptybasket = document.querySelector("h1")
+
 const getCart = async () => {
     let cart = localStorage.getItem("order");
     // for (var i = 0; i < localStorage.length; i++) 
     if (cart == null){
+      
+      emptybasket.innerHTML = `<p > 
+      Aucun de nos articles ne vous plait <br>
+      Votre panier est vide <br>
+      <a href="./index.html" style="text-decoration:none" >Retour à nos produits </a></p>`
+     
+                
+      
+      
+     
+
       return []
       
     }else { 
@@ -10,47 +24,47 @@ const getCart = async () => {
       
     }
  }
- 
+   
 
-        const fetchItem = async () => { 
-       await  getCart();
+    //     const fetchItem = async () => { 
+    //    await  getCart();
        
        
-       Cart.forEach((i,o) => {
+    //    Cart.forEach((i,o) => {
         
-      fetch(`http://localhost:3000/api/products/${Cart[o][0].id}`)        
+    //   fetch(`http://localhost:3000/api/products/${Cart[o].id}`)        
             
-        .then((res) => res.json()) 
-        .then ((data) => {
-          console.log(Cart)
+    //     .then((res) => res.json()) 
+    //     .then ((data) => {
+    //       console.log(Cart)
      
         
-        cart__items.innerHTML += `<article class="cart__item" data-id="${Cart[o][0].id}" data-color="${Cart[o][0].color}">
-         <div class="cart__item__img">
-         <img src="${data.imageUrl}" alt="">
-         </div>
-         <div class="cart__item__content">
-           <div class="cart__item__content__description">
-             <h2>${data.name}</h2>
-             <p>${Cart[o][0].color}</p>
-             <p>${Cart[o][0].price}€</p>
-           </div>
-           <div class="cart__item__content__settings">
-             <div class="cart__item__content__settings__quantity">
-               <p>Qté :  </p>
-               <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${Cart[o][0].quantity}">
-             </div>
-             <div class="cart__item__content__settings__delete">
-               <p class="deleteItem">Supprimer</p>
-             </div>
-           </div>
-         </div>
-       </article> `     
-     }     
-     )  
-     }
-     )
-    };
+    //     cart__items.innerHTML += `<article class="cart__item" data-id="${Cart[o][0].id}" data-color="${Cart[o][0].color}">
+    //      <div class="cart__item__img">
+    //      <img src="${data.imageUrl}" alt="">
+    //      </div>
+    //      <div class="cart__item__content">
+    //        <div class="cart__item__content__description">
+    //          <h2>${data.name}</h2>
+    //          <p>${Cart[o][0].color}</p>
+    //          <p>${Cart[o][0].price}€</p>
+    //        </div>
+    //        <div class="cart__item__content__settings">
+    //          <div class="cart__item__content__settings__quantity">
+    //            <p>Qté :  </p>
+    //            <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${Cart[o][0].quantity}">
+    //          </div>
+    //          <div class="cart__item__content__settings__delete">
+    //            <p class="deleteItem">Supprimer</p>
+    //          </div>
+    //        </div>
+    //      </div>
+    //    </article> `     
+    //  }     
+    //  )  
+    //  }
+    //  )
+    // };
    
 //         const SpawnItem = async () =>  {
 //         await fetchItem(); 
@@ -82,7 +96,7 @@ const getCart = async () => {
 // };
 // SpawnItem() 
 
+getCart()
 
-
-fetchItem()
+// fetchItem()
 
