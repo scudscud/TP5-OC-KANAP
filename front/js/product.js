@@ -129,13 +129,15 @@ let addToBasket = () => {
 
         const addCart = (product) => {
           let cart = getCart();
-          // console.log(cart[0][0].id)
-          // console.log(order[0].quantity)
-          // console.log(cart[0][0].quantity)
-          // console.log(order[0].color)
+          console.log(cart[0][0].id)
+          console.log(order[0].id);
+          console.log(order[0].quantity)
+          console.log(cart[0][0].quantity)
+          console.log(order[0].color)
+          console.log(cart[0][0].color);
           // console.log(cart[0][0].color)
-          let addproduct = cart.find((i => cart[0][0].id == cart[0][0].quantity ) && (o => cart[0][0].color == order[0].color ))
-          if(addproduct != undefined){
+          let addproduct = cart.find(i => cart[0][0].id == order[0].id  && cart[0][0].color == order[0].color )
+          if(addproduct != undefined ){
             
           
             cart[0][0].quantity = order[0].quantity
