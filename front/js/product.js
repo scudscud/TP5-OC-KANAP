@@ -117,7 +117,7 @@ let addToBasket = () => {
 
         const getCart = () => {
           let cart = localStorage.getItem("order");
-          if (cart == null) {
+          if (cart === null) {
             
             return []
             
@@ -129,8 +129,37 @@ let addToBasket = () => {
 
         const addCart = () => {
           let cart = getCart();
-          cart.push(order)
-          saveCart(cart)
+           
+         let find = cart.find(c => cart[0][0].id == order[0].id && cart[0][0].color == order[0].color)
+
+            console.log(find);
+          console.log(cart[0][0].color);
+          console.log(order[0].color);
+          console.log(cart[0][0].id);
+            console.log(order[0].id);
+           if( find != undefined) {
+            console.log(cart[0][0].quantity);
+              console.log(order[0].quantity);
+              console.log("test");
+              cart[0][0].quantity = order[0].quantity
+              
+
+           } else { 
+             
+            
+            cart.push(order)
+            saveCart(cart)
+           
+           }
+           saveCart(cart)
+           
+           
+           
+
+           
+         
+
+
           
         
         }

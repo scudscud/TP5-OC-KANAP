@@ -4,7 +4,7 @@ emptybasket = document.querySelector("h1")
 const getCart = async () => {
     let cart = localStorage.getItem("order");
     // for (var i = 0; i < localStorage.length; i++) 
-    if (cart == null){
+    if (cart === null){
       
       emptybasket.innerHTML = `<p > OUPSS <br> <br>
       Aucun de nos articles ne vous plait ? <br>
@@ -28,6 +28,7 @@ const getCart = async () => {
        
        
        Cart.forEach((i,o) => {
+         
         
       fetch(`http://localhost:3000/api/products/${Cart[o][0].id}`)        
             
