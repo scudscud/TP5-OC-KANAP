@@ -129,19 +129,20 @@ let addToBasket = () => {
 
         const addCart = () => {
           let cart = getCart();
-           
-         let find = cart.find(c => cart[0][0].id == order[0].id && cart[0][0].color == order[0].color)
-
-            console.log(find);
-          console.log(cart[0][0].color);
-          console.log(order[0].color);
-          console.log(cart[0][0].id);
-            console.log(order[0].id);
+         
+          cart.forEach((o,i)=>{
+         let find = cart.find(c => cart[i][0].id == order[0].id && cart[i][0].color == order[0].color)
+         console.log(cart);
+          //   console.log(find);
+          // console.log(cart[0][0].color);
+          // console.log(order[0].color);
+          // console.log(cart[0][0].id);
+          //   console.log(order[0].id);
            if( find != undefined) {
-            console.log(cart[0][0].quantity);
-              console.log(order[0].quantity);
-              console.log("test");
-              cart[0][0].quantity = order[0].quantity
+            // console.log(cart[0][0].quantity);
+            //   console.log(order[0].quantity);
+            //   console.log("test");
+              cart[i][0].quantity = order[0].quantity
               
 
            } else { 
@@ -150,7 +151,7 @@ let addToBasket = () => {
             cart.push(order)
             saveCart(cart)
            
-           }
+           }})
            saveCart(cart)
            
            
