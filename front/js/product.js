@@ -111,60 +111,41 @@ let addToBasket = () => {
         const order = [{id: IdProduct, quantity: quantity.value,color: colors.value,price: product.price}];
 
         //** enregistrement du panier dans local storage **\\
-        function saveCart(cart) {
+        const saveCart= (cart) => {
           localStorage.setItem("order", JSON.stringify(cart))
         }
 
         const getCart = () => {
           let cart = localStorage.getItem("order");
-          if (cart === null) {
-            // console.log(cart)
+          if (cart == null) {
+            
             return []
             
           } else { 
             return JSON.parse(cart)
           }
           
-        };
+        }
 
-        const addCart = (product) => {
+        const addCart = () => {
           let cart = getCart();
-          console.log(cart[0][0].id)
-          console.log(order[0].id);
-          console.log(order[0].quantity)
-          console.log(cart[0][0].quantity)
-          console.log(order[0].color)
-          console.log(cart[0][0].color);
-          // console.log(cart[0][0].color)
-          let addproduct = cart.find(i => cart[0][0].id == order[0].id  && cart[0][0].color == order[0].color )
-          if(addproduct != undefined ){
-            
-          
-            cart[0][0].quantity = order[0].quantity
-            
-             }
-          else {
-            
-             
-            cart.push(order)
-          }
-          
+          cart.push(order)
           saveCart(cart)
-        };
+          
+        
+        }
+      
         addCart()
         getCart()
-        
       }
-    }
-  });
-};
+      }
+      
+          
+         
+  })
+}
 
+        
 getproductdetail();
 productdetail();
 addToBasket();
-// ********** même resultat boucle for  ************//
-// for ( let i = 0; i < detail.colors.length; i++ ) {
-//    colors.innerHTML += `<option value="${detail.colors[i]}">${detail.colors[i]}</option>
-//     `
-//     console.log(detail.colors[i]);
-// const order = Object.assign({},{idProductCart: IdProduct},{quantityProdcutCart: quantity.value},{colorProductCart: colors.value})
