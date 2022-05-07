@@ -31,66 +31,67 @@
 // };
 // SpawnItem() 
 
+//* boucle for each ok bug apparartion 1 er item dans panier **///
+const addCart = () => {
+  let cart = getCart();
+ 
+  cart.forEach((o,i)=>{
+ let find = cart.find(c => cart[i][0].id == order[0].id && cart[i][0].color == order[0].color)
+ console.log(cart);
+  //   console.log(find);
+  // console.log(cart[0][0].color);
+  // console.log(order[0].color);
+  // console.log(cart[0][0].id);
+  //   console.log(order[0].id);
+   if( find != undefined) {
+    // console.log(cart[0][0].quantity);
+    //   console.log(order[0].quantity);
+    //   console.log("test");
+      cart[i][0].quantity = order[0].quantity
+      
+
+   } else { 
+     
+    
+    cart.push(order)
+    saveCart(cart)
+   
+   }})
+   saveCart(cart)
 
 
-let addproduct = cart.find(i => i.id == IdProduct)
-          if(
-            addproduct != undefined){ addproduct.quantity++}
-          else {
-            cart.quantity = 1; 
-           
-          }
+}
+
+//* ajout d'item local storage sans bug **//
+
+const addCart = () => {
+  let cart = getCart();
+ 
+let find = cart.find(c => cart[0][0].id == order[0].id && cart[0][0].color == order[0].color)
+
+  //   console.log(find);
+  // console.log(cart[0][0].color);
+  // console.log(order[0].color);
+  // console.log(cart[0][0].id);
+  //   console.log(order[0].id);
+   if( find != undefined) {
+    // console.log(cart[0][0].quantity);
+    //   console.log(order[0].quantity);
+    //   console.log("test");
+      cart[0][0].quantity = order[0].quantity
+
+
+   } else { 
+
+
+    cart.push(order)
+    saveCart(cart)
+
+   }
+   saveCart(cart)
 
 
 
-          const getCart = async () => {
-            let cart = []
-            
-             cart.forEach((i) => {
-               localStorage.key(i)
-               if (cart == null){
-                 return [];
-               }
-               else { 
-                 console.log(Cart);
-             Cart = JSON.parse(cart)
-               }
-            }
-             )}
-           
-             const addCart = (product) => {
-              let cart = getCart();
-              // console.log(cart[0][0].id)
-              // console.log(order[0].quantity)
-              // console.log(cart[0][0].quantity)
-              // console.log(order[0].color)
-              // console.log(cart[0][0].color)
-              let findid = cart.find((i,n) => cart[0][0].id == cart[0][0].quantity && cart[0][0].color == order[0].color  ) 
-              // let findcolor = cart.find(o => cart[0][0].color == order[0].color )
-              if(findid != undefined && findcolor  != undefined){
-                
-              
-                cart[0][0].quantity = order[0].quantity
-                
-                 }
-              else {
-                
-                 
-                cart.push(order)
-              }
-              
-              saveCart(cart)
-            };
-            addCart()
-            getCart()
-            
-          }
-        }
-      });
-    };
 
 
-// boucle tableau
-
-    for  (i=0; i < cart.length; i++) {
-      if(cart[i][0].id == order[0].quantity  && cart[i][0].color == order[0].color)
+}

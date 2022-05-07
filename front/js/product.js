@@ -109,16 +109,17 @@ let addToBasket = () => {
         animBouttonAgree();
         // alert("veuillez renseigner une quantitée entre 1 et 100")
         const order = [{id: IdProduct, quantity: quantity.value,color: colors.value,price: product.price}];
-
+        
         //** enregistrement du panier dans local storage **\\
         const saveCart= (cart) => {
+         
           localStorage.setItem("order", JSON.stringify(cart))
         }
 
         const getCart = () => {
           let cart = localStorage.getItem("order");
           if (cart === null) {
-            
+           
             return []
             
           } else { 
@@ -127,12 +128,15 @@ let addToBasket = () => {
           
         }
 
-        const addCart = () => {
-          let cart = getCart();
+        const addCart = () => { 
+          let cart = getCart(); 
+
          
+          saveCart([order])
+          
           cart.forEach((o,i)=>{
          let find = cart.find(c => cart[i][0].id == order[0].id && cart[i][0].color == order[0].color)
-         console.log(cart);
+         
           //   console.log(find);
           // console.log(cart[0][0].color);
           // console.log(order[0].color);
@@ -144,27 +148,22 @@ let addToBasket = () => {
             //   console.log("test");
               cart[i][0].quantity = order[0].quantity
               
-
-           } else { 
-             
             
-            cart.push(order)
-            saveCart(cart)
-           
-           }})
+           }else{
+
+           cart.push(order)
            saveCart(cart)
+           }
+           console.log(cart);
+          
            
-           
-           
-
-           
+          })
+        
          
-
-
           
         
         }
-      
+        
         addCart()
         getCart()
       }
