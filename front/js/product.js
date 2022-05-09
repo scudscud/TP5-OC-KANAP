@@ -52,6 +52,12 @@ const animColorError = () => {
 };
 //** animation quantité erreur ajout au panier **\\
 const animQuantityError = () => {
+  document.querySelector(".item__content__settings__quantity").innerHTML = ` <label for="itemQuantity">Choisir un nombre d'article(s) entre 1  et 100:</label>
+  <input type="text" name="itemQuantity"  value="choisissez une quantité" id="quantity" >`;
+  setTimeout(() => {
+    document.querySelector(".item__content__settings__quantity").innerHTML= `<label for="itemQuantity">Nombre d'article(s) (1-100) :</label>
+    <input type="number" name="itemQuantity" min="1" max="100" value="0" id="quantity" >`;
+  }, 1000);
   quantity.style.borderColor = "red";
   setTimeout(() => {
     quantity.style.borderColor = "inherit";
