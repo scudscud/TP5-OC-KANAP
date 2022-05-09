@@ -95,3 +95,36 @@ let find = cart.find(c => cart[0][0].id == order[0].id && cart[0][0].color == or
 
 
 }
+//* boucle spawn **\\\
+
+const addCart = () => { 
+          
+  let cart = getCart(); 
+  // console.log(cart);
+ if(localStorage.getItem("order") === null )
+  {
+    saveCart([order]) 
+
+  }
+  else if (localStorage.getItem("order") !== null ) {
+  
+ 
+    cart.forEach((o,i,u)=>{
+     let find = cart.find(c => cart[i][0].id == order[0].id && cart[i][0].color == order[0].color)
+     if( find != undefined) {           
+      cart[i][0].quantity = order[0].quantity
+      // saveCart(cart) 
+    }
+      
+    
+      
+      
+      else{
+        
+        cart.push(order)
+        saveCart(cart)
+
+
+      }
+    }) 
+  }

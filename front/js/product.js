@@ -108,7 +108,7 @@ let addToBasket = () => {
       } else {
         animBouttonAgree();
         // alert("veuillez renseigner une quantitée entre 1 et 100")
-        const order = [{id: IdProduct, quantity: quantity.value,color: colors.value,price: product.price}];
+        const order = {id: IdProduct, quantity: quantity.value,color: colors.value,price: product.price};
         
         //** enregistrement du panier dans local storage **\\
         const saveCart= (cart) => {
@@ -117,65 +117,54 @@ let addToBasket = () => {
         }
 
         const getCart = () => {
+          
           let cart = localStorage.getItem("order");
-          if (cart === null) {
-            
-            // saveCart([order])
+          if (cart == null) {
             return []
+            // saveCart(order)
+            
           } else { 
             return JSON.parse(cart)
           }
           
         }
 
-        const addCart = () => { 
-          let cart = getCart(); 
-
-         if(localStorage.getItem("order") === null )
-          {
-            saveCart([order]) 
-
-          }
-          else{
-          
-          cart.forEach((o,i)=>{
-         let find = cart.find(c => cart[i][0].id == order[0].id && cart[i][0].color == order[0].color)
+        const addCart = (cart) => { 
          
-          //   console.log(find);
-          // console.log(cart[0][0].color);
-          // console.log(order[0].color);
-          // console.log(cart[0][0].id);
-          //   console.log(order[0].id);
-           if( find != undefined) {
-            
-            // console.log(cart[0][0].quantity);
-            //   console.log(order[0].quantity);
-            //   console.log("test");
-              cart[i][0].quantity = order[0].quantity
-              
-            
-           }else{
-            
-             cart.push([order]) 
-             saveCart(cart) 
-            
-           }
-           
+         let basket = getCart()
+         console.log(order.color);
+         console.log(cart.color);
+         console.log(basket);
+         console.log(basket.color);
+         console.log(basket.id);
+         console.log(basket.quantity);
+         
+         
+         let findbasket = basket.find( basket => basket.id == cart.id &&  basket.color === cart.color)
+         console.log(findbasket);
+         if(findbasket != undefined){
+          
+         findbasket.quantity = order.quantity
+         }
+         else{
+          basket.push(cart)
+         }
+          
+          saveCart(basket)
+
+
+
+
+
+          
+          
+
+        }
+        addCart(order)
+          getCart()
        
-          
-           
-          })
-        }
-          
-        }
-        
-        addCart()
-        getCart()
       }
-      }
-      
-          
-         
+      }         
   })
 }
 
