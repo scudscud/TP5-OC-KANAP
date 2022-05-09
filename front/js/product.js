@@ -142,26 +142,15 @@ let addToBasket = () => {
          
          let findbasket = basket.find( basket => basket.id == cart.id &&  basket.color === cart.color)
          console.log(findbasket);
-         if(findbasket != undefined){
-          
-         findbasket.quantity = order.quantity
-         }
-         else{
-          basket.push(cart)
-         }
+         if(findbasket != undefined){ findbasket.quantity = order.quantity}
+
+         else{basket.push(cart)}
           
           saveCart(basket)
 
-
-
-
-
-          
-          
-
         }
         addCart(order)
-          getCart()
+        getCart()
        
       }
       }         
