@@ -86,8 +86,9 @@ const animBouttonAgree = () => {
   }, 800);
 };
 
-//* ajout au panier si caractéristiques sont bonnes addtobasket *\\
+//*--- ajout au panier si caractéristiques sont bonnes addtobasket--- *\\
 
+      //* erreur sur la quantité et la couleur *\\
 let addToBasket = () => {
   document.getElementById("addToCart").addEventListener("click", () => {
     if (
@@ -100,11 +101,13 @@ let addToBasket = () => {
       animBouttonErreur();
       // alert("veuillez renseigner une couleur et une quantitée") //
     } else {
+      //* erreur sur la couleur *\\
       if (colors.value === "") {
         animColorError();
         animBouttonErreur();
         // alert("veuillez renseigner une couleur")
       } else if (
+        //* erreur sur la quantité *\\
         quantity.value > parseInt(quantity.max) ||
         quantity.value < parseInt(quantity.min)
       ) {
@@ -112,56 +115,46 @@ let addToBasket = () => {
         animBouttonErreur();
         // alert("veuillez renseigner une quantitée entre 1 et 100")
       } else {
+        //* panier valide *\\
         animBouttonAgree();
         // alert("veuillez renseigner une quantitée entre 1 et 100")
         const order = {id: IdProduct, quantity: quantity.value,color: colors.value,price: product.price};
         
-        //** enregistrement du panier dans local storage **\\
+        //** enregistrement du panier dans local storage = LS **\\
         const saveCart= (cart) => {
         
           localStorage.setItem("order", JSON.stringify(cart))
-        }
+        };
 
+         //* recuperation des données dans LS *\\
         const getCart = () => {
-          
+         
           let cart = localStorage.getItem("order");
-          if (cart == null) {
-            return []
-            // saveCart(order)
-            
-          } else { 
-            return JSON.parse(cart)
-          }
+          if (cart == null) {return []}
+          else { return JSON.parse(cart)}
           
-        }
-
+        };
+        //* ajout produits dans la panier ( push basket et save basket ) *\\
         const addCart = (cart) => { 
          
-         let basket = getCart()
-         console.log(order.color);
-         console.log(cart.color);
-         console.log(basket);
-         console.log(basket.color);
-         console.log(basket.id);
-         console.log(basket.quantity);
-         
-         
+         let basket = getCart();
+
          let findbasket = basket.find( basket => basket.id == cart.id &&  basket.color === cart.color)
-         console.log(findbasket);
+         
          if(findbasket != undefined){ findbasket.quantity = order.quantity}
 
          else{basket.push(cart)}
           
-          saveCart(basket)
+        saveCart(basket)
 
-        }
+        };
         addCart(order)
         getCart()
        
       }
-      }         
+      };       
   })
-}
+};
 
         
 getproductdetail();
