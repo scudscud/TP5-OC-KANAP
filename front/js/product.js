@@ -22,7 +22,8 @@ const getproductdetail = async () => {
 //* insertion des résultats de la requête dans la page *\\
 const productdetail = async () => {
   await getproductdetail();
-  console.log(IdProduct);
+  
+ //* erreur si client revient sur page produit directement ( fermeture navigateur) *\\
   if(IdProduct == "") {
    
     document.querySelector(".item").innerHTML =
@@ -33,10 +34,8 @@ const productdetail = async () => {
      <br>
       Cette page est vide <br> Veuillez selectionnez un produit sur notre page :</p>
     <a href="./index.html" style="text-decoration:none"  >  Acceuil </a> </article>`
-
-  
-
   }
+  //* si procedure ok *\\
   else{
     
   document.title = `${product.name}`;
@@ -51,15 +50,21 @@ const productdetail = async () => {
  }
 };
 
-// //* ecoute de la quantité **\\
-// quantity.addEventListener('input',(e) => {
-//  console.log(e.target.value);
-
-// })
 //** paramètres des animations **\\
 
 //** animation couleur erreur ajout au panier **\\
 const animColorError = () => {
+  document.querySelector(".item__content__settings__color").innerHTML=`
+  <label for="color-select" style="color:red" >Choisir une couleur :</label>
+  <select name="color-select" id="colors">
+    <option value="">--SVP, choisissez une couleur --</option>
+  </select>`
+  setTimeout(() => {
+    document.querySelector(".item__content__settings__color").innerHTML= `<label for="color-select">Choisir une couleur :</label>
+    <select name="color-select" id="colors">
+      <option value="">--SVP, choisissez une couleur --</option>
+    </select>`;
+  }, 1000);
   colors.style.borderColor = "red";
   setTimeout(() => {
     colors.style.borderColor = "inherit";
@@ -71,8 +76,8 @@ const animColorError = () => {
 };
 //** animation quantité erreur ajout au panier **\\
 const animQuantityError = () => {
-  document.querySelector(".item__content__settings__quantity").innerHTML = ` <label for="itemQuantity">Choisir un nombre d'article(s) entre 1  et 100:</label>
-  <input type="text" name="itemQuantity"  value="choisissez une quantité" id="quantity" >`;
+  document.querySelector(".item__content__settings__quantity").innerHTML = ` <label for="itemQuantity" style="color:red"> Nombre d'article(s) (1-100) :</label>
+  <input type="text" name="itemQuantity"  value="Choisissez une quantité" id="quantity" >`;
   setTimeout(() => {
     document.querySelector(".item__content__settings__quantity").innerHTML= `<label for="itemQuantity">Nombre d'article(s) (1-100) :</label>
     <input type="number" name="itemQuantity" min="1" max="100" value="0" id="quantity" >`;
