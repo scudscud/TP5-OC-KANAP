@@ -63,7 +63,10 @@ const animColorError = () => {
     document.querySelector(".item__content__settings__color").innerHTML= `<label for="color-select">Choisir une couleur :</label>
     <select name="color-select" id="colors">
       <option value="">--SVP, choisissez une couleur --</option>
-    </select>`;
+    </select>`
+    product.colors.forEach((n, i) => {
+      colors.innerHTML += `<option value=${product.colors[i]}>${product.colors[i]}</option>`;
+    });
   }, 1000);
   colors.style.borderColor = "red";
   setTimeout(() => {
