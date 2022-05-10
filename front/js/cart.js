@@ -27,16 +27,20 @@ const getCart = async () => {
        await  getCart();
        
        
+        console.log(Cart);
+       
        Cart.forEach((i,o) => {
-         
-        
+        console.log(Cart[o].id);
+        Cart.sort((a,b)=> a.id == b.id)
+        console.log(Cart);
       fetch(`http://localhost:3000/api/products/${Cart[o].id}`)        
             
         .then((res) => res.json()) 
         .then ((data) => {
-          console.log(Cart)
-     
+          
         
+       
+      
         cart__items.innerHTML += `<article class="cart__item" data-id="${Cart[o].id}" data-color="${Cart[o].color}">
          <div class="cart__item__img">
          <img src="${data.imageUrl}" alt="">
@@ -60,6 +64,7 @@ const getCart = async () => {
        </article> `     
      }     
      )  
+    
      }
      )
     };
