@@ -15,12 +15,30 @@ const getproductdetail = async () => {
   await fetch(`http://localhost:3000/api/products/${IdProduct}`)
     .then((res) => res.json())
     .then((data) => (product = data));
+    
+    
 };
 
 //* insertion des résultats de la requête dans la page *\\
 const productdetail = async () => {
   await getproductdetail();
+  console.log(IdProduct);
+  if(IdProduct == "") {
+   
+    document.querySelector(".item").innerHTML =
+    ` <article style="font-size:200%" >
+    
+    <p id= product-page-empty > <center> <span style="color:blue"> OUPS </span>
+     <br>
+     <br>
+      Cette page est vide <br> Veuillez selectionnez un produit sur notre page :</p>
+    <a href="./index.html" style="text-decoration:none"  >  Acceuil </a> </article>`
 
+  
+
+  }
+  else{
+    
   document.title = `${product.name}`;
   itemImg.innerHTML = `<img src="${product.imageUrl}" alt="${product.altTxt}">`;
   title.textContent = `${product.name}`;
@@ -30,6 +48,7 @@ const productdetail = async () => {
   product.colors.forEach((n, i) => {
     colors.innerHTML += `<option value=${product.colors[i]}>${product.colors[i]}</option>`;
   });
+ }
 };
 
 // //* ecoute de la quantité **\\
