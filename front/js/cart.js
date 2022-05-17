@@ -86,18 +86,15 @@ const getCart = async () => {
      sum.push(i.quantity++)   
      const reducer = (a,b) => a + b;
     totalProduct = sum.reduce(reducer)
-  //  const sumProduct=(number)=>{    
-  //     Math.abs(number).toString().split('').reduce(function(a,b){return +a + +b}, 0);
-  // }
-  // total.toString().split('').reduce(function(a,b){return +a + +b}, 0)
-  console.log(totalProduct);
-  console.log(i.price);
-    sumP.push(i.price)
+  // console.log(i.quantity);
+  // console.log(i.price);
+  totalArticle = (i.quantity-1) * i.price
+    sumP.push(totalArticle)
     totalP = sumP.reduce(reducer)
+    console.log(totalArticle);
     totalQuantity.innerHTML = totalProduct
     totalPrice.innerHTML = totalP
-
-
+  
 
    })
    
