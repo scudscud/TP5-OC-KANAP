@@ -2,7 +2,7 @@
 emptybasket = document.querySelector("h1")
 
 const getCart = async () => {
-    let cart = localStorage.getItem("order");
+    cart = localStorage.getItem("order");
     // for (var i = 0; i < localStorage.length; i++) 
     if (cart === null){
       
@@ -12,94 +12,153 @@ const getCart = async () => {
        <br>
        <br>
       <a href="./index.html" style="text-decoration:none" >Retour à nos produits </a></p>`
-
+      totalQuantity.innerHTML = 0
+      totalPrice.innerHTML = 0
       return Cart = []
       
-    }else { 
+    }else {  
+     
+    Cart = JSON.parse(cart)  
+    Cart.sort((a,b)=> {
        
-     return Cart = JSON.parse(cart)
-      
+      if ( a.id <  b.id) {return -1 }
+      if ( a.id > b.id ){ return 1 }
+      if ( a.id === b.id){return 0}    
+     })  
     }
  }
-   
+ 
 
         const fetchItem = async () => { 
-       await  getCart();
+       await  getCart();    
        
-       
-        console.log(Cart);
-       
-       Cart.forEach((i,o) => {
-        console.log(Cart[o].id);
-        Cart.sort((a,b)=> a.id == b.id)
-        console.log(Cart);
-      fetch(`http://localhost:3000/api/products/${Cart[o].id}`)        
+       Cart.forEach((i,o,u) => {
+     // console.log(i.id);
+        // console.log(i.name);
+        // console.log(i);
+        // console.log(o);
+        // console.log(u);
+        
+        fetch(`http://localhost:3000/api/products/${i.id}`)  
             
         .then((res) => res.json()) 
-        .then ((data) => {
-          
         
-       
-      
-        cart__items.innerHTML += `<article class="cart__item" data-id="${Cart[o].id}" data-color="${Cart[o].color}">
+        .then ((data) => { return image = data.imageUrl, description = data.description}     
+          ) 
+        .then(() => { 
+        
+        cart__items.innerHTML += `<article class="cart__item" data-id="${i.id}" data-color="${i.color}">
          <div class="cart__item__img">
-         <img src="${data.imageUrl}" alt="">
+         <img src="${image}" alt="${description}">
          </div>
          <div class="cart__item__content">
            <div class="cart__item__content__description">
-             <h2>${data.name}</h2>
-             <p>${Cart[o].color}</p>
-             <p>${Cart[o].price}€</p>
+             <h2>${i.name}</h2>
+             <p>${i.color}</p>
+             <p>${i.price}€</p>
            </div>
            <div class="cart__item__content__settings">
              <div class="cart__item__content__settings__quantity">
                <p>Qté :  </p>
-               <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${Cart[o].quantity}">
+               <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${i.quantity}">
              </div>
              <div class="cart__item__content__settings__delete">
                <p class="deleteItem">Supprimer</p>
              </div>
            </div>
          </div>
-       </article> `     
-     }     
-     )  
-    
-     }
-     )
-    };
+       </article> 
+      
+       ` 
+       
+      } )
+      
+    }    
+    )   
+   };
    
-//         const SpawnItem = async () =>  {
-//         await fetchItem(); 
-//         Cart.forEach((productdata) => {
-//         cart__items.innerHTML = `<article class="cart__item" data-id="${Cart[0]}" data-color="${Cart[2]}">
-//          <div class="cart__item__img">
-//          <img src="${productdata.imageUrl}" alt="">
-//          </div>
-//          <div class="cart__item__content">
-//            <div class="cart__item__content__description">
-//              <h2>${productdata.name}</h2>
-//              <p>${Cart[2]}</p>
-//              <p>${Cart[3]}€</p>
-//            </div>
-//            <div class="cart__item__content__settings">
-//              <div class="cart__item__content__settings__quantity">
-//                <p>Qté :  </p>
-//                <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${Cart[1]}">
-//              </div>
-//              <div class="cart__item__content__settings__delete">
-//                <p class="deleteItem">Supprimer</p>
-//              </div>
-//            </div>
-//          </div>
-//        </article> `
-           
-//      }     
-//      )  
-// };
-// SpawnItem() 
+   const TotalBasket = () => {
+     getCart()
+     sum = []
+     sumP = []
+     
+   Cart.forEach((i,u,o) => {    
+     sum.push(i.quantity++)   
+     const reducer = (a,b) => a + b;
+    totalProduct = sum.reduce(reducer)
+  //  const sumProduct=(number)=>{    
+  //     Math.abs(number).toString().split('').reduce(function(a,b){return +a + +b}, 0);
+  // }
+  // total.toString().split('').reduce(function(a,b){return +a + +b}, 0)
+  console.log(totalProduct);
+  console.log(i.price);
+    sumP.push(i.price)
+    totalP = sumP.reduce(reducer)
+    totalQuantity.innerHTML = totalProduct
+    totalPrice.innerHTML = totalP
 
-getCart()
 
-fetchItem()
+
+   })
+   
+   
+  
+
+   }
+    
+   
+    
+    
+
+   
+   
+
+  
+  
+    // document.querySelector(".itemQuantity").addEventListener("change",(e) =>{
+    //   console.log(e.target.value);
+    //   let findbasket = basket.find( basket => basket.id == cart.id &&  basket.color === cart.color)
+      
+    //     findbasket = itemQuantity.value
+    //     if(
+    //       basket.quantity <= 0 ){
+    //         basket = basket.filter(p => findbasket.id == basket.id)
+    //         localStorage.setItem("order", JSON.stringify(basket))
+    //       }
+    //       else{
+    //         localStorage.setItem("order", JSON.stringify(basket))
+    //       }
+
+    //  }
+    // )
+      
+   
+  
+     
+
+
+
+
+
+
+   
+    TotalBasket()
+    getCart()
+    fetchItem()
+  
+
+      
+
+
+
+
+
+
+    
+
+    
+
+
+   
+
 

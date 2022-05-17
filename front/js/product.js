@@ -145,7 +145,8 @@ let addToBasket = () => {
         //* panier valide *\\
         animBouttonAgree();
         // alert("veuillez renseigner une quantitée entre 1 et 100")
-        const order = {id: IdProduct, quantity: quantity.value,color: colors.value,price: product.price};
+        const order = {id: IdProduct, quantity: quantity.value,color: colors.value,price: product.price,name: product.name};
+        
         
         //** enregistrement du panier dans local storage = LS **\\
         const saveCart= (cart) => {
@@ -167,14 +168,15 @@ let addToBasket = () => {
          let basket = getCart();
 
          let findbasket = basket.find( basket => basket.id == cart.id &&  basket.color === cart.color)
-         
+        
          if(findbasket != undefined){ findbasket.quantity = order.quantity}
 
          else{basket.push(cart)}
           
         saveCart(basket)
-
+        
         };
+        
         addCart(order)
         getCart()
        
