@@ -30,7 +30,7 @@ const getCart = async () => {
  
 
         const fetchItem = async () => { 
-       await  getCart();    
+          let basket = await  getCart();    
        
        Cart.forEach((i,o,u) => {
      // console.log(i.id);
@@ -45,9 +45,7 @@ const getCart = async () => {
         
         .then ((data) => { return image = data.imageUrl, description = data.description}     
           ) 
-        .then(() => { 
-        
-        cart__items.innerHTML += `<article class="cart__item" data-id="${i.id}" data-color="${i.color}">
+        .then(() => { return cart__items.innerHTML += `<article class="cart__item" data-id="${i.id}" data-color="${i.color}">
          <div class="cart__item__img">
          <img src="${image}" alt="${description}">
          </div>
@@ -70,11 +68,8 @@ const getCart = async () => {
        </article> 
       
        ` 
-       
-      } )
-      
-    }    
-    )   
+      })   
+    })   
    };
    
    const TotalBasket = () => {
@@ -94,16 +89,88 @@ const getCart = async () => {
     console.log(totalArticle);
     totalQuantity.innerHTML = totalProduct
     totalPrice.innerHTML = totalP
-  
-
    })
-   
-   
-  
-
    }
-    
    
+
+  const addProd =  ()=> {
+   fetchItem()
+    const el = document.querySelector(".itemQuantity")
+    console.log(el);
+
+  }
+
+  let firstNameError = document.querySelector ('#firstNameErrorMsg');
+let lastNameError = document.querySelector('#lastNameErrorMsg');
+let adressError = document.querySelector ('#addressErrorMsg');
+let cityError = document.querySelector ('#cityErrorMsg');
+let emailError= document.querySelector ('#emailErrorMsg');
+
+let firstName = document.querySelector ('#firstName');
+let lastName = document.querySelector ('#lastName');
+let email = document.querySelector ('#email');
+let city = document.querySelector ('#city');
+let adress = document.querySelector ('#address')
+
+
+//create object to manage input submit validation o form
+let errors = {
+    firstName: false,        
+    lastName : false,
+    address : false,
+    city : false,
+    email : false,
+  }
+
+let orderButton = document.querySelector('input#order')
+
+ const formError = (fieldlabel,regex, fieldResult, message, errorName) => {
+    fieldlabel.addEventListener('input',function(){
+        if (regex.test(fieldlabel.value) ){
+          
+            fieldResult.innerHTML = `<span style="color:green"> Validé </span>`;
+            errors[errorName] = false;
+        }
+        else{
+            fieldResult.innerHTML = message;
+            errors[errorName] = true;
+        }
+        let allOk = true; 
+        for (let key in errors){
+            if (errors[key]) {
+                allOk = false;
+                
+
+
+
+            }
+        }
+        
+        // orderButton.disabled = !allOk || basket.length===0;
+        
+    })
+}
+ 
+formError (firstName,/^[a-zA-Z-\s]+$/,firstNameError,`<span style=color:orange>tu as passé l'age d'ecrire ton pr3n0m avec des mun3r0 ou avec des ...</span>`,"firstName" );
+formError (lastName,/^[a-zA-Z-\s]+$/,lastNameError,`<span style=color:orange>tu as passé l'age d'ecrire ton n0m avec des num3r0s ou avec des ...</span>`, "lastName" );
+formError (city,/^[a-zA-Z-\s]+$/,cityError,`<span style=color:orange>le nom de ta ville svp pas un code postal</span>`, "city" );
+formError (email,/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,7}$/,emailError,`<span style=color:orange>il m@nque un dét@il pour v@lider l'em@il</span>`, "email" );
+formError (adress,/^[A-Za-z-0-9|\s]{3,30}$/,adressError,`A moins que tu habite sur une autre planete, il y a un probleme dans ton adresse `)
+
+
+// orderButton.style.background = "#cc2900";
+//                 // setTimeout(() => {
+//                 //   orderButton.style.background = "";
+//                 // }, 800);
+//                 // orderButton.animate(
+//                 //   [{ transform: `translateX(2%)` }, { transform: `translatey(2%)` }],
+//                 //   { duration: 200, iterations: 4 }
+
+   
+
+
+
+
     
     
 
@@ -138,10 +205,10 @@ const getCart = async () => {
 
 
 
-   
+   addProd()
     TotalBasket()
-    getCart()
-    fetchItem()
+  
+
   
 
       

@@ -127,4 +127,4 @@
 
 //       }
 //     }) 
-//   }}
+//   }}formError (email,/^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/,emailError,`<span style=color:orange>il m@nque un dét@il pour v@lider l'em@il</span>`, "email" );
