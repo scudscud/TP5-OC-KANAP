@@ -93,14 +93,16 @@ const getCart = async () => {
    }
    
 
-  const addProd =  ()=> {
-   fetchItem()
-    const el = document.querySelector(".itemQuantity")
-    console.log(el);
+  // const addProd =  ()=> {
+  //   const el = document.getElementsByName('#input.itemQuantity')
+  //   document.getElementsByName('input.itemQuantity').addEventListener('change',(e)=>{console.log(e.value);}) 
+    
+ 
+    
 
-  }
+  // };
 
-  let firstNameError = document.querySelector ('#firstNameErrorMsg');
+let firstNameError = document.querySelector ('#firstNameErrorMsg');
 let lastNameError = document.querySelector('#lastNameErrorMsg');
 let adressError = document.querySelector ('#addressErrorMsg');
 let cityError = document.querySelector ('#cityErrorMsg');
@@ -114,12 +116,7 @@ let adress = document.querySelector ('#address')
 
 
 //create object to manage input submit validation o form
-let errors = {
-    firstName: false,        
-    lastName : false,
-    address : false,
-    city : false,
-    email : false,
+let errors = { firstName: false, lastName : false, address : false, city : false, email : false,
   }
 
 let orderButton = document.querySelector('input#order')
@@ -130,41 +127,49 @@ let orderButton = document.querySelector('input#order')
           
             fieldResult.innerHTML = `<span style="color:green"> Validé </span>`;
             errors[errorName] = false;
+            orderButton.style.background = "#2c3e50"
         }
         else{
             fieldResult.innerHTML = message;
             errors[errorName] = true;
+            orderButton.style.background = "#cc2900";
         }
         let allOk = true; 
         for (let key in errors){
             if (errors[key]) {
                 allOk = false;
                 
-
-
-
             }
         }
         
-        // orderButton.disabled = !allOk || basket.length===0;
-        
+        orderButton.disabled = !allOk || Cart.length===0
+        // orderButton.style.background = "#cc2900";
+        // // if(orderButton = allOk || Cart.length !== 0){
+        //   orderButton.style.background = "#cc2900";
+                          
+    
+        //   }
+          
     })
 }
+
  
 formError (firstName,/^[a-zA-Z-\s]+$/,firstNameError,`<span style=color:orange>tu as passé l'age d'ecrire ton pr3n0m avec des mun3r0 ou avec des ...</span>`,"firstName" );
 formError (lastName,/^[a-zA-Z-\s]+$/,lastNameError,`<span style=color:orange>tu as passé l'age d'ecrire ton n0m avec des num3r0s ou avec des ...</span>`, "lastName" );
 formError (city,/^[a-zA-Z-\s]+$/,cityError,`<span style=color:orange>le nom de ta ville svp pas un code postal</span>`, "city" );
 formError (email,/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,7}$/,emailError,`<span style=color:orange>il m@nque un dét@il pour v@lider l'em@il</span>`, "email" );
-formError (adress,/^[A-Za-z-0-9|\s]{3,30}$/,adressError,`A moins que tu habite sur une autre planete, il y a un probleme dans ton adresse `)
+formError (adress,/^[A-Za-z-0-9|\s]{3,30}$/,adressError,`<span style=color:orange>A moins que tu habite sur une autre planete, il y a un probleme dans ton adresse</span> `,"adress")
 
 
-// orderButton.style.background = "#cc2900";
-//                 // setTimeout(() => {
-//                 //   orderButton.style.background = "";
-//                 // }, 800);
-//                 // orderButton.animate(
-//                 //   [{ transform: `translateX(2%)` }, { transform: `translatey(2%)` }],
-//                 //   { duration: 200, iterations: 4 }
+
+
+
+
+
+
+
+
+
 
    
 
@@ -204,8 +209,8 @@ formError (adress,/^[A-Za-z-0-9|\s]{3,30}$/,adressError,`A moins que tu habite s
 
 
 
-
-   addProd()
+   fetchItem()
+  //  addProd()
     TotalBasket()
   
 
