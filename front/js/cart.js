@@ -1,6 +1,6 @@
 
 emptybasket = document.querySelector("h1")
-
+let basket = localStorage.getItem("order")
 const getCart = async () => {
     cart = localStorage.getItem("order");
     // for (var i = 0; i < localStorage.length; i++) 
@@ -58,7 +58,7 @@ const getCart = async () => {
            <div class="cart__item__content__settings">
              <div class="cart__item__content__settings__quantity">
                <p>Qté :  </p>
-               <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${i.quantity}">
+               <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${i.quantity-1}">
              </div>
              <div class="cart__item__content__settings__delete">
                <p class="deleteItem">Supprimer</p>
@@ -72,14 +72,14 @@ const getCart = async () => {
     })   
    };
    
-   const TotalBasket = () => {
-     getCart()
+   const TotalBasket = async () => {
+     await getCart()
      sum = []
      sumP = []
      
    Cart.forEach((i,u,o) => {    
      sum.push(i.quantity++)   
-     const reducer = (a,b) => a + b;
+     const reducer = (a,b) => (a + b);
     totalProduct = sum.reduce(reducer)
   // console.log(i.quantity);
   // console.log(i.price);
@@ -122,9 +122,9 @@ let errors = { firstName: false, lastName : false, address : false, city : false
 let orderButton = document.querySelector('input#order')
 
  const formError = (fieldlabel,regex, fieldResult, message, errorName) => {
-    fieldlabel.addEventListener('input',function(){
+    fieldlabel.addEventListener('input',()=> {
         if (regex.test(fieldlabel.value) ){
-          
+          console.log(fieldlabel.value);
             fieldResult.innerHTML = `<span style="color:green"> Validé </span>`;
             errors[errorName] = false;
             orderButton.style.background = "#2c3e50"
@@ -132,23 +132,25 @@ let orderButton = document.querySelector('input#order')
         else{
             fieldResult.innerHTML = message;
             errors[errorName] = true;
-            orderButton.style.background = "#cc2900";
+            orderButton.style.background = "#DC143C";
+            
         }
-        let allOk = true; 
+        allOk = false; 
         for (let key in errors){
             if (errors[key]) {
                 allOk = false;
                 
+            }else{
+              allOk = true
             }
         }
+      
+        // orderButton.disabled = !allOk || Cart.length===0 
+        // orderButton.style.background = "#DC143C"
+        // setTimeout(()=>{orderButton.style.background = "#2c3e50"},2000);
+       
+        // return alert("veuillez remplir le formulaire et/ou votre panier aussi c'est plus simple pour passer une commande ")
         
-        orderButton.disabled = !allOk || Cart.length===0
-        // orderButton.style.background = "#cc2900";
-        // // if(orderButton = allOk || Cart.length !== 0){
-        //   orderButton.style.background = "#cc2900";
-                          
-    
-        //   }
           
     })
 }
@@ -160,15 +162,60 @@ formError (city,/^[a-zA-Z-\s]+$/,cityError,`<span style=color:orange>le nom de t
 formError (email,/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,7}$/,emailError,`<span style=color:orange>il m@nque un dét@il pour v@lider l'em@il</span>`, "email" );
 formError (adress,/^[A-Za-z-0-9|\s]{3,30}$/,adressError,`<span style=color:orange>A moins que tu habite sur une autre planete, il y a un probleme dans ton adresse</span> `,"adress")
 
+// fencent=window.open(url,nom,"top="+haut+",left="+Gauche+",width="+largeur+",height="+hauteur+","+options);
+
+orderButton.addEventListener('click',async ( e)=>{
+ await getCart()
+ e.preventDefault()
+ if(allOk = false  || Cart.length===0 ) {
+  orderButton.disabled
+  
+  orderButton.style.background = "#DC143C"
+   setTimeout(()=>{orderButton.style.background = "#2c3e50"},2000);
+  
+   return alert("veuillez remplir le formulaire et/ou votre panier aussi c'est plus simple pour passer une commande ")
+ }
+let infoOrder = {
+contact: { 
+firstName : firstName.value,
+lastName : lastName.value,
+adress : adress.value,
+email : email.value,
+city : city.value,
+
+},
+products : {Cart}
+
+}
+
+console.log(Cart)
+
+ res = await fetch('http://localhost:3000/api/products/order', {
+        method: 'POST',
+       
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(infoOrder),
+        
+        
+    })
+    
+  if (res.ok){
+    let orderConfirm = await res.json()
+    
+    window.location.href = `confirmation.html?order_id=${orderConfirm.orderId}`
+  }
+  else{
+    window.alert("Une erreur s'est produite.Veuillez reessayer ou contacter le support par telephone : 0123456789 ou par Email : support@name.com  !");
+  }
+   
 
 
 
 
-
-
-
-
-
+  });
 
 
    
