@@ -116,15 +116,15 @@ let adress = document.querySelector ('#address')
 
 
 //create object to manage input submit validation o form
-let errors = { firstName: false, lastName : false, address : false, city : false, email : false,
+let errors = { firstName: true, lastName : true, address : true, city : true, email : true,
   }
 
 let orderButton = document.querySelector('input#order')
-
+let allOk = false; 
  const formError = (fieldlabel,regex, fieldResult, message, errorName) => {
     fieldlabel.addEventListener('input',()=> {
         if (regex.test(fieldlabel.value) ){
-          console.log(fieldlabel.value);
+          console.log(fieldResult);
             fieldResult.innerHTML = `<span style="color:green"> Validé </span>`;
             errors[errorName] = false;
             orderButton.style.background = "#2c3e50"
@@ -135,14 +135,12 @@ let orderButton = document.querySelector('input#order')
             orderButton.style.background = "#DC143C";
             
         }
-        allOk = false; 
+        allOk = true; 
         for (let key in errors){
             if (errors[key]) {
                 allOk = false;
                 
-            }else{
-              allOk = true
-            }
+            }else{ allOk = true}
         }
       
         // orderButton.disabled = !allOk || Cart.length===0 
@@ -167,13 +165,17 @@ formError (adress,/^[A-Za-z-0-9|\s]{3,30}$/,adressError,`<span style=color:orang
 orderButton.addEventListener('click',async ( e)=>{
  await getCart()
  e.preventDefault()
- if(allOk = false  || Cart.length===0 ) {
+ if( !allOk  || Cart.length===0 ) {
   orderButton.disabled
   
   orderButton.style.background = "#DC143C"
    setTimeout(()=>{orderButton.style.background = "#2c3e50"},2000);
   
-   return alert("veuillez remplir le formulaire et/ou votre panier aussi c'est plus simple pour passer une commande ")
+   return 
+   
+   
+   
+   alert("veuillez remplir le formulaire et/ou votre panier aussi c'est plus simple pour passer une commande ")
  }
 let infoOrder = {
 contact: { 
