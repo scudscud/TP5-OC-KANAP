@@ -104,7 +104,7 @@ const getCart = async () => {
 
 let firstNameError = document.querySelector ('#firstNameErrorMsg');
 let lastNameError = document.querySelector('#lastNameErrorMsg');
-let adressError = document.querySelector ('#addressErrorMsg');
+let addressError = document.querySelector ('#addressErrorMsg');
 let cityError = document.querySelector ('#cityErrorMsg');
 let emailError= document.querySelector ('#emailErrorMsg');
 
@@ -112,19 +112,19 @@ let firstName = document.querySelector ('#firstName');
 let lastName = document.querySelector ('#lastName');
 let email = document.querySelector ('#email');
 let city = document.querySelector ('#city');
-let adress = document.querySelector ('#address')
+let address = document.querySelector ('#address')
 
 
 //create object to manage input submit validation o form
-let errors = { firstName: true, lastName : true, address : true, city : true, email : true,
-  }
-
-let orderButton = document.querySelector('input#order')
+let errors = { firstName: true, lastName : true, address : true, city : true, email : true,}
 let allOk = false; 
+let errorName = true
+let orderButton = document.querySelector('input#order')
+
  const formError = (fieldlabel,regex, fieldResult, message, errorName) => {
     fieldlabel.addEventListener('input',()=> {
         if (regex.test(fieldlabel.value) ){
-          console.log(fieldResult);
+        
             fieldResult.innerHTML = `<span style="color:green"> Validé </span>`;
             errors[errorName] = false;
             orderButton.style.background = "#2c3e50"
@@ -135,15 +135,16 @@ let allOk = false;
             orderButton.style.background = "#DC143C";
             
         }
-        allOk = true; 
+        // allOk = true; 
         for (let key in errors){
             if (errors[key]) {
+              console.log(errors);
                 allOk = false;
                 
             }else{ allOk = true}
         }
       
-        // orderButton.disabled = !allOk || Cart.length===0 
+        orderButton.disabled = !allOk && Cart.length===0 
         // orderButton.style.background = "#DC143C"
         // setTimeout(()=>{orderButton.style.background = "#2c3e50"},2000);
        
@@ -156,9 +157,10 @@ let allOk = false;
  
 formError (firstName,/^[a-zA-Z-\s]+$/,firstNameError,`<span style=color:orange>tu as passé l'age d'ecrire ton pr3n0m avec des mun3r0 ou avec des ...</span>`,"firstName" );
 formError (lastName,/^[a-zA-Z-\s]+$/,lastNameError,`<span style=color:orange>tu as passé l'age d'ecrire ton n0m avec des num3r0s ou avec des ...</span>`, "lastName" );
+formError (address,/^[A-Za-z-0-9|\s]{3,30}$/,addressError,`<span style=color:orange>A moins que tu habite sur une autre planete, il y a un probleme dans ton adresse</span> `,"address")
 formError (city,/^[a-zA-Z-\s]+$/,cityError,`<span style=color:orange>le nom de ta ville svp pas un code postal</span>`, "city" );
 formError (email,/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,7}$/,emailError,`<span style=color:orange>il m@nque un dét@il pour v@lider l'em@il</span>`, "email" );
-formError (adress,/^[A-Za-z-0-9|\s]{3,30}$/,adressError,`<span style=color:orange>A moins que tu habite sur une autre planete, il y a un probleme dans ton adresse</span> `,"adress")
+
 
 // fencent=window.open(url,nom,"top="+haut+",left="+Gauche+",width="+largeur+",height="+hauteur+","+options);
 
@@ -181,7 +183,7 @@ let infoOrder = {
 contact: { 
 firstName : firstName.value,
 lastName : lastName.value,
-adress : adress.value,
+address : address.value,
 email : email.value,
 city : city.value,
 
