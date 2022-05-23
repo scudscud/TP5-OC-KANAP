@@ -45,32 +45,40 @@ const getCart = async () => {
         
         .then ((data) => { return image = data.imageUrl, description = data.description}     
           ) 
-        .then(() => { return cart__items.innerHTML += `<article class="cart__item" data-id="${i.id}" data-color="${i.color}">
-         <div class="cart__item__img">
-         <img src="${image}" alt="${description}">
-         </div>
-         <div class="cart__item__content">
-           <div class="cart__item__content__description">
-             <h2>${i.name}</h2>
-             <p>${i.color}</p>
-             <p>${i.price}€</p>
-           </div>
-           <div class="cart__item__content__settings">
-             <div class="cart__item__content__settings__quantity">
-               <p>Qté :  </p>
-               <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${i.quantity-1}">
-             </div>
-             <div class="cart__item__content__settings__delete">
-               <p class="deleteItem">Supprimer</p>
-             </div>
-           </div>
-         </div>
-       </article> 
-      
-       ` 
+        .then(() => { 
+         let listArticle = ` <article class="cart__item" data-id="${i.id}" data-color="${i.color}">
+          <div class="cart__item__img">
+          <img src="${image}" alt="${description}">
+          </div>
+          <div class="cart__item__content">
+            <div class="cart__item__content__description">
+              <h2>${i.name}</h2>
+              <p>${i.color}</p>
+              <p>${i.price}€</p>
+            </div>
+            <div class="cart__item__content__settings">
+              <div class="cart__item__content__settings__quantity">
+                <p>Qté :  </p>
+                <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${i.quantity-1}">
+              </div>
+              <div class="cart__item__content__settings__delete">
+                <p class="deleteItem">Supprimer</p>
+              </div>
+            </div>
+          </div>
+        </article> 
+        `          
+          cart__items.innerHTML += listArticle
       })   
     })   
    };
+  let itemQuantityChange = document.getElementsByClassName('itemQuantity');
+    console.log(itemQuantityChange);
+   
+
+
+
+
    
    const TotalBasket = async () => {
      await getCart()
@@ -86,7 +94,7 @@ const getCart = async () => {
   totalArticle = (i.quantity-1) * i.price
     sumP.push(totalArticle)
     totalP = sumP.reduce(reducer)
-    console.log(totalArticle);
+    // console.log(totalArticle);
     totalQuantity.innerHTML = totalProduct
     totalPrice.innerHTML = totalP
    })
@@ -96,10 +104,6 @@ const getCart = async () => {
   // const addProd =  ()=> {
   //   const el = document.getElementsByName('#input.itemQuantity')
   //   document.getElementsByName('input.itemQuantity').addEventListener('change',(e)=>{console.log(e.value);}) 
-    
- 
-    
-
   // };
 
 let firstNameError = document.querySelector ('#firstNameErrorMsg');
@@ -116,9 +120,13 @@ let address = document.querySelector ('#address')
 
 
 //create object to manage input submit validation o form
-let errors = { firstName: true, lastName : true, address : true, city : true, email : true,}
-let allOk = false; 
-let errorName = true
+let errors = { firstName :true , lastName : true , address : true , city : true  , email : true }
+// console.log(errors.firstName);
+let allOk = false
+  // let allOk = true; 
+// let errorName = true
+
+
 let orderButton = document.querySelector('input#order')
 
  const formError = (fieldlabel,regex, fieldResult, message, errorName) => {
@@ -135,16 +143,23 @@ let orderButton = document.querySelector('input#order')
             orderButton.style.background = "#DC143C";
             
         }
-        // allOk = true; 
+        
         for (let key in errors){
-            if (errors[key]) {
-              console.log(errors);
+            if (errors[key] === true) {
+              // console.log(errors[errorName]);
+              // console.log(errors[key])
+              // console.log(errors)
+              console.log(fieldResult);
+              console.log(allOk);
                 allOk = false;
                 
-            }else{ allOk = true}
+            }else{
+              allOk = true
+            }
+              
         }
       
-        orderButton.disabled = !allOk && Cart.length===0 
+        // orderButton.disabled = !allOk && Cart.length===0 
         // orderButton.style.background = "#DC143C"
         // setTimeout(()=>{orderButton.style.background = "#2c3e50"},2000);
        
@@ -167,18 +182,16 @@ formError (email,/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,7}$/,emailError,`<span style=colo
 orderButton.addEventListener('click',async ( e)=>{
  await getCart()
  e.preventDefault()
- if( !allOk  || Cart.length===0 ) {
+ if( allOk === false || Cart.length===0 ) {
+  // console.log(allOk);
   orderButton.disabled
-  
   orderButton.style.background = "#DC143C"
    setTimeout(()=>{orderButton.style.background = "#2c3e50"},2000);
-  
+ 
    return 
-   
-   
-   
+  
    alert("veuillez remplir le formulaire et/ou votre panier aussi c'est plus simple pour passer une commande ")
- }
+ }else{
 let infoOrder = {
 contact: { 
 firstName : firstName.value,
@@ -188,7 +201,9 @@ email : email.value,
 city : city.value,
 
 },
+
 products : {Cart}
+
 
 }
 
@@ -208,17 +223,11 @@ console.log(Cart)
     
   if (res.ok){
     let orderConfirm = await res.json()
-    
     window.location.href = `confirmation.html?order_id=${orderConfirm.orderId}`
   }
   else{
     window.alert("Une erreur s'est produite.Veuillez reessayer ou contacter le support par telephone : 0123456789 ou par Email : support@name.com  !");
-  }
-   
-
-
-
-
+  }}
   });
 
 
