@@ -155,6 +155,7 @@ let orderButton = document.querySelector('input#order')
         if (regex.test(fieldlabel.value) ){
         
             fieldResult.innerHTML = `<span style="color:green"> Validé </span>`;
+           
             errors[errorName] = false;
             orderButton.style.background = "#2c3e50"
         }
@@ -176,14 +177,15 @@ let orderButton = document.querySelector('input#order')
 //             allOk = true
 //  }}
 
-        for (let key in errors)
-            if ( errors[key] === true ) {
+        for (let key in errors){
+            if (  errors[key] ) {
               console.log(errors);
               console.log(allOk);
-                return allOk = false;                
+                 allOk = false; 
+                 break;               
             }else{
-              return allOk = true
-            }      
+               allOk = true
+            }  }    
      
         // orderButton.disabled = !allOk && Cart.length===0 
         // orderButton.style.background = "#DC143C"
@@ -232,8 +234,8 @@ orderButton.addEventListener('click',async ( e)=>{
         //        allOk = true
         //     }             
         
- if( allOk == false ||  Cart.length===0 ) {
-  console.log(allOk);
+ if( allOk === false ||  Cart.length===0 ) {
+  // console.log(allOk);
   orderButton.disabled
   orderButton.style.background = "#DC143C"
    setTimeout(()=>{orderButton.style.background = "#2c3e50"},2000);
