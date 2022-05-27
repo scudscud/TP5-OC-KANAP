@@ -166,26 +166,16 @@ let orderButton = document.querySelector('input#order')
             
         }
         
-        
-//        for(let k in errors){
-//         switch (k){          
-//           case errors === true :   allOk = false;
-//           console.log(errors)
-//           console.log(allOk)
-//           break;
-//           default:
-//             allOk = true
-//  }}
-
-        for (let key in errors){
-            if (  errors[key] ) {
-              console.log(errors);
-              console.log(allOk);
-                 allOk = false; 
-                 break;               
-            }else{
-               allOk = true
-            }  }    
+      
+        // for (let key in errors){
+        //     if (  errors[key] === true ) {
+        //       console.log(errors);
+        //       console.log(allOk);
+        //          allOk = false; 
+        //          break;               
+        //     }else{
+        //        allOk = true
+        //     }  }    
      
         // orderButton.disabled = !allOk && Cart.length===0 
         // orderButton.style.background = "#DC143C"
@@ -210,7 +200,7 @@ formError (email,/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,7}$/,emailError,`<span style=colo
 
 orderButton.addEventListener('click',async ( e)=>{
  await getCart()
- e.preventDefault()
+ 
 //  console.log(errors)
 //  console.log(allOk)
 
@@ -224,26 +214,29 @@ orderButton.addEventListener('click',async ( e)=>{
 //     allOk = true
 
 // }
-
-        // for (let key in errors)
-        //     if ( errors[key] === true ) {
-        //       console.log(errors);
-        //       console.log(allOk);
-        //         allOk = false;                
-        //     }else{
-        //        allOk = true
-        //     }             
-        
+ for (let key in errors){
+            if (  errors[key] === true ) {
+              console.log(errors);
+              console.log(allOk);
+                 allOk = false; 
+                 break;               
+            }else{
+               allOk = true
+            }  }    
+     
+    
  if( allOk === false ||  Cart.length===0 ) {
   // console.log(allOk);
+  
   orderButton.disabled
   orderButton.style.background = "#DC143C"
    setTimeout(()=>{orderButton.style.background = "#2c3e50"},2000);
- 
+  
 
   
   //  alert("veuillez remplir le formulaire et/ou votre panier aussi c'est plus simple pour passer une commande ")
  }else{
+
 let infoOrder = {
 contact: { 
 firstName : firstName.value,
@@ -259,7 +252,7 @@ products : {Cart}
 
 }
 
-// console.log(Cart)
+console.log(Cart)
 
  res = await fetch('http://localhost:3000/api/products/order', {
         method: 'POST',
@@ -272,14 +265,16 @@ products : {Cart}
         
         
     })
-    
+  
   if (res.ok){
     let orderConfirm = await res.json()
     window.location.href = `confirmation.html?order_id=${orderConfirm.orderId}`
   }
   else{
     window.alert("Une erreur s'est produite.Veuillez reessayer ou contacter le support par telephone : 0123456789 ou par Email : support@name.com  !");
-  }}
+  }
+  orderButton.submit()
+}
 
  
   });
