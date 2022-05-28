@@ -26,11 +26,11 @@ const getCart = async () => {
     //  })  
     }
  }
- 
+
 
         const fetchItem = async () => { 
        await  getCart();    
-        // article = []    
+        article = []    
        Cart.forEach((i,o,u) => {
         //  console.log(Cart);
      // console.log(i.id);
@@ -47,16 +47,18 @@ const getCart = async () => {
         // .then(() => {     
         //   test = {id : i.id, color : i.color, img : image, descr : description, nameProduct : i.name, price :i.price, quantity: i.quantity}
         // article.push(test)
-        // // Cart.push(test)
+
         // // console.log(Cart);
         // // // console.log(test)    
         //  return article.sort((a,b)=> {      
-        //     if ( a.id <  b.id) {return -1 }
-        //     if ( a.id > b.id ){ return 1 }
-        //     if ( a.id === b.id){return 0}             
+        //     if ( a.nameProduct <  b.nameProduct ) {return -1 }
+        //     if ( a.nameProduct  > b.nameProduct  ){ return 1 }
+        //     if ( a.nameProduct  === b.nameProduct ){return 0}             
         //    })         
         //   })  
       .then(()=>{
+       
+      
         listArticle = ` <article class="cart__item" data-id="${i.id}" data-color="${i.color}">
           <div class="cart__item__img">
           <img src="${image}" alt="${description}">
@@ -77,48 +79,76 @@ const getCart = async () => {
               </div>
             </div>
           </div>
-        </article>  `  
+        </article>  `
         // console.log(`${i.id}`)
       }).then(()=>{
+        
+        
       cart__items.innerHTML +=listArticle})
       // .then(()=>{
-      // console.log(listArticle);
+      // console.log(listArticle.id);
       //   listArticle.sort((a,b)=> {      
       //     if ( a.id <  b.id) {return -1 }
       //     if ( a.id > b.id ){ return 1 }
       //     if ( a.id === b.id){return 0}    
       //    })  
       // }) 
-      
-    })  
-      // .catch(()=>{
-      //   console.error;
-      // })
+    
+    })
+      .catch(()=>{
+        console.error;
+      })
      
    };
 
 
-
-
-  let itemQuantityChange = document.getElementsByClassName('itemQuantity');
-    console.log(itemQuantityChange);
+  
+      
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
    const TotalBasket = async () => {
      await getCart()
-     sum = []
-     sumP = []  
-   Cart.forEach((i,u,o) => {    
-     sum.push(i.quantity++)   
-     const reducer = (a,b) => (a + b);
-    totalProduct = sum.reduce(reducer)
-  // console.log(i.quantity);
-  // console.log(i.price);
-  totalArticle = (i.quantity-1) * i.price
-    sumP.push(totalArticle)
-    totalP = sumP.reduce(reducer)
-    // console.log(totalArticle);
-    totalQuantity.innerHTML = totalProduct
-    totalPrice.innerHTML = totalP
-   })
+    //  sumQuantity = []
+    //  sumPrice = [] 
+
+  
+     let sumPrice = Cart.reduce((acc, e)=> {
+       return acc + e.price * e.quantity
+     },0)
+     
+  totalPrice.innerHTML = sumPrice
+    
+
+  let sumQuantity = Cart.reduce((acc, e)=> {
+       return acc + (e.quantity++)
+     },0)
+     
+  totalQuantity.innerHTML = sumQuantity
+
+
+  //  Cart.forEach((i,u,o) => {    
+  //    sum.push(i.quantity++)   
+  //    const reducer = (a,b) => (a + b);
+  //   totalProduct = sum.reduce(reducer)
+  // // console.log(i.quantity);
+  // // console.log(i.price);
+  // totalArticle = (i.quantity-1) * i.price
+  //   sumP.push(totalArticle)
+  //   totalP = sumP.reduce(reducer)
+  //   // console.log(totalArticle);
+  //   totalQuantity.innerHTML = totalProduct
+  //   totalPrice.innerHTML = totalP
+  //  })
    }
    
 
@@ -142,10 +172,13 @@ let address = document.querySelector ('#address')
 
 //create object to manage input submit validation o form
 let errors = { firstName :true , lastName : true , address : true , city : true  , email : true }
-// console.log(errors.firstName);
+
 let allOk = false
-  // let allOk = true; 
-// let errorName = true
+// let allOk = errors.every(e=> {
+//   console.log(e);
+//   e.value = false ;
+  
+// })
 
 
 let orderButton = document.querySelector('input#order')
@@ -200,8 +233,8 @@ formError (email,/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,7}$/,emailError,`<span style=colo
 
 orderButton.addEventListener('click',async ( e)=>{
  await getCart()
- 
-//  console.log(errors)
+//  e.preventDefault()
+ console.log(errors)
 //  console.log(allOk)
 
 //  switch (errors){
@@ -216,7 +249,7 @@ orderButton.addEventListener('click',async ( e)=>{
 // }
  for (let key in errors){
             if (  errors[key] === true ) {
-              console.log(errors);
+              console.log(errors[key]);
               console.log(allOk);
                  allOk = false; 
                  break;               
@@ -224,9 +257,10 @@ orderButton.addEventListener('click',async ( e)=>{
                allOk = true
             }  }    
      
+            
     
  if( allOk === false ||  Cart.length===0 ) {
-  // console.log(allOk);
+  console.log(allOk);
   
   orderButton.disabled
   orderButton.style.background = "#DC143C"
@@ -303,9 +337,33 @@ console.log(Cart)
 //   }})
 
 
+// document.querySelector(".itemQuantity").addEventListener("change",async (e) =>{
+//   console.log(e.target.value);
+// //     let findbasket = basket.find( basket => basket.id == cart.id &&  basket.color === cart.color)
+  
+// //       findbasket = itemQuantity.value
+// //   //     if(
+// //   //       basket.quantity <= 0 ){
+// //   //         basket = basket.filter(p => findbasket.id == basket.id)
+// //   //         localStorage.setItem("order", JSON.stringify(basket))
+// //   //       }
+// //   //       else{
+// //   //         localStorage.setItem("order", JSON.stringify(basket))
+// //   //       }
+
+// //   //  }
+// //   // )
+
+// let itemQuantityChange = document.getElementsByClassName('itemQuantity')
+// document.getElementsByClassName('deleteItem').addEventListener('click',async(e)=>{console.log(e);
 
 
 
+
+
+
+
+// })
 
     
     
@@ -315,22 +373,7 @@ console.log(Cart)
 
   
   
-    // document.querySelector(".itemQuantity").addEventListener("change",(e) =>{
-    //   console.log(e.target.value);
-    //   let findbasket = basket.find( basket => basket.id == cart.id &&  basket.color === cart.color)
-      
-    //     findbasket = itemQuantity.value
-    //     if(
-    //       basket.quantity <= 0 ){
-    //         basket = basket.filter(p => findbasket.id == basket.id)
-    //         localStorage.setItem("order", JSON.stringify(basket))
-    //       }
-    //       else{
-    //         localStorage.setItem("order", JSON.stringify(basket))
-    //       }
-
-    //  }
-    // )
+   
       
    
   
