@@ -27,52 +27,60 @@ const getCart = async () => {
     }
  }
 
-
+// ------------------fetch produit ok ------------------------------\\
         const fetchItem = async () => { 
        await  getCart();    
-        article = []    
-       Cart.forEach((i,o,u) => {
+        article = []  
+        Cart.sort((a,b)=> {
+          if ( a.id <  b.id) {return -1 }
+         if ( a.id > b.id ){ return 1 }
+         if ( a.id === b.id){return 0}     
+        } )
+    
+       Cart.forEach((e,o,u) => {
+        
         //  console.log(Cart);
      // console.log(i.id);
         // console.log(i.name);
         // console.log(i);
         // console.log(o);
         // console.log(u);    
-        fetch(`http://localhost:3000/api/products/${i.id}`)  
-            
+       fetch(`http://localhost:3000/api/products/${e.id}`)    
+      
         .then((res) => res.json()) 
         
         .then ((data) => { return image = data.imageUrl, description = data.description}     
-          ) 
+          )
         // .then(() => {     
-        //   test = {id : i.id, color : i.color, img : image, descr : description, nameProduct : i.name, price :i.price, quantity: i.quantity}
-        // article.push(test)
+        //   test = {id : e.id, color : e.color, img : image, descr : description, nameProduct : e.name, price :e.price, quantity: e.quantity}
+        // // article.push(test)
 
-        // // console.log(Cart);
-        // // // console.log(test)    
-        //  return article.sort((a,b)=> {      
-        //     if ( a.nameProduct <  b.nameProduct ) {return -1 }
-        //     if ( a.nameProduct  > b.nameProduct  ){ return 1 }
-        //     if ( a.nameProduct  === b.nameProduct ){return 0}             
-        //    })         
-        //   })  
-      .then(()=>{
-       
+        // // console.log(article);
       
-        listArticle = ` <article class="cart__item" data-id="${i.id}" data-color="${i.color}">
+        // //  return article.sort((a,b)=> {      
+        // //     if ( a.nameProduct <  b.nameProduct ) {return -1 }
+        // //     if ( a.nameProduct  > b.nameProduct  ){ return 1 }
+        // //     if ( a.nameProduct  === b.nameProduct ){return 0}             
+        // //    })         
+        //   })   
+      .then(()=>{
+      
+       
+          
+        listArticle =` <article class="cart__item" data-id="${e.id}" data-color="${e.color}">
           <div class="cart__item__img">
           <img src="${image}" alt="${description}">
           </div>
           <div class="cart__item__content">
             <div class="cart__item__content__description">
-              <h2>${i.name}</h2>
-              <p>${i.color}</p>
-              <p>${i.price}€</p>
+              <h2>${e.name}</h2>
+              <p>${e.color}</p>
+              <p>${e.price}€</p>
             </div>
             <div class="cart__item__content__settings">
               <div class="cart__item__content__settings__quantity">
                 <p>Qté :  </p>
-                <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${i.quantity-1}">
+                <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${e.quantity}">
               </div>
               <div class="cart__item__content__settings__delete">
                 <p class="deleteItem">Supprimer</p>
@@ -80,11 +88,10 @@ const getCart = async () => {
             </div>
           </div>
         </article>  `
+     
+
         // console.log(`${i.id}`)
-      }).then(()=>{
-        
-        
-      cart__items.innerHTML +=listArticle})
+      }).then(()=>{cart__items.innerHTML +=listArticle})
       // .then(()=>{
       // console.log(listArticle.id);
       //   listArticle.sort((a,b)=> {      
@@ -93,70 +100,55 @@ const getCart = async () => {
       //     if ( a.id === b.id){return 0}    
       //    })  
       // }) 
-    
-    })
+     
+   
       .catch(()=>{
-        console.error;
+        console.error('error.status');
       })
-     
+    }) 
+    window.reload
    };
+// -----------------------------fin fetch produit ok --------------------------------\\
 
 
-  
-      
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+let test = document.querySelectorAll('.cart__item')
+// console.log(test);
+
+
    const TotalBasket = async () => {
-     await getCart()
+    await getCart()
+    let sumQuantity = 0
+     Cart.forEach((e)=>{
     //  sumQuantity = []
-    //  sumPrice = [] 
+    //  sumPrice = []  
+     sumPrice = Cart.reduce((acc, e)=> {
+       return acc + e.price * e.quantity
+     },0)  
+ 
+
 
   
-     let sumPrice = Cart.reduce((acc, e)=> {
-       return acc + e.price * e.quantity
-     },0)
-     
-  totalPrice.innerHTML = sumPrice
-    
-
-  let sumQuantity = Cart.reduce((acc, e)=> {
-       return acc + (e.quantity++)
-     },0)
-     
-  totalQuantity.innerHTML = sumQuantity
-
-
-  //  Cart.forEach((i,u,o) => {    
-  //    sum.push(i.quantity++)   
-  //    const reducer = (a,b) => (a + b);
-  //   totalProduct = sum.reduce(reducer)
-  // // console.log(i.quantity);
-  // // console.log(i.price);
-  // totalArticle = (i.quantity-1) * i.price
-  //   sumP.push(totalArticle)
-  //   totalP = sumP.reduce(reducer)
-  //   // console.log(totalArticle);
-  //   totalQuantity.innerHTML = totalProduct
-  //   totalPrice.innerHTML = totalP
-  //  })
+    sumQuantity += parseInt(e.quantity)
+    totalPrice.innerHTML = sumPrice
+    totalQuantity.innerHTML = sumQuantity
+  
+  })
+   
    }
    
 
-  // const addProd =  ()=> {
-  //   const el = document.getElementsByName('#input.itemQuantity')
-  //   document.getElementsByName('input.itemQuantity').addEventListener('change',(e)=>{console.log(e.value);}) 
-  // };
- 
+
+//   const addProd =  ()=> {
+//     const el = document.getElementsByName('#input.itemQuantity')
+//     document.getElementsByName('input.itemQuantity').addEventListener('change',(e)=>{console.log(e.value);}) 
+//   };
+//  addProd()
+
+
+
+
+
+
 let firstNameError = document.querySelector ('#firstNameErrorMsg');
 let lastNameError = document.querySelector('#lastNameErrorMsg');
 let addressError = document.querySelector ('#addressErrorMsg');
@@ -176,8 +168,7 @@ let errors = { firstName :true , lastName : true , address : true , city : true 
 let allOk = false
 // let allOk = errors.every(e=> {
 //   console.log(e);
-//   e.value = false ;
-  
+//   e.value = false 
 // })
 
 
@@ -281,7 +272,9 @@ city : city.value,
 
 },
 
-products : {Cart}
+products : Cart.map((i)=>{
+  return i.id
+})
 
 
 }
@@ -301,8 +294,9 @@ console.log(Cart)
     })
   
   if (res.ok){
-    let orderConfirm = await res.json()
+    let orderConfirm =  res.json()
     window.location.href = `confirmation.html?order_id=${orderConfirm.orderId}`
+    
   }
   else{
     window.alert("Une erreur s'est produite.Veuillez reessayer ou contacter le support par telephone : 0123456789 ou par Email : support@name.com  !");
