@@ -165,10 +165,7 @@ const delButton = (el, product) => {
      sumPrice = Cart.reduce((acc, e)=> {
        return acc + e.price * e.quantity
      },0)  
- 
 
-
-  
     sumQuantity += parseInt(e.quantity)
     totalPrice.innerHTML = sumPrice
     totalQuantity.innerHTML = sumQuantity
@@ -177,35 +174,6 @@ const delButton = (el, product) => {
    
    }
   
-   
- 
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-//   const addProd =  ()=> {
-//     const el = document.getElementsByName('#input.itemQuantity')
-//     document.getElementsByName('input.itemQuantity').addEventListener('change',(e)=>{console.log(e.value);}) 
-//   };
-//  addProd()
-
-
-
-
-
-
 let firstNameError = document.querySelector ('#firstNameErrorMsg');
 let lastNameError = document.querySelector('#lastNameErrorMsg');
 let addressError = document.querySelector ('#addressErrorMsg');
@@ -219,14 +187,8 @@ let city = document.querySelector ('#city');
 let address = document.querySelector ('#address')
 
 
-//create object to manage input submit validation o form
 let errors = { firstName :true , lastName : true , address : true , city : true  , email : true }
-
 let allOk = false
-// let allOk = errors.every(e=> {
-//   console.log(e);
-//   e.value = false 
-// })
 
 
 let orderButton = document.querySelector('input#order')
@@ -243,30 +205,11 @@ let orderButton = document.querySelector('input#order')
         else{
             fieldResult.innerHTML = message;
             errors[errorName] = true;
-            // orderButton.style.background = "#DC143C";
             
         }
-        
-      
-        // for (let key in errors){
-        //     if (  errors[key] === true ) {
-        //       console.log(errors);
-        //       console.log(allOk);
-        //          allOk = false; 
-        //          break;               
-        //     }else{
-        //        allOk = true
-        //     }  }    
-     
-        // orderButton.disabled = !allOk && Cart.length===0 
-        // orderButton.style.background = "#DC143C"
-        // setTimeout(()=>{orderButton.style.background = "#2c3e50"},2000);
-       
-        // return alert("veuillez remplir le formulaire et/ou votre panier aussi c'est plus simple pour passer une commande ")          
     })
 }
 
- 
 formError (firstName,/^[a-zA-Z-\s]+$/,firstNameError,`<span style=color:orange>tu as passé l'age d'ecrire ton pr3n0m avec des mun3r0 ou avec des ...</span>`,"firstName" );
 formError (lastName,/^[a-zA-Z-\s]+$/,lastNameError,`<span style=color:orange>tu as passé l'age d'ecrire ton n0m avec des num3r0s ou avec des ...</span>`, "lastName" );
 formError (address,/^[A-Za-z-0-9|\s]{3,30}$/,addressError,`<span style=color:orange>A moins que tu habite sur une autre planete, il y a un probleme dans ton adresse</span> `,"address")
@@ -281,23 +224,11 @@ formError (email,/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,7}$/,emailError,`<span style=colo
 
 orderButton.addEventListener('click',async ( e)=>{
  await getCart()
- e.preventDefault()
-//  console.log(errors)
-// //  console.log(allOk)
+//  e.preventDefault()
 
-//  switch (errors){
-
-//   case errors === true :   allOk = false;
-//   console.log(errors)
-//   console.log(allOk)
-//   break;
-//   default:
-//     allOk = true
-
-// }
  for (let key in errors){
             if (  errors[key] === true ) {
-              console.log(errors[key]);
+              console.log(errors);
               console.log(allOk);
                  allOk = false; 
                  break;               
@@ -311,14 +242,15 @@ orderButton.addEventListener('click',async ( e)=>{
 
   
   orderButton.disabled
+  errors.style = "#DC143C"
   orderButton.style.background = "#DC143C"
    setTimeout(()=>{orderButton.style.background = "#2c3e50"},2000);
   
-
+   
   
   //  alert("veuillez remplir le formulaire et/ou votre panier aussi c'est plus simple pour passer une commande ")
  }else{
-
+  orderButton.submit
 let infoOrder = {
 contact: { 
 firstName : firstName.value,
@@ -363,7 +295,7 @@ products : Cart.map((i)=>{
     window.alert("Une erreur s'est produite.Veuillez reessayer ou contacter le support par telephone : 0123456789 ou par Email : support@name.com  !");
   }
   
-  // orderButton.submit()
+
 }
 
  
