@@ -229,8 +229,9 @@ orderButton.addEventListener('click',async ( e)=>{
 
  for (let key in errors){
             if (  errors[key] === true ) {
-              // console.log(errors);
-              // console.log(allOk);
+              
+              console.log(errors);
+              console.log(allOk);
                  allOk = false; 
                  break;               
             }else{
@@ -246,12 +247,12 @@ orderButton.addEventListener('click',async ( e)=>{
  
   orderButton.style.background = "#DC143C"
    setTimeout(()=>{orderButton.style.background = "#2c3e50"},2000);
-  
+   
    
   
   //  alert("veuillez remplir le formulaire et/ou votre panier aussi c'est plus simple pour passer une commande ")
  }else{
- 
+  orderButton.submit
   orderButton.style.background = "green"
 
  
@@ -272,7 +273,7 @@ products : Cart.map((i)=>{
 
 }
 
-orderButton.submit
+
 
  let res = await fetch('http://localhost:3000/api/products/order', {
         method: 'POST',
