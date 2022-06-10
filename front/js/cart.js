@@ -18,27 +18,28 @@ const getCart = async () => {
       
     }else {  
      
-    Cart = JSON.parse(cart)  
-    // Cart.sort((a,b)=> {
-    //    if ( a.id <  b.id) {return -1 }
-    //   if ( a.id > b.id ){ return 1 }
-    //   if ( a.id === b.id){return 0}     
-    //  })  
+    Cart = JSON.parse(cart) 
+    return Cart.sort((a,b)=> {
+      
+       if ( a.id <  b.id) {return -1 }
+      if ( a.id > b.id ){ return 1 }
+      if ( a.id === b.id){return 0}     
+     })  
     }
  }
 
 // ------------------fetch produit ok ------------------------------\\
         const fetchItem = async () => { 
        await  getCart();    
-        article = []  
-        Cart.sort((a,b)=> {
-          if ( a.id <  b.id) {return -1 }
-         if ( a.id > b.id ){ return 1 }
-         if ( a.id === b.id){return 0}     
-        } )
+        // article = []  
+        // Cart.sort((a,b)=> {
+        //   if ( a.id <  b.id) {return -1 }
+        //  if ( a.id > b.id ){ return 1 }
+        //  if ( a.id === b.id){return 0}     
+        // } )
     
        Cart.forEach((e,o,u) => {
-        
+        console.log(Cart);
         //  console.log(Cart);
      // console.log(i.id);
         // console.log(i.name);
@@ -110,9 +111,49 @@ const getCart = async () => {
    };
 // -----------------------------fin fetch produit ok --------------------------------\\
 
+const delButton = (el, product) => {
+  
+   
 
-let test = document.querySelectorAll('.cart__item')
-// console.log(test);
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+// let delButton = []
+// delButton = document.getElementsByClassName('deleteItem')
+// console.log(delButton);
+// let test = document.querySelectorAll('.cart__item')
+// // console.log(test);
+
+// for(let item of delButton){
+// delButton[item].addEventListener('click',()=>{
+//   console.log('ik')
+// })
+
+
+// }
+
+
+
+
+
+
+
+
+
 
 
    const TotalBasket = async () => {
@@ -135,7 +176,23 @@ let test = document.querySelectorAll('.cart__item')
   })
    
    }
+  
    
+ 
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
 
 
 //   const addProd =  ()=> {
@@ -225,8 +282,8 @@ formError (email,/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,7}$/,emailError,`<span style=colo
 orderButton.addEventListener('click',async ( e)=>{
  await getCart()
 //  e.preventDefault()
- console.log(errors)
-//  console.log(allOk)
+//  console.log(errors)
+// //  console.log(allOk)
 
 //  switch (errors){
 
@@ -251,7 +308,7 @@ orderButton.addEventListener('click',async ( e)=>{
             
     
  if( allOk === false ||  Cart.length===0 ) {
-  console.log(allOk);
+
   
   orderButton.disabled
   orderButton.style.background = "#DC143C"
@@ -279,9 +336,9 @@ products : Cart.map((i)=>{
 
 }
 
-console.log(Cart)
 
- res = await fetch('http://localhost:3000/api/products/order', {
+
+ let res = await fetch('http://localhost:3000/api/products/order', {
         method: 'POST',
        
         headers: {
@@ -294,18 +351,25 @@ console.log(Cart)
     })
   
   if (res.ok){
-    let orderConfirm =  res.json()
+   
+    let orderConfirm =  await res.json()
+  //  window.alert(orderConfirm.orderId)
+   
+
     window.location.href = `confirmation.html?order_id=${orderConfirm.orderId}`
     
   }
   else{
     window.alert("Une erreur s'est produite.Veuillez reessayer ou contacter le support par telephone : 0123456789 ou par Email : support@name.com  !");
   }
-  orderButton.submit()
+  
+  // orderButton.submit()
 }
 
  
   });
+
+  
 
 //  orderButton.addEventListener('submit',(e)=>{
 
