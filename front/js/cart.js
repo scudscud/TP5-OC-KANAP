@@ -281,7 +281,7 @@ formError (email,/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,7}$/,emailError,`<span style=colo
 
 orderButton.addEventListener('click',async ( e)=>{
  await getCart()
-//  e.preventDefault()
+ e.preventDefault()
 //  console.log(errors)
 // //  console.log(allOk)
 
