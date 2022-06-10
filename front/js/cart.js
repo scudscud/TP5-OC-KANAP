@@ -198,12 +198,13 @@ let orderButton = document.querySelector('input#order')
         if (regex.test(fieldlabel.value) ){
         
             fieldResult.innerHTML = `<span style="color:green"> Validé </span>`;
-           
+            fieldlabel.style.background =  "green"
             errors[errorName] = false;
             orderButton.style.background = "#2c3e50"
         }
         else{
             fieldResult.innerHTML = message;
+            fieldlabel.style.background =  "red"
             errors[errorName] = true;
             
         }
@@ -228,8 +229,8 @@ orderButton.addEventListener('click',async ( e)=>{
 
  for (let key in errors){
             if (  errors[key] === true ) {
-              console.log(errors);
-              console.log(allOk);
+              // console.log(errors);
+              // console.log(allOk);
                  allOk = false; 
                  break;               
             }else{
@@ -242,7 +243,7 @@ orderButton.addEventListener('click',async ( e)=>{
 
   
   orderButton.disabled
-  errors.style = "#DC143C"
+ 
   orderButton.style.background = "#DC143C"
    setTimeout(()=>{orderButton.style.background = "#2c3e50"},2000);
   
@@ -250,7 +251,10 @@ orderButton.addEventListener('click',async ( e)=>{
   
   //  alert("veuillez remplir le formulaire et/ou votre panier aussi c'est plus simple pour passer une commande ")
  }else{
-  orderButton.submit
+ 
+  orderButton.style.background = "green"
+
+ 
 let infoOrder = {
 contact: { 
 firstName : firstName.value,
@@ -268,7 +272,7 @@ products : Cart.map((i)=>{
 
 }
 
-
+orderButton.submit
 
  let res = await fetch('http://localhost:3000/api/products/order', {
         method: 'POST',
