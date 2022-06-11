@@ -245,6 +245,10 @@ orderButton.addEventListener('click',async ( e)=>{
                 iterations: 4,
               });
               inputValue.style.background = "#DC143C"
+              setTimeout(() => {
+                inputValue.style.background = "white"
+               
+              }, 2000);
               inputValue.value = `Veuillez completer ce champ`
               setTimeout(() => {
                 inputValue.value = ""
