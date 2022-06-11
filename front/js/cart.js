@@ -184,16 +184,22 @@ let firstName = document.querySelector ('#firstName');
 let lastName = document.querySelector ('#lastName');
 let email = document.querySelector ('#email');
 let city = document.querySelector ('#city');
-let address = document.querySelector ('#address')
+let address = document.querySelector ('#address');
 
+let errors = { firstName :true , lastName : true , address : true , city : true  , email : true };
 
-let errors = { firstName :true , lastName : true , address : true , city : true  , email : true }
-let allOk = false
+let allOk = false;
+let orderButton = document.querySelector('input#order');
 
+window.addEventListener('load',(e) => {
+   firstName.value = ""
+   lastName.value = ""
+   email.value = ""
+   city.value = ""
+   address.value = ""
+})
 
-let orderButton = document.querySelector('input#order')
-
- const formError = (fieldlabel,regex, fieldResult, message, errorName) => {
+  const formError =  (fieldlabel,regex, fieldResult, message, errorName) => {
     fieldlabel.addEventListener('input',()=> {
         if (regex.test(fieldlabel.value) ){
         
@@ -202,12 +208,13 @@ let orderButton = document.querySelector('input#order')
             errors[errorName] = false;
             orderButton.style.background = "#2c3e50"
         }
-        else{
+        else  {
             fieldResult.innerHTML = message;
             fieldlabel.style.background =  "red"
             errors[errorName] = true;
             
         }
+        
     })
 }
 
@@ -224,13 +231,28 @@ formError (email,/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,7}$/,emailError,`<span style=colo
 
 
 orderButton.addEventListener('click',async ( e)=>{
+ 
  await getCart()
-//  e.preventDefault()
+ e.preventDefault()
 
  for (let key in errors){
             if (  errors[key] === true ) {
-              
-              console.log(errors);
+              let inputValue =  document.getElementById(key)
+
+
+              inputValue.animate([{ transform: `translate(4%)` }], {
+                duration: 200,
+                iterations: 4,
+              });
+              inputValue.style.background = "#DC143C"
+              inputValue.value = `Veuillez completer ce champ`
+              setTimeout(() => {
+                inputValue.value = ""
+               
+              }, 2000);
+            
+             
+            ;
               console.log(allOk);
                  allOk = false; 
                  break;               
@@ -243,8 +265,11 @@ orderButton.addEventListener('click',async ( e)=>{
  if( allOk === false ||  Cart.length===0 ) {
 
   
-  orderButton.disabled
- 
+  // orderButton.disabled
+  orderButton.animate([{ transform: `translate(4%)` }], {
+    duration: 200,
+    iterations: 4,
+  });
   orderButton.style.background = "#DC143C"
    setTimeout(()=>{orderButton.style.background = "#2c3e50"},2000);
    
@@ -252,7 +277,7 @@ orderButton.addEventListener('click',async ( e)=>{
   
   //  alert("veuillez remplir le formulaire et/ou votre panier aussi c'est plus simple pour passer une commande ")
  }else{
-  orderButton.submit
+  // orderButton.submit
   orderButton.style.background = "green"
 
  
@@ -275,7 +300,7 @@ products : Cart.map((i)=>{
 
 
 
- let res = await fetch('http://localhost:3000/api/products/order', {
+ res = await fetch('http://localhost:3000/api/products/order', {
         method: 'POST',
        
         headers: {
