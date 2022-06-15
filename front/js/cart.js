@@ -39,7 +39,7 @@ const getCart = async () => {
         // } )
     
        Cart.forEach((e,o,u) => {
-        console.log(Cart);
+        // console.log(Cart);
         //  console.log(Cart);
      // console.log(i.id);
         // console.log(i.name);
@@ -80,7 +80,7 @@ const getCart = async () => {
             </div>
             <div class="cart__item__content__settings">
               <div class="cart__item__content__settings__quantity">
-                <p>Qté :  </p>
+                <p>Qté : </p>
                 <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${e.quantity}">
               </div>
               <div class="cart__item__content__settings__delete">
@@ -89,7 +89,39 @@ const getCart = async () => {
             </div>
           </div>
         </article>  `
-     
+
+        const itemQuantitySelector = document.querySelectorAll('.itemQuantity')
+        const deleteItemSelector = document.querySelectorAll(".deleteItem")
+for(let k = 0; k < deleteItemSelector.length; k++){
+              // itemQuantitySelector[k].addEventListener ('change', (event) =>{
+              //     // order[k].quantity = itemQuantitySelector[k].value
+              //     // saveBasket(order)
+              //     // location.reload()
+              //     console.log(event.target.value);
+              //   })
+              deleteItemSelector[k].addEventListener ('click', (event) => {
+                  event.preventDefault 
+                  console.log('ok');
+                  // order.splice(k,1)     
+                  // saveBasket(order)
+                  // location.reload()
+                
+                })
+          }
+
+//  let mod = document.querySelectorAll('input.itemQuantity')
+
+// for (i = 0; i = mod.length; i++){
+// mod.addEventListener('change',(e)=>{
+//   // console.log(mod[eve]);
+//    console.log(e.target.value);
+
+
+
+// })
+// }
+
+
 
         // console.log(`${i.id}`)
       }).then(()=>{cart__items.innerHTML +=listArticle})
@@ -107,72 +139,106 @@ const getCart = async () => {
         console.error('error.status');
       })
     }) 
-    window.reload
+    
+
+
+    // window.reload
    };
 // -----------------------------fin fetch produit ok --------------------------------\\
 
-const delButton = (el, product) => {
-  
-   
 
+   async function TotalBasket() {
+  await getCart();
+  let sumQuantity = 0;
+  Cart.forEach((e) => {
+    //  sumQuantity = []
+    //  sumPrice = []  
+    sumPrice = Cart.reduce((acc, e) => {
+      return acc + e.price * e.quantity;
+    }, 0);
 
+    sumQuantity += parseInt(e.quantity);
+    totalPrice.innerHTML = sumPrice;
+    totalQuantity.innerHTML = sumQuantity;
 
-
-
-
-
-
-
-
-
-
+  });
 
 }
 
 
 
+// const modValue = async () => {
+// //  await fetchItem()
+// let mod = document.querySelectorAll("input.itemQuantity")
+// console.log(mod);
 
-// let delButton = []
-// delButton = document.getElementsByClassName('deleteItem')
-// console.log(delButton);
-// let test = document.querySelectorAll('.cart__item')
-// // console.log(test);
+// for (let i = 0; i < mod.length; i++){
+ 
 
-// for(let item of delButton){
-// delButton[item].addEventListener('click',()=>{
-//   console.log('ik')
+// mod[i].addEventListener('click',(ev)=>{
+//   // parseInt(ev.target.value)
+//    console.log('ok');
+
+   
+
 // })
-
+// }
 
 // }
 
 
-
-
-
-
-
-
-
-
-
-   const TotalBasket = async () => {
-    await getCart()
-    let sumQuantity = 0
-     Cart.forEach((e)=>{
-    //  sumQuantity = []
-    //  sumPrice = []  
-     sumPrice = Cart.reduce((acc, e)=> {
-       return acc + e.price * e.quantity
-     },0)  
-
-    sumQuantity += parseInt(e.quantity)
-    totalPrice.innerHTML = sumPrice
-    totalQuantity.innerHTML = sumQuantity
+// document.querySelector(".itemQuantity").addEventListener("change",async (e) =>{
+//   console.log(e.target.value);
+// //     let findbasket = basket.find( basket => basket.id == cart.id &&  basket.color === cart.color)
   
-  })
-   
-   }
+// //       findbasket = itemQuantity.value
+// //   //     if(
+// //   //       basket.quantity <= 0 ){
+// //   //         basket = basket.filter(p => findbasket.id == basket.id)
+// //   //         localStorage.setItem("order", JSON.stringify(basket))
+// //   //       }
+// //   //       else{
+// //   //         localStorage.setItem("order", JSON.stringify(basket))
+// //   //       }
+
+// //   //  }
+// //   // )
+
+// let itemQuantityChange = document.getElementsByClassName('itemQuantity')
+// documen
+
+
+
+// const del = async () => {
+
+// let delButton = document.querySelectorAll(".deleteItem")
+// console.log(delButton);
+// for (let t = 0 ; t < delButton.length; t++ ){
+// delButton[t].addEventListener("click",(e)=>{
+//   e.preventDefault
+//   console.log("ok")
+
+// })
+
+// // const delButton = (el, product) => {
+
+
+// // // console.log(delButton);
+// // // let test = document.querySelectorAll('.cart__item')
+// // // // console.log(test);
+
+// // // for(let item of delButton){
+// // // delButton[item].addEventListener('click',()=>{
+// // //   console.log('ik')
+// // // })
+
+
+// // // }
+
+// // }
+// }
+// // }
+
   
 let firstNameError = document.querySelector ('#firstNameErrorMsg');
 let lastNameError = document.querySelector('#lastNameErrorMsg');
@@ -361,26 +427,6 @@ products : Cart.map((i)=>{
 //   }})
 
 
-// document.querySelector(".itemQuantity").addEventListener("change",async (e) =>{
-//   console.log(e.target.value);
-// //     let findbasket = basket.find( basket => basket.id == cart.id &&  basket.color === cart.color)
-  
-// //       findbasket = itemQuantity.value
-// //   //     if(
-// //   //       basket.quantity <= 0 ){
-// //   //         basket = basket.filter(p => findbasket.id == basket.id)
-// //   //         localStorage.setItem("order", JSON.stringify(basket))
-// //   //       }
-// //   //       else{
-// //   //         localStorage.setItem("order", JSON.stringify(basket))
-// //   //       }
-
-// //   //  }
-// //   // )
-
-// let itemQuantityChange = document.getElementsByClassName('itemQuantity')
-// document.getElementsByClassName('deleteItem').addEventListener('click',async(e)=>{console.log(e);
-
 
 
 
@@ -410,7 +456,8 @@ products : Cart.map((i)=>{
    fetchItem()
   //  addProd()
     TotalBasket()
-  
+    // modValue()
+  //  del()
 
   
 
