@@ -1,6 +1,9 @@
 
 emptybasket = document.querySelector("h1")
 let basket = localStorage.getItem("order")
+
+
+
 const getCart = async () => {
     cart = localStorage.getItem("order");
     // for (var i = 0; i < localStorage.length; i++) 
@@ -30,45 +33,17 @@ const getCart = async () => {
 
 // ------------------fetch produit ok ------------------------------\\
         const fetchItem = async () => { 
-       await  getCart();    
-        // article = []  
-        // Cart.sort((a,b)=> {
-        //   if ( a.id <  b.id) {return -1 }
-        //  if ( a.id > b.id ){ return 1 }
-        //  if ( a.id === b.id){return 0}     
-        // } )
+      await  getCart();     
     
-       Cart.forEach((e,o,u) => {
-        // console.log(Cart);
-        //  console.log(Cart);
-     // console.log(i.id);
-        // console.log(i.name);
-        // console.log(i);
-        // console.log(o);
-        // console.log(u);    
-       fetch(`http://localhost:3000/api/products/${e.id}`)    
+      Cart.forEach((e,o,u) => {
+      
+      fetch(`http://localhost:3000/api/products/${e.id}`)    
       
         .then((res) => res.json()) 
         
         .then ((data) => { return image = data.imageUrl, description = data.description}     
           )
-        // .then(() => {     
-        //   test = {id : e.id, color : e.color, img : image, descr : description, nameProduct : e.name, price :e.price, quantity: e.quantity}
-        // // article.push(test)
-
-        // // console.log(article);
-      
-        // //  return article.sort((a,b)=> {      
-        // //     if ( a.nameProduct <  b.nameProduct ) {return -1 }
-        // //     if ( a.nameProduct  > b.nameProduct  ){ return 1 }
-        // //     if ( a.nameProduct  === b.nameProduct ){return 0}             
-        // //    })         
-        //   })   
-      .then(()=>{
-      
-       
-          
-        listArticle =` <article class="cart__item" data-id="${e.id}" data-color="${e.color}">
+      .then(()=>{ listArticle =` <article class="cart__item" data-id="${e.id}" data-color="${e.color}">
           <div class="cart__item__img">
           <img src="${image}" alt="${description}">
           </div>
@@ -89,55 +64,73 @@ const getCart = async () => {
             </div>
           </div>
         </article>  `
+      }).then(()=>{ cart__items.innerHTML += listArticle})
+    .then(()=>{
 
-        const itemQuantitySelector = document.querySelectorAll('.itemQuantity')
-        const deleteItemSelector = document.querySelectorAll(".deleteItem")
-for(let k = 0; k < deleteItemSelector.length; k++){
-              // itemQuantitySelector[k].addEventListener ('change', (event) =>{
-              //     // order[k].quantity = itemQuantitySelector[k].value
-              //     // saveBasket(order)
-              //     // location.reload()
-              //     console.log(event.target.value);
-              //   })
-              deleteItemSelector[k].addEventListener ('click', (event) => {
-                  event.preventDefault 
-                  console.log('ok');
-                  // order.splice(k,1)     
-                  // saveBasket(order)
-                  // location.reload()
-                
-                })
-          }
+      const itemQuantitySelector = document.querySelectorAll('.itemQuantity')
+      const deleteItemSelector = document.querySelectorAll(".deleteItem")
+      const erreur = document.querySelectorAll(".cart__item__content__settings__quantity")
+      for(let v = 0; v < deleteItemSelector.length; v++){
+          itemQuantitySelector[v].addEventListener ('change', (e) =>{
+            console.log(itemQuantitySelector[v].min);
+            console.log(e.target.value);
+            if (
+              
+              e.target.value < parseInt(itemQuantitySelector[v].min) 
+              
+            ) {
+             erreur[v].innerHTML = `
+             <div class="cart__item__content__settings__quantity">
+             <p style="color:red" = "red">Qté MIN 1 article: </p>
+             <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${Cart[v].quantity}">
+           </div>`
+              
+            //   e.target.value = "1"
+            // Cart[v].quantity = e.target.value  
+            // localStorage.setItem("order", JSON.stringify(Cart))
+            location.reload()
 
-//  let mod = document.querySelectorAll('input.itemQuantity')
+            }else if
+            (e.target.value > parseInt(itemQuantitySelector[v].max)) {
+             erreur[v].innerHTML = `
+              <div class="cart__item__content__settings__quantity">
+              <p style="color:red" = "red">Qté MAX 100 articles: </p>
+              <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${Cart[v].quantity}">
+            </div>`
+           
+              // e.target.value = "100"
+              // Cart[v].quantity = e.target.value  
+              // localStorage.setItem("order", JSON.stringify(Cart))
+              location.reload()
+            }
+            else
+            
+            {
+            console.log(e.target.value);
+            console.log(Cart);
+              Cart[v].quantity = e.target.value   
+          localStorage.setItem("order", JSON.stringify(Cart))
+              // basket(order)
+              location.reload()
+            }
+            
+            })
+          deleteItemSelector[v].addEventListener ('click', (event) => {
+              event.preventDefault 
+              // cart.splice(v,1)     
+              // basket(order)
+              // location.reload()
+            })
+      }
 
-// for (i = 0; i = mod.length; i++){
-// mod.addEventListener('change',(e)=>{
-//   // console.log(mod[eve]);
-//    console.log(e.target.value);
+
+      
+    })
 
 
 
-// })
-// }
 
 
-
-        // console.log(`${i.id}`)
-      }).then(()=>{cart__items.innerHTML +=listArticle})
-      // .then(()=>{
-      // console.log(listArticle.id);
-      //   listArticle.sort((a,b)=> {      
-      //     if ( a.id <  b.id) {return -1 }
-      //     if ( a.id > b.id ){ return 1 }
-      //     if ( a.id === b.id){return 0}    
-      //    })  
-      // }) 
-     
-   
-      .catch(()=>{
-        console.error('error.status');
-      })
     }) 
     
 
@@ -148,7 +141,7 @@ for(let k = 0; k < deleteItemSelector.length; k++){
 
 
    async function TotalBasket() {
-  await getCart();
+  await fetchItem();
   let sumQuantity = 0;
   Cart.forEach((e) => {
     //  sumQuantity = []
@@ -165,6 +158,96 @@ for(let k = 0; k < deleteItemSelector.length; k++){
 
 }
 
+// const articleSelect = document.querySelectorAll(".cart_item")
+
+// const delButton = document.querySelectorAll(".deleteItem")
+
+
+// const itemQuantityChange = document.querySelectorAll(".itemQuantity")
+
+
+
+
+
+// async function del() {
+//   await TotalBasket()
+// delButton.forEach((a) => {
+//   console.log(a);
+// a.addEventListener('click',(e)=>{
+//   console.log(e.target.value);
+//     console.log('ok');
+//   })
+
+
+  
+// });
+
+// }
+
+
+//  delButton.addEventListener('click',(e)=>{
+//   // console.log(delButton);
+//   // console.log(e);
+
+//   window.onload()
+  
+
+
+//  })
+
+
+
+
+
+
+
+
+
+
+
+// for (let t = 0 ; t < delButton.length; t++ ){
+// delButton[t].addEventListener('click',(e)=>{
+//   e.preventDefault
+//   console.log( delButton )
+//   console.log("ok")
+//   location.reload
+
+// })}
+
+
+// for ( let y = 0 ; y < itemQuantityChange.length; y++ ){
+
+// itemQuantityChange[y].addEventListener('change',(e)=>{
+
+// console.log("ok");
+
+
+
+// })
+
+
+
+
+// }
+
+// const itemQuantitySelector = document.querySelectorAll('.itemQuantity')
+// const deleteItemSelector = document.querySelectorAll(".deleteItem")
+// for(let k = 0; k < deleteItemSelector.length; k++){
+//       // itemQuantitySelector[k].addEventListener ('change', (event) =>{
+//       //     // order[k].quantity = itemQuantitySelector[k].value
+//       //     // saveBasket(order)
+//       //     // location.reload()
+//       //     console.log(event.target.value);
+//       //   })
+//       deleteItemSelector[k].addEventListener ('click', (event) => {
+//           event.preventDefault 
+//           console.log('ok');
+//           // order.splice(k,1)     
+//           // saveBasket(order)
+//           // location.reload()
+        
+//         })
+//   }
 
 
 // const modValue = async () => {
@@ -204,21 +287,6 @@ for(let k = 0; k < deleteItemSelector.length; k++){
 // //   //  }
 // //   // )
 
-// let itemQuantityChange = document.getElementsByClassName('itemQuantity')
-// documen
-
-
-
-// const del = async () => {
-
-// let delButton = document.querySelectorAll(".deleteItem")
-// console.log(delButton);
-// for (let t = 0 ; t < delButton.length; t++ ){
-// delButton[t].addEventListener("click",(e)=>{
-//   e.preventDefault
-//   console.log("ok")
-
-// })
 
 // // const delButton = (el, product) => {
 
@@ -453,7 +521,7 @@ products : Cart.map((i)=>{
 
 
 
-   fetchItem()
+  //  fetchItem()
   //  addProd()
     TotalBasket()
     // modValue()
