@@ -1,18 +1,22 @@
 emptybasket = document.querySelector("h1");
+emptybasketForm = document.querySelector(".cart")
+console.log(emptybasketForm);
 let basket = localStorage.getItem("order");
 
 const getCart = async () => {
   cart = localStorage.getItem("order");
   // for (var i = 0; i < localStorage.length; i++)
   if (cart === null) {
+   
     emptybasket.innerHTML = `<p > OUPSS <br> <br>
       Aucun de nos articles ne vous plait ? <br>
       Votre panier est vide
        <br>
        <br>
       <a href="./index.html" style="text-decoration:none" >Retour à nos produits </a></p>`;
-    totalQuantity.innerHTML = 0;
-    totalPrice.innerHTML = 0;
+      emptybasketForm.innerHTML = ``
+    // totalQuantity.innerHTML = 0;
+    // totalPrice.innerHTML = 0;
     return (Cart = []);
   } else {
     Cart = JSON.parse(cart);
@@ -41,8 +45,9 @@ const fetchItem = async () => {
     <br>
     <br>
       <a href="./index.html" style="text-decoration:none" >Retour à nos produits </a></p>`;
-    totalQuantity.innerHTML = 0;
-    totalPrice.innerHTML = 0;
+      emptybasketForm.innerHTML = ``
+    // totalQuantity.innerHTML = 0;
+    // totalPrice.innerHTML = 0;
   }
   Cart.forEach((e, o, u) => {
     fetch(`http://localhost:3000/api/products/${e.id}`)
@@ -89,14 +94,10 @@ const fetchItem = async () => {
             console.log(e.target.value);
             if (e.target.value < parseInt(itemQuantitySelector[v].min)) {
               erreur[v].innerHTML = `
-             <div class="cart__item__content__settings__quantity">
-             <p style="color:red" = "red">Qté MIN 1 article: </p>
-             <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${Cart[v].quantity}">
-           </div>`;
+            <div class="cart__item__content__settings__quantity">
+            <p style="color:red" = "red">Qté MIN 1 article: </p>
+             <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${Cart[v].quantity}"></div>`;
 
-              //   e.target.value = "1"
-              // Cart[v].quantity = e.target.value
-              // localStorage.setItem("order", JSON.stringify(Cart))
               location.reload();
             } else if (e.target.value > parseInt(itemQuantitySelector[v].max)) {
               erreur[v].innerHTML = `
@@ -104,10 +105,6 @@ const fetchItem = async () => {
               <p style="color:red" = "red">Qté MAX 100 articles: </p>
               <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${Cart[v].quantity}">
             </div>`;
-
-              // e.target.value = "100"
-              // Cart[v].quantity = e.target.value
-              // localStorage.setItem("order", JSON.stringify(Cart))
               location.reload();
             } else {
               console.log(e.target.value);
