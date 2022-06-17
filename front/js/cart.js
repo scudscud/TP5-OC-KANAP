@@ -2,7 +2,7 @@ emptybasket = document.querySelector("h1");
 emptybasketForm = document.querySelector(".cart")
 console.log(emptybasketForm);
 let basket = localStorage.getItem("order");
-
+//-------------- panier vide et tri des produits ( non fonctionnel parametres serveur manquant)----\\
 const getCart = async () => {
   cart = localStorage.getItem("order");
   // for (var i = 0; i < localStorage.length; i++)
@@ -18,6 +18,7 @@ const getCart = async () => {
     // totalQuantity.innerHTML = 0;
     // totalPrice.innerHTML = 0;
     return (Cart = []);
+    //---------tri des produits par noms et couleurs --------------\\
   } else {
     Cart = JSON.parse(cart);
     return Cart.sort((a, b) => {
@@ -34,10 +35,10 @@ const getCart = async () => {
   }
 };
 
-// ------------------fetch produit ok ------------------------------\\
+// ------------------fetch produit requete API  ------------------------------\\
 const fetchItem = async () => {
   await getCart();
-
+ // ----------- panier vide apres supression produit du client -------------------\\
   if (Cart.length < 1) {
     emptybasket.innerHTML = `<p > OUPSS <br> <br>
       Aucun de nos articles ne vous plait ? <br>
@@ -49,6 +50,7 @@ const fetchItem = async () => {
     // totalQuantity.innerHTML = 0;
     // totalPrice.innerHTML = 0;
   }
+  //_____________ requete API produit du panier____________________\\
   Cart.forEach((e, o, u) => {
     fetch(`http://localhost:3000/api/products/${e.id}`)
       .then((res) => res.json())
@@ -56,6 +58,7 @@ const fetchItem = async () => {
       .then((data) => {
         return (image = data.imageUrl), (description = data.description);
       })
+      //_________ affichage des produits _______________________\\
       .then(() => {
         listArticle = ` <article class="cart__item" data-id="${e.id}" data-color="${e.color}">
           <div class="cart__item__img">
@@ -82,6 +85,7 @@ const fetchItem = async () => {
       .then(() => {
         cart__items.innerHTML += listArticle;
       })
+      //----------------modification quantité ou suppression des produits du client ----------------\\
       .then(() => {
         const itemQuantitySelector = document.querySelectorAll(".itemQuantity");
         const deleteItemSelector = document.querySelectorAll(".deleteItem");
@@ -111,7 +115,6 @@ const fetchItem = async () => {
               console.log(Cart);
               Cart[v].quantity = e.target.value;
               localStorage.setItem("order", JSON.stringify(Cart));
-              // basket(order)
               location.reload();
             }
           });
@@ -122,11 +125,15 @@ const fetchItem = async () => {
             location.reload();
           });
         }
-      });
+      }).catch((error)=>{
+        console.log(error.status);
+      })
   });
 };
 // -----------------------------fin fetch produit ok --------------------------------\\
 
+
+//___________________ total des produits et prix ____________________________\\
 async function TotalBasket() {
   await fetchItem();
   let sumQuantity = 0;
@@ -143,6 +150,10 @@ async function TotalBasket() {
   });
 }
 
+//------------------------ formulaire info client -----------------\\
+
+
+//_________________ parametre de verification info avant requete POST_____________________\\
 let firstNameError = document.querySelector("#firstNameErrorMsg");
 let lastNameError = document.querySelector("#lastNameErrorMsg");
 let addressError = document.querySelector("#addressErrorMsg");
@@ -173,6 +184,8 @@ window.addEventListener("load", (e) => {
   city.value = "";
   address.value = "";
 });
+
+//_________________ function REGEX et parametres REGEX ____________________\\
 
 const formError = (fieldlabel, regex, fieldResult, message, errorName) => {
   fieldlabel.addEventListener("input", () => {
@@ -225,10 +238,7 @@ formError(
   "email"
 );
 
-// fencent=window.open(url,nom,"top="+haut+",left="+Gauche+",width="+largeur+",height="+hauteur+","+options);
-// orderButton.addEventListener('submit',async(e)=>{
-//   e.preventDefault()})
-
+//___________________ ecoute order button et verification validité donnees client __________________\\
 orderButton.addEventListener("click", async (e) => {
   await getCart();
   e.preventDefault();
@@ -269,9 +279,9 @@ orderButton.addEventListener("click", async (e) => {
       orderButton.style.background = "#2c3e50";
     }, 2000);
 
-    //  alert("veuillez remplir le formulaire et/ou votre panier aussi c'est plus simple pour passer une commande ")
+    
   } else {
-    // orderButton.submit
+   
     orderButton.style.background = "green";
 
     let infoOrder = {
@@ -287,6 +297,7 @@ orderButton.addEventListener("click", async (e) => {
         return i.id;
       }),
     };
+   //__________ envoi requete API POST apres vreification validité info ___________\\
 
     res = await fetch("http://localhost:3000/api/products/order", {
       method: "POST",
@@ -300,7 +311,7 @@ orderButton.addEventListener("click", async (e) => {
 
     if (res.ok) {
       let orderConfirm = await res.json();
-      //  window.alert(orderConfirm.orderId)
+     
 
       window.location.href = `confirmation.html?order_id=${orderConfirm.orderId}`;
     } else {
@@ -311,31 +322,8 @@ orderButton.addEventListener("click", async (e) => {
   }
 });
 
-//  orderButton.addEventListener('submit',(e)=>{
 
-//    fetch('http://localhost:3000/api/products/order', {
-//             method: 'POST',
-
-//             headers: {
-//                 'Accept': 'application/json',
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify(infoOrder),
-
-//         })
-
-//   if (res.ok){
-//     let orderConfirm = res.json()
-//     window.location.href = `confirmation.html?order_id=${orderConfirm.orderId}`
-//   }
-//   else{
-//     window.alert("Une erreur s'est produite.Veuillez reessayer ou contacter le support par telephone : 0123456789 ou par Email : support@name.com  !");
-//   }})
-
-// })
-
-//  fetchItem()
-//  addProd()
 TotalBasket();
-// modValue()
-//  del()
+
+
+//======================= end cart next => confirmation =========================\\

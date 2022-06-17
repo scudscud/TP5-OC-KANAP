@@ -1,7 +1,4 @@
-// const titleprod = document.getElementById("title");
-// let priceprod = document.getElementById("price");
-// const descriptionprod = document.getElementById("description");
-// let choicecolor = document.getElementById("colors[i]");
+
 
 //* insertion des détails de la description produit sur la page produit *\\
 //* variable de récupération de l'ID produit *\\
@@ -14,7 +11,10 @@ let product = [];
 const getproductdetail = async () => {
   await fetch(`http://localhost:3000/api/products/${IdProduct}`)
     .then((res) => res.json())
-    .then((data) => (product = data));
+    .then((data) => (product = data))
+    .catch((error)=>{
+      console.log(error.status);
+    });
 };
 
 //* insertion des résultats de la requête dans la page *\\
