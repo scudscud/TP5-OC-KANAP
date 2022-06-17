@@ -326,4 +326,4 @@ orderButton.addEventListener("click", async (e) => {
 TotalBasket();
 
 
-//======================= end cart next => confirmation =========================\\
+//======================= end cart ; next => confirmation =========================\\

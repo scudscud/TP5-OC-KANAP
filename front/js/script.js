@@ -27,3 +27,4 @@ const getproduct = async ()  => {
 //** insertion des produits sur la page methode function "callback" + for **\\
 const adItemIndex = document.getElementById("items");
 
+//===================end script ; next => product ==========================\\

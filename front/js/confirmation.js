@@ -11,4 +11,4 @@ idConfirmOrder.innerHTML = orderId;
 
 localStorage.clear()
 
-// ================ end ;) :) ===================== \\
+// ================ this is the END  ;) :) ===================== \\

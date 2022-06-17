@@ -197,3 +197,6 @@ let addToBasket = () => {
 getproductdetail();
 productdetail();
 addToBasket();
+
+
+//========================= end product ; next => cart ========================\\
