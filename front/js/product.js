@@ -152,8 +152,7 @@ let addToBasket = () => {
           id: IdProduct,
           quantity: quantity.value,
           color: colors.value,
-          price: product.price,
-          name: product.name,
+        
         };
 
         //** enregistrement du panier dans local storage = LS **\\
