@@ -56,7 +56,7 @@ const fetchItem = async () => {
       .then((res) => res.json())
 
       .then((data) => {
-        return (image = data.imageUrl), (description = data.description);
+        return [image = data.imageUrl, description = data.description, nameProduct = data.name , priceProduct = data.price];
       })
       //_________ affichage des produits _______________________\\
       .then(() => {
@@ -66,9 +66,9 @@ const fetchItem = async () => {
           </div>
           <div class="cart__item__content">
             <div class="cart__item__content__description">
-              <h2>${e.name}</h2>
+              <h2>${nameProduct}</h2>
               <p>${e.color}</p>
-              <p>${e.price}€</p>
+              <p>${priceProduct}€</p>
             </div>
             <div class="cart__item__content__settings">
               <div class="cart__item__content__settings__quantity">
