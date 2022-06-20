@@ -183,7 +183,7 @@ let addToBasket = () => {
             basket.push(cart);
           }
 
-          saveCart(basket);
+          saveCart(basket)
         };
 
         addCart(order);
