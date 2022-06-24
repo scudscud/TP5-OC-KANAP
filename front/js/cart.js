@@ -68,7 +68,7 @@ const fetchItem = async () => {
     //   }
     // });
     // console.log(Cart[e].color);
-    fetch(`http://localhost:3000/api/products/${Cart[e].id}`)
+    res = await fetch(`http://localhost:3000/api/products/${Cart[e].id}`)
     .catch((error)=>{
       console.log(error.status)})
       .then((res) => res.json())
@@ -108,20 +108,20 @@ const fetchItem = async () => {
         
       
       
-          cart__items.innerHTML += ` <article class="cart__item" data-id="${sum.idProduct}" data-color="${sum.colorProduct }">
+          cart__items.innerHTML += ` <article class="cart__item" data-id="${sum[e].idProduct}" data-color="${sum[e].colorProduct }">
           <div class="cart__item__img">
-          <img src="${sum.imageProduct}" alt="${sum.descriptionProduct }">
+          <img src="${sum[e].imageProduct}" alt="${sum[e].descriptionProduct }">
           </div>
           <div class="cart__item__content">
             <div class="cart__item__content__description">
-              <h2>${sum.nameProduct}</h2>
-              <p>${sum.colorProduct}</p>
-              <p>${sum.priceProduct}€</p>
+              <h2>${sum[e].nameProduct}</h2>
+              <p>${sum[e].colorProduct}</p>
+              <p>${sum[e].priceProduct}€</p>
             </div>
             <div class="cart__item__content__settings">
               <div class="cart__item__content__settings__quantity">
                 <p>Qté : </p>
-                <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${sum.quantityProduct}">
+                <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${sum[e].quantityProduct}">
               </div>
               <div class="cart__item__content__settings__delete">
                 <p class="deleteItem">Supprimer</p>
@@ -146,7 +146,7 @@ const fetchItem = async () => {
       //  let sumQuantity = sum
       //   let sumQuantity = sum.reduce((acc,val)=>{
       //  return acc + val.quantityProduct})
-       let sumPrice = parseInt(sum.priceProduct * sum.quantityProduct);
+       let sumPrice = parseInt(sum[e].priceProduct * sum[e].quantityProduct);
       
       
       totalPrice.innerHTML = sumPrice
