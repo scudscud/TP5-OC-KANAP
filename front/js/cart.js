@@ -1,10 +1,13 @@
 emptybasket = document.querySelector("h1");
 emptybasketForm = document.querySelector(".cart")
 console.log(emptybasketForm);
-let basket = localStorage.getItem("order");
+let sum = []
+// console.log(typeof sum);
+
+let cart = localStorage.getItem("order");
 //-------------- panier vide et tri des produits ( non fonctionnel parametres serveur manquant)----\\
 const getCart = async () => {
-  cart = localStorage.getItem("order");
+ 
   // for (var i = 0; i < localStorage.length; i++)
   if (cart === null) {
    
@@ -20,18 +23,18 @@ const getCart = async () => {
     return (Cart = []);
     //---------tri des produits par noms et couleurs --------------\\
   } else {
-    Cart = JSON.parse(cart);
-    return Cart.sort((a, b) => {
-      if (a.id < b.id) {
-        return -1;
-      }
-      if (a.id > b.id) {
-        return 1;
-      }
-      if (a.id === b.id) {
-        return 0;
-      }
-    });
+     Cart = JSON.parse(cart);
+    // return Cart.sort((a, b) => {
+    //   if (a.id < b.id) {
+    //     return -1;
+    //   }
+    //   if (a.id > b.id) {
+    //     return 1;
+    //   }
+    //   if (a.id === b.id) {
+    //     return 0;
+    //   }
+    // });
   }
 };
 
@@ -51,29 +54,74 @@ const fetchItem = async () => {
     // totalPrice.innerHTML = 0;
   }
   //_____________ requete API produit du panier____________________\\
-  Cart.forEach((e, o, u) => {
-    fetch(`http://localhost:3000/api/products/${e.id}`)
+
+  for( let e =  0 ; e < Cart.length ; e++){
+    //   Cart.sort((a, b) => {
+    //   if (a.id < b.id) {
+    //     return -1;
+    //   }
+    //   if (a.id > b.id) {
+    //     return 1;
+    //   }
+    //   if (a.id === b.id) {
+    //     return 0;
+    //   }
+    // });
+    // console.log(Cart[e].color);
+    fetch(`http://localhost:3000/api/products/${Cart[e].id}`)
+    .catch((error)=>{
+      console.log(error.status)})
       .then((res) => res.json())
 
       .then((data) => {
-        return [image = data.imageUrl, description = data.description, nameProduct = data.name , priceProduct = data.price];
-      })
+    // console.log(data);
+      
+       return info = { idProduct : Cart[e].id, colorProduct : Cart[e].color, imageProduct : data.imageUrl, descriptionProduct : data.description, nameProduct : data.name , priceProduct : data.price,  quantityProduct : Cart[e].quantity}
+       
+      }).then((info)=>{
+
+      
+        sum.push(info)
+        
+        return sum.sort((a, b) => {
+          if (a.idProduct < b.idProduct ) {
+            return -1;
+          }
+          if (a.idProduct  > b.idProduct ) {
+            return 1;
+          }
+          if (a.idProduct  === b.idProduct ) {
+            return 0;
+          }
+        });
+   
+   
       //_________ affichage des produits _______________________\\
-      .then(() => {
-        listArticle = ` <article class="cart__item" data-id="${e.id}" data-color="${e.color}">
+     
+     
+      }).then(()=>{
+       
+      
+           
+         console.log(sum[e]);
+          // console.log(sum[e]);
+        
+      
+      
+          cart__items.innerHTML += ` <article class="cart__item" data-id="${sum.idProduct}" data-color="${sum.colorProduct }">
           <div class="cart__item__img">
-          <img src="${image}" alt="${description}">
+          <img src="${sum.imageProduct}" alt="${sum.descriptionProduct }">
           </div>
           <div class="cart__item__content">
             <div class="cart__item__content__description">
-              <h2>${nameProduct}</h2>
-              <p>${e.color}</p>
-              <p>${priceProduct}€</p>
+              <h2>${sum.nameProduct}</h2>
+              <p>${sum.colorProduct}</p>
+              <p>${sum.priceProduct}€</p>
             </div>
             <div class="cart__item__content__settings">
               <div class="cart__item__content__settings__quantity">
                 <p>Qté : </p>
-                <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${e.quantity}">
+                <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${sum.quantityProduct}">
               </div>
               <div class="cart__item__content__settings__delete">
                 <p class="deleteItem">Supprimer</p>
@@ -81,74 +129,103 @@ const fetchItem = async () => {
             </div>
           </div>
         </article>  `;
-      })
-      .then(() => {
-        cart__items.innerHTML += listArticle;
-      })
-      //----------------modification quantité ou suppression des produits du client ----------------\\
-      .then(() => {
-        const itemQuantitySelector = document.querySelectorAll(".itemQuantity");
-        const deleteItemSelector = document.querySelectorAll(".deleteItem");
-        const erreur = document.querySelectorAll(
-          ".cart__item__content__settings__quantity"
-        );
-        for (let v = 0; v < deleteItemSelector.length; v++) {
-          itemQuantitySelector[v].addEventListener("change", (e) => {
-            console.log(itemQuantitySelector[v].min);
-            console.log(e.target.value);
-            if (e.target.value < parseInt(itemQuantitySelector[v].min)) {
-              erreur[v].innerHTML = `
-            <div class="cart__item__content__settings__quantity">
-            <p style="color:red" = "red">Qté MIN 1 article: </p>
-             <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${Cart[v].quantity}"></div>`;
+      
+      
+      
+   
+    
+      
 
-              location.reload();
-            } else if (e.target.value > parseInt(itemQuantitySelector[v].max)) {
-              erreur[v].innerHTML = `
-              <div class="cart__item__content__settings__quantity">
-              <p style="color:red" = "red">Qté MAX 100 articles: </p>
-              <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${Cart[v].quantity}">
-            </div>`;
-              location.reload();
-            } else {
-              console.log(e.target.value);
-              console.log(Cart);
-              Cart[v].quantity = e.target.value;
-              localStorage.setItem("order", JSON.stringify(Cart));
-              location.reload();
-            }
-          });
-          deleteItemSelector[v].addEventListener("click", (event) => {
-            event.preventDefault;
-            test = Cart.filter((el) => el !== Cart[v]);
-            localStorage.setItem("order", JSON.stringify(test));
-            location.reload();
-          });
-        }
-      }).catch((error)=>{
-        console.log(error.status);
-      })
-  });
-};
+
+
+      
+   
+        // cart__items.innerHTML += listArticle;
+        // console.log(sum.quantityProduct);
+        // console.log(sum.quantityProduct);
+      //  let sumQuantity = sum
+      //   let sumQuantity = sum.reduce((acc,val)=>{
+      //  return acc + val.quantityProduct})
+       let sumPrice = parseInt(sum.priceProduct * sum.quantityProduct);
+      
+      
+      totalPrice.innerHTML = sumPrice
+      // totalQuantity.innerHTML = sumQuantity;
+
+
+    
+  
+    
+    })
+     
+      //--------------modification quantité ou suppression des produits du client ----------------\\
+      // .then(() => {
+      //   const itemQuantitySelector = document.querySelectorAll(".itemQuantity");
+      //   const deleteItemSelector = document.querySelectorAll(".deleteItem");
+      //   const erreur = document.querySelectorAll(
+      //     ".cart__item__content__settings__quantity"
+      //   );
+      //   for (let v = 0; v < deleteItemSelector.length; v++) {
+      //     itemQuantitySelector[v].addEventListener("change", (e) => {
+      //       console.log(itemQuantitySelector[v].min);
+      //       console.log(e.target.value);
+      //       if (e.target.value < parseInt(itemQuantitySelector[v].min)) {
+      //         erreur[v].innerHTML = `
+      //       <div class="cart__item__content__settings__quantity">
+      //       <p style="color:red" = "red">Qté MIN 1 article: </p>
+      //        <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${Cart[v].quantity}"></div>`;
+
+      //         location.reload();
+      //       } else if (e.target.value > parseInt(itemQuantitySelector[v].max)) {
+      //         erreur[v].innerHTML = `
+      //         <div class="cart__item__content__settings__quantity">
+      //         <p style="color:red" = "red">Qté MAX 100 articles: </p>
+      //         <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${Cart[v].quantity}">
+      //       </div>`;
+      //         location.reload();
+      //       } else if (basket[v].id === Cart.id && basket[v].color === Cart.color){
+      //         console.log(e.target.value);
+      //         console.log(Cart);
+      //         Cart[v].quantity = e.target.value;
+      //         localStorage.setItem("order", JSON.stringify(Cart));
+      //         location.reload();
+      //       }
+      //     });
+      //     deleteItemSelector[v].addEventListener("click", (event) => {
+      //       event.preventDefault;
+      //       test = Cart.filter((el) => el !== Cart[v]);
+      //       localStorage.setItem("order", JSON.stringify(test));
+      //       location.reload();
+      //     });
+      //   }
+     
+    } }
+  
+
 // -----------------------------fin fetch produit ok --------------------------------\\
 
 
 //___________________ total des produits et prix ____________________________\\
-async function TotalBasket() {
-  await fetchItem();
-  let sumQuantity = 0;
-  Cart.forEach((e) => {
-    //  sumQuantity = []
-    //  sumPrice = []
-    sumPrice = Cart.reduce((acc, e) => {
-      return acc + e.price * e.quantity;
-    }, 0);
 
-    sumQuantity += parseInt(e.quantity);
-    totalPrice.innerHTML = sumPrice;
-    totalQuantity.innerHTML = sumQuantity;
-  });
-}
+
+
+
+// async function TotalBasket() {
+//   await fetchItem();
+//   console.log(sum);
+//   sum.forEach((e) => {
+//   sumQuantity = sum[e].quantityProduct;
+//   sumPrice = parseInt(sum[e].priceProduct * sum[e].quantityProduct);
+
+
+// totalPrice.innerHTML += sumPrice
+
+
+
+// totalQuantity.innerHTML += sumQuantity;
+// });
+// //   });
+// }
 
 //------------------------ formulaire info client -----------------\\
 
@@ -322,8 +399,9 @@ orderButton.addEventListener("click", async (e) => {
   }
 });
 
+fetchItem()
 
-TotalBasket();
+// TotalBasket();
 
 
 //======================= end cart ; next => confirmation =========================\\
