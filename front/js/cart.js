@@ -126,15 +126,7 @@ const fetchItem = async () => {
         </article>  `;
       
         cart__items.innerHTML += listArticle
-      //   let  sumQuantity = 0
-      //   let sumPrice = 
-      //   sumQuantity += sum[e].quantityProduct
-   
-      //   sumPrice += parseInt(sum[e].priceProduct * sum[e].quantityProduct);
-
-      // totalPrice.innerHTML = sumPrice
-      // totalQuantity.innerHTML = sumQuantity;
-    
+  
     })
      
       //--------------modification quantité ou suppression des produits du client ----------------\\
@@ -187,28 +179,17 @@ const fetchItem = async () => {
 //___________________ total des produits et prix ____________________________\\
 
 
-
-
 async function TotalBasket() {
   await fetchItem();
-  // console.log(sum);
-  sum.forEach((e) => {
-    console.log(e.quantityProduct);
-    let sumQuantity = 0
-    let sumPrice = 0
-  sumQuantity += e.quantityProduct;
-  sumPrice += parseInt(e.priceProduct * e.quantityProduct);
-
-
-totalPrice.innerHTML = sumPrice
-
-
-
-totalQuantity.innerHTML = sumQuantity;
-});
-//   });
+  let sumQuantity = 0;
+  let sumPrice = 0
+  sum.forEach((e,i) => {
+    sumPrice += (sum[i].priceProduct * parseInt(sum[i].quantityProduct));
+    sumQuantity += parseInt(sum[i].quantityProduct);
+    totalPrice.innerHTML = sumPrice;
+    totalQuantity.innerHTML = sumQuantity;
+  });
 }
-
 //------------------------ formulaire info client -----------------\\
 
 
