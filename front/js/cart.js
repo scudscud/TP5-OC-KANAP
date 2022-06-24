@@ -100,7 +100,7 @@ const fetchItem = async () => {
      
      
       }).then(()=>{
-        console.log(sum[e]);
+        // console.log(sum[e]);
         
                 // console.log(sum[e]);
           let listArticle = ` <article class="cart__item" data-id="${sum[e].idProduct}" data-color="${sum[e].colorProduct }">
@@ -126,14 +126,14 @@ const fetchItem = async () => {
         </article>  `;
       
         cart__items.innerHTML += listArticle
-        let  sumQuantity = 0
-        let sumPrice = 
-        sumQuantity += sum[e].quantityProduct
+      //   let  sumQuantity = 0
+      //   let sumPrice = 
+      //   sumQuantity += sum[e].quantityProduct
    
-        sumPrice += parseInt(sum[e].priceProduct * sum[e].quantityProduct);
+      //   sumPrice += parseInt(sum[e].priceProduct * sum[e].quantityProduct);
 
-      totalPrice.innerHTML = sumPrice
-      totalQuantity.innerHTML = sumQuantity;
+      // totalPrice.innerHTML = sumPrice
+      // totalQuantity.innerHTML = sumQuantity;
     
     })
      
@@ -189,22 +189,25 @@ const fetchItem = async () => {
 
 
 
-// async function TotalBasket() {
-//   await fetchItem();
-//   console.log(sum);
-//   sum.forEach((e) => {
-//   sumQuantity = sum[e].quantityProduct;
-//   sumPrice = parseInt(sum[e].priceProduct * sum[e].quantityProduct);
+async function TotalBasket() {
+  await fetchItem();
+  // console.log(sum);
+  sum.forEach((e) => {
+    console.log(e.quantityProduct);
+    let sumQuantity = 0
+    let sumPrice = 0
+  sumQuantity += e.quantityProduct;
+  sumPrice += parseInt(e.priceProduct * e.quantityProduct);
 
 
-// totalPrice.innerHTML += sumPrice
+totalPrice.innerHTML = sumPrice
 
 
 
-// totalQuantity.innerHTML += sumQuantity;
-// });
-// //   });
-// }
+totalQuantity.innerHTML = sumQuantity;
+});
+//   });
+}
 
 //------------------------ formulaire info client -----------------\\
 
@@ -378,9 +381,9 @@ orderButton.addEventListener("click", async (e) => {
   }
 });
 
-fetchItem()
+// fetchItem()
 
-// TotalBasket();
+TotalBasket();
 
 
 //======================= end cart ; next => confirmation =========================\\
