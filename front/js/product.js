@@ -158,6 +158,17 @@ let addToBasket = () => {
 
         //** enregistrement du panier dans local storage = LS **\\
         const saveCart = (cart) => {
+          cart.sort((a, b) => {
+            if (a.id < b.id) {
+              return -1;
+            }
+            if (a.id > b.id) {
+              return 1;
+            }
+            if (a.id === b.id) {
+              return 0;
+            }
+          });
           localStorage.setItem("order", JSON.stringify(cart));
         };
 
@@ -167,6 +178,7 @@ let addToBasket = () => {
           if (cart == null) {
             return [];
           } else {
+           
             return JSON.parse(cart);
           }
         };
