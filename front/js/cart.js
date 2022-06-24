@@ -24,17 +24,7 @@ const getCart = async () => {
     //---------tri des produits par noms et couleurs --------------\\
   } else {
      Cart = JSON.parse(cart);
-    // return Cart.sort((a, b) => {
-    //   if (a.id < b.id) {
-    //     return -1;
-    //   }
-    //   if (a.id > b.id) {
-    //     return 1;
-    //   }
-    //   if (a.id === b.id) {
-    //     return 0;
-    //   }
-    // });
+  
   }
 };
 
@@ -56,18 +46,7 @@ const fetchItem = async () => {
   //_____________ requete API produit du panier____________________\\
 
   for( let e =  0 ; e < Cart.length ; e++){
-    //   Cart.sort((a, b) => {
-    //   if (a.id < b.id) {
-    //     return -1;
-    //   }
-    //   if (a.id > b.id) {
-    //     return 1;
-    //   }
-    //   if (a.id === b.id) {
-    //     return 0;
-    //   }
-    // });
-    // console.log(Cart[e].color);
+;
     res = await fetch(`http://localhost:3000/api/products/${Cart[e].id}`)
     .catch((error)=>{
       console.log(error.status)})
