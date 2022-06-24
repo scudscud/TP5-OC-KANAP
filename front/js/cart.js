@@ -100,15 +100,10 @@ const fetchItem = async () => {
      
      
       }).then(()=>{
-       
-      
-           
-         console.log(sum[e]);
-          // console.log(sum[e]);
+        console.log(sum[e]);
         
-      
-      
-          cart__items.innerHTML += ` <article class="cart__item" data-id="${sum[e].idProduct}" data-color="${sum[e].colorProduct }">
+                // console.log(sum[e]);
+          let listArticle = ` <article class="cart__item" data-id="${sum[e].idProduct}" data-color="${sum[e].colorProduct }">
           <div class="cart__item__img">
           <img src="${sum[e].imageProduct}" alt="${sum[e].descriptionProduct }">
           </div>
@@ -130,74 +125,58 @@ const fetchItem = async () => {
           </div>
         </article>  `;
       
-      
-      
+        cart__items.innerHTML += listArticle
+        let  sumQuantity = 0
+        let sumPrice = 
+        sumQuantity += sum[e].quantityProduct
    
-    
-      
+        sumPrice += parseInt(sum[e].priceProduct * sum[e].quantityProduct);
 
-
-
-      
-   
-        // cart__items.innerHTML += listArticle;
-        // console.log(sum.quantityProduct);
-        // console.log(sum.quantityProduct);
-      //  let sumQuantity = sum
-      //   let sumQuantity = sum.reduce((acc,val)=>{
-      //  return acc + val.quantityProduct})
-       let sumPrice = parseInt(sum[e].priceProduct * sum[e].quantityProduct);
-      
-      
       totalPrice.innerHTML = sumPrice
-      // totalQuantity.innerHTML = sumQuantity;
-
-
-    
-  
+      totalQuantity.innerHTML = sumQuantity;
     
     })
      
       //--------------modification quantité ou suppression des produits du client ----------------\\
-      // .then(() => {
-      //   const itemQuantitySelector = document.querySelectorAll(".itemQuantity");
-      //   const deleteItemSelector = document.querySelectorAll(".deleteItem");
-      //   const erreur = document.querySelectorAll(
-      //     ".cart__item__content__settings__quantity"
-      //   );
-      //   for (let v = 0; v < deleteItemSelector.length; v++) {
-      //     itemQuantitySelector[v].addEventListener("change", (e) => {
-      //       console.log(itemQuantitySelector[v].min);
-      //       console.log(e.target.value);
-      //       if (e.target.value < parseInt(itemQuantitySelector[v].min)) {
-      //         erreur[v].innerHTML = `
-      //       <div class="cart__item__content__settings__quantity">
-      //       <p style="color:red" = "red">Qté MIN 1 article: </p>
-      //        <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${Cart[v].quantity}"></div>`;
+    
+        const itemQuantitySelector = document.querySelectorAll(".itemQuantity");
+        const deleteItemSelector = document.querySelectorAll(".deleteItem");
+        const erreur = document.querySelectorAll(
+          ".cart__item__content__settings__quantity"
+        );
+        for (let v = 0; v < deleteItemSelector.length; v++) {
+          itemQuantitySelector[v].addEventListener("change", (e) => {
+            console.log(itemQuantitySelector[v].min);
+            console.log(e.target.value);
+            if (e.target.value < parseInt(itemQuantitySelector[v].min)) {
+              erreur[v].innerHTML = `
+            <div class="cart__item__content__settings__quantity">
+            <p style="color:red" = "red">Qté MIN 1 article: </p>
+             <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${Cart[v].quantity}"></div>`;
 
-      //         location.reload();
-      //       } else if (e.target.value > parseInt(itemQuantitySelector[v].max)) {
-      //         erreur[v].innerHTML = `
-      //         <div class="cart__item__content__settings__quantity">
-      //         <p style="color:red" = "red">Qté MAX 100 articles: </p>
-      //         <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${Cart[v].quantity}">
-      //       </div>`;
-      //         location.reload();
-      //       } else if (basket[v].id === Cart.id && basket[v].color === Cart.color){
-      //         console.log(e.target.value);
-      //         console.log(Cart);
-      //         Cart[v].quantity = e.target.value;
-      //         localStorage.setItem("order", JSON.stringify(Cart));
-      //         location.reload();
-      //       }
-      //     });
-      //     deleteItemSelector[v].addEventListener("click", (event) => {
-      //       event.preventDefault;
-      //       test = Cart.filter((el) => el !== Cart[v]);
-      //       localStorage.setItem("order", JSON.stringify(test));
-      //       location.reload();
-      //     });
-      //   }
+              location.reload();
+            } else if (e.target.value > parseInt(itemQuantitySelector[v].max)) {
+              erreur[v].innerHTML = `
+              <div class="cart__item__content__settings__quantity">
+              <p style="color:red" = "red">Qté MAX 100 articles: </p>
+              <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${Cart[v].quantity}">
+            </div>`;
+              location.reload();
+            } else if (cart[v].id === Cart.id && cart[v].color === Cart.color){
+              console.log(e.target.value);
+              console.log(Cart);
+              Cart[v].quantity = e.target.value;
+              localStorage.setItem("order", JSON.stringify(Cart));
+              location.reload();
+            }
+          });
+          deleteItemSelector[v].addEventListener("click", (event) => {
+            event.preventDefault;
+            test = Cart.filter((el) => el !== Cart[v]);
+            localStorage.setItem("order", JSON.stringify(test));
+            location.reload();
+          });
+        }
      
     } }
   
