@@ -147,7 +147,7 @@ const fetchItem = async () => {
         }
      
        });
-      //  delBtn()
+    
        
       }
     })
@@ -209,7 +209,7 @@ const getCartTotal = () => {
 async function totalBasket() {
   // await fetchItem
   // await delBtn
-  // await getCartTotal()
+  await getCartTotal()
   let totalQuantityValue = 0;
   let totalPriceValue = 0;
   const totalQuantity = document.getElementById("totalQuantity");
@@ -233,7 +233,7 @@ async function totalBasket() {
   //   }
   // };
   
-  let getProductsInArray = await getCartTotal();
+  let getProductsInArray = await getCartTotal()
   let apiData = await fetch(`http://localhost:3000/api/products`)
   .catch((error) => {
     console.log(error.status);
@@ -377,7 +377,7 @@ formError(
 
 //___________________ ecoute order button et verification validité donnees client __________________\\
 orderButton.addEventListener("click", async (e) => {
-  await getCart();
+  await getCartTotal();
   e.preventDefault();
 
   for (let key in errors) {
