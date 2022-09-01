@@ -4,28 +4,28 @@ emptymain = document.querySelector(".cart");
 
 let sum = [];
 
-let listOrder = localStorage.getItem("order");
+// let listOrder = localStorage.getItem("order");
 //-------------- panier vide et tri des produits ( non fonctionnel parametres serveur manquant)----\\
-const getCart = () => {
-  // for (var i = 0; i < localStorage.length; i++)
-  if (listOrder === null) {
-    emptybasket.innerHTML = `<p > OUPSS <br> <br>
-      Aucun de nos articles ne vous plait ? <br>
-      Votre panier est vide
-       <br>
-       <br>
-      <a href="./index.html" style="text-decoration:none" >Retour à nos produits </a></p>`;
-    emptymain.innerHTML = ``;
-    return [];
-    //---------tri des produits par noms et couleurs --------------\\
-  } else {
-     list = JSON.parse(listOrder);
-  }
-};
+// const getCart = () => {
+//   // for (var i = 0; i < localStorage.length; i++)
+//   if (listOrder === null) {
+//     emptybasket.innerHTML = `<p > OUPSS <br> <br>
+//       Aucun de nos articles ne vous plait ? <br>
+//       Votre panier est vide
+//        <br>
+//        <br>
+//       <a href="./index.html" style="text-decoration:none" >Retour à nos produits </a></p>`;
+//     emptymain.innerHTML = ``;
+//     return [];
+//     //---------tri des produits par noms et couleurs --------------\\
+//   } else {
+//      list = JSON.parse(listOrder);
+//   }
+// };
 
 // ------------------fetch produit requete API localstorage  ------------------------------\\
 const fetchItem = async () => {
-  await getCart();
+  await getCartTotal;
 
   // ----------- verification de panier  -------------------\\
   if (list.length < 1) {
@@ -100,12 +100,12 @@ const fetchItem = async () => {
     //--------------modification quantité ou suppression des produits du client ----------------\\
 
     const itemQuantitySelector = document.querySelectorAll(".itemQuantity");
-    const deleteItemSelector = document.querySelectorAll(".deleteItem");
-    const cartItems = document.querySelector("#cart__items");
+    // const deleteItemSelector = document.querySelectorAll(".deleteItem");
+    // const cartItems = document.querySelector("#cart__items");
     const erreur = document.querySelectorAll(
        ".cart__item__content__settings__quantity"
        );
-        for (let v = 0; v < deleteItemSelector.length; v++) {
+        for (let v = 0; v  <itemQuantitySelector.length; v++) {
       // -------verification de la quantité du produit et modification du produit ----------- \\
                          // geston des erreurs dûe au client \\
        itemQuantitySelector[v].addEventListener("change", (e) => {
@@ -147,30 +147,46 @@ const fetchItem = async () => {
         }
      
        });
-        deleteItemSelector[v].addEventListener("click", (event) => {
-          // event.preventDefault;
-            test = getCartTotal()
-          const cardParent = event.composedPath().at(4)
-          console.log(cardParent.dataset);
-          const del = cartItems.removeChild(cardParent)
-
-
-          const restProduct  = test.filter((el) => el.id !== cardParent.dataset.id && el.color !== cardParent.dataset.color);
-          console.log(restProduct);
-          // localStorage.setItem("order", JSON.stringify(restProduct));
-        
-          totalBasket()
-        })
+      //  delBtn()
        
       }
     })
   }
   totalBasket()
 };
+const delBtn = async () => {
+await fetchItem()
+await getCartTotal()
+
+const deleteItemSelector = document.querySelectorAll(".deleteItem");
+const cartItems = document.querySelector("#cart__items");
+deleteItemSelector.forEach((v,i)=>{
+v.addEventListener("click", (event) => {
+  event.preventDefault;
+ 
+  const cardParent = event.composedPath().at(4)
+  const del = cartItems.removeChild(cardParent)
 
 
+  const findProduct  = list.find((el) => el.id === cardParent.dataset.id && el.color === cardParent.dataset.color);
+   restProduct = list.filter((el)=>el !== findProduct)
+  console.log(restProduct );
+  localStorage.setItem("order", JSON.stringify(restProduct));
+
+  totalBasket()
+  // fetchItem()
+
+})
+
+
+})
+  
+
+
+}
 // -----------------------------fin fetch produit ok --------------------------------\\
 const getCartTotal = () => {
+  let listOrder = localStorage.getItem("order");
   // for (var i = 0; i < localStorage.length; i++)
   if (listOrder === null) {
     emptybasket.innerHTML = `<p > OUPSS <br> <br>
@@ -183,7 +199,7 @@ const getCartTotal = () => {
     return [];
     //---------tri des produits par noms et couleurs --------------\\
   } else {
-    return JSON.parse(listOrder);
+   return list = JSON.parse(listOrder);
   }
 };
 
@@ -191,37 +207,39 @@ const getCartTotal = () => {
 //___________________ total des produits et prix ____________________________\\
 
 async function totalBasket() {
+  // await fetchItem
+  // await delBtn
   // await getCartTotal()
   let totalQuantityValue = 0;
   let totalPriceValue = 0;
   const totalQuantity = document.getElementById("totalQuantity");
   const totalPrice = document.getElementById("totalPrice");
-  let listOrder = localStorage.getItem("order");
+  // let listOrder = localStorage.getItem("order");
   // -------------- panier vide et tri des produits ( non fonctionnel parametres serveur manquant)----\\
-  const getCartTotal = () => {
-    // for (var i = 0; i < localStorage.length; i++)
-    if (listOrder === null) {
-      emptybasket.innerHTML = `<p > OUPSS <br> <br>
-        Aucun de nos articles ne vous plait ? <br>
-        Votre panier est vide
-         <br>
-         <br>
-        <a href="./index.html" style="text-decoration:none" >Retour à nos produits </a></p>`;
-      emptymain.innerHTML = ``;
-      return [];
-      //---------tri des produits par noms et couleurs --------------\\
-    } else {
-      return JSON.parse(listOrder);
-    }
-  };
+  // const getCartTotal = () => {
+  //   // for (var i = 0; i < localStorage.length; i++)
+  //   if (listOrder === null) {
+  //     emptybasket.innerHTML = `<p > OUPSS <br> <br>
+  //       Aucun de nos articles ne vous plait ? <br>
+  //       Votre panier est vide
+  //        <br>
+  //        <br>
+  //       <a href="./index.html" style="text-decoration:none" >Retour à nos produits </a></p>`;
+  //     emptymain.innerHTML = ``;
+  //     return [];
+  //     //---------tri des produits par noms et couleurs --------------\\
+  //   } else {
+  //     return JSON.parse(listOrder);
+  //   }
+  // };
   
-  let getProductsInArray =  getCartTotal();
+  let getProductsInArray = await getCartTotal();
   let apiData = await fetch(`http://localhost:3000/api/products`)
   .catch((error) => {
     console.log(error.status);
   })
   .then((res) => res.json())
-   console.log(getProductsInArray);
+  //  console.log(getProductsInArray);
  
   if (getProductsInArray.length > 0) {
       getProductsInArray.forEach((localStorageProduct) => {
@@ -437,9 +455,10 @@ orderButton.addEventListener("click", async (e) => {
   }
 });
 
-fetchItem();
+// fetchItem();
 getCartTotal()
 totalBasket();
+delBtn()
 // TotalBasketProduct ();
 
 //======================= end list ; next => confirmation =========================\\
