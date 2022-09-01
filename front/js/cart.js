@@ -1,90 +1,81 @@
 emptybasket = document.querySelector("h1");
-emptybasketForm = document.querySelector(".cart")
-console.log(emptybasketForm);
-let sum = []
-// console.log(typeof sum);
+emptybasketForm = document.querySelector(".list");
+emptymain = document.querySelector(".cart");
 
-let cart = localStorage.getItem("order");
+let sum = [];
+
+let listOrder = localStorage.getItem("order");
 //-------------- panier vide et tri des produits ( non fonctionnel parametres serveur manquant)----\\
-const getCart = async () => {
- 
+const getCart = () => {
   // for (var i = 0; i < localStorage.length; i++)
-  if (cart === null) {
-   
+  if (listOrder === null) {
     emptybasket.innerHTML = `<p > OUPSS <br> <br>
       Aucun de nos articles ne vous plait ? <br>
       Votre panier est vide
        <br>
        <br>
       <a href="./index.html" style="text-decoration:none" >Retour à nos produits </a></p>`;
-      emptybasketForm.innerHTML = ``
-    // totalQuantity.innerHTML = 0;
-    // totalPrice.innerHTML = 0;
-    return (Cart = []);
+    emptymain.innerHTML = ``;
+    return [];
     //---------tri des produits par noms et couleurs --------------\\
   } else {
-     Cart = JSON.parse(cart);
-  
+     list = JSON.parse(listOrder);
   }
 };
 
-// ------------------fetch produit requete API  ------------------------------\\
+// ------------------fetch produit requete API localstorage  ------------------------------\\
 const fetchItem = async () => {
   await getCart();
- // ----------- panier vide apres supression produit du client -------------------\\
-  if (Cart.length < 1) {
+
+  // ----------- verification de panier  -------------------\\
+  if (list.length < 1) {
     emptybasket.innerHTML = `<p > OUPSS <br> <br>
       Aucun de nos articles ne vous plait ? <br>
       Votre panier est vide
     <br>
     <br>
-      <a href="./index.html" style="text-decoration:none" >Retour à nos produits </a></p>`;
-      emptybasketForm.innerHTML = ``
-    // totalQuantity.innerHTML = 0;
-    // totalPrice.innerHTML = 0;
+      <a href="./index.html" style="text-decoration:none" >Retour à nos produits </a></p>`
+    emptymain.innerHTML = ``;
   }
   //_____________ requete API produit du panier____________________\\
 
-  for( let e =  0 ; e < Cart.length ; e++){
-;
-    res = await fetch(`http://localhost:3000/api/products/${Cart[e].id}`)
-    .catch((error)=>{
-      console.log(error.status)})
+  for (let e = 0; e < list.length; e++) {
+    const res = await fetch(`http://localhost:3000/api/products/${list[e].id}`)
+      .catch((error) => {
+        console.log(error.status);
+      })
       .then((res) => res.json())
-
       .then((data) => {
-    // console.log(data);
-      
-       return info = { idProduct : Cart[e].id, colorProduct : Cart[e].color, imageProduct : data.imageUrl, descriptionProduct : data.description, nameProduct : data.name , priceProduct : data.price,  quantityProduct : Cart[e].quantity}
-       
-      }).then((info)=>{
-
-      
-        sum.push(info)
-        
+        return (info = {
+          idProduct: list[e].id,
+          colorProduct: list[e].color,
+          imageProduct: data.imageUrl,
+          descriptionProduct: data.description,
+          nameProduct: data.name, 
+          priceProduct: data.price,
+          quantityProduct: list[e].quantity,
+        });
+      })
+      .then((info) => {
+        sum.push(info);
         return sum.sort((a, b) => {
-          if (a.idProduct < b.idProduct ) {
+          if (a.idProduct < b.idProduct) {
             return -1;
           }
-          if (a.idProduct  > b.idProduct ) {
+          if (a.idProduct > b.idProduct) {
             return 1;
           }
-          if (a.idProduct  === b.idProduct ) {
+          if (a.idProduct === b.idProduct) {
             return 0;
           }
         });
-   
-   
-      //_________ affichage des produits _______________________\\
-     
-     
-      }).then(()=>{
-        // console.log(sum[e]);
-        
-                // console.log(sum[e]);
-          let listArticle = ` <article class="cart__item" data-id="${sum[e].idProduct}" data-color="${sum[e].colorProduct }">
+        //_________ affichage des produits _______________________\\
+      })
+      .then(() => {
+      
+        let listArticle = ` <article class="cart__item" data-id="${sum[e].idProduct}" data-color="${sum[e].colorProduct}">
           <div class="cart__item__img">
-          <img src="${sum[e].imageProduct}" alt="${sum[e].descriptionProduct }">
+          <img src="${sum[e].imageProduct}" alt="${sum[e].descriptionProduct}">
           </div>
           <div class="cart__item__content">
             <div class="cart__item__content__description">
@@ -103,74 +94,183 @@ const fetchItem = async () => {
             </div>
           </div>
         </article>  `;
-      
-        cart__items.innerHTML += listArticle
+        cart__items.innerHTML += listArticle;
   
-    })
-     
-      //--------------modification quantité ou suppression des produits du client ----------------\\
-    
-        const itemQuantitySelector = document.querySelectorAll(".itemQuantity");
-        const deleteItemSelector = document.querySelectorAll(".deleteItem");
-        const erreur = document.querySelectorAll(
-          ".cart__item__content__settings__quantity"
-        );
-        for (let v = 0; v < deleteItemSelector.length; v++) {
-          itemQuantitySelector[v].addEventListener("change", (e) => {
-            console.log(itemQuantitySelector[v].min);
-            console.log(e.target.value);
-            if (e.target.value < parseInt(itemQuantitySelector[v].min)) {
-              erreur[v].innerHTML = `
-            <div class="cart__item__content__settings__quantity">
-            <p style="color:red" = "red">Qté MIN 1 article: </p>
-             <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${Cart[v].quantity}"></div>`;
+      }).then(()=>{
+    //--------------modification quantité ou suppression des produits du client ----------------\\
 
-              location.reload();
-            } else if (e.target.value > parseInt(itemQuantitySelector[v].max)) {
-              erreur[v].innerHTML = `
+    const itemQuantitySelector = document.querySelectorAll(".itemQuantity");
+    const deleteItemSelector = document.querySelectorAll(".deleteItem");
+    const cartItems = document.querySelector("#cart__items");
+    const erreur = document.querySelectorAll(
+       ".cart__item__content__settings__quantity"
+       );
+        for (let v = 0; v < deleteItemSelector.length; v++) {
+      // -------verification de la quantité du produit et modification du produit ----------- \\
+                         // geston des erreurs dûe au client \\
+       itemQuantitySelector[v].addEventListener("change", (e) => {
+        // console.log(e.target.value);
+        if (e.target.value < parseInt(itemQuantitySelector[v].min)) {
+          erreur[v].innerHTML = `
+              <div class="cart__item__content__settings__quantity">
+              <p style="color:red" = "red">Qté MIN 1 article: </p>
+              <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${list[v].quantity}"></div>`;
+          setTimeout(() => {
+            erreur[v].innerHTML = `
+                <div class="cart__item__content__settings">
+              <div class="cart__item__content__settings__quantity">
+                <p>Qté : </p>
+                <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${list[v].quantity}">
+              </div>`;
+          }, 2000);
+          location.reload();
+        } else if (e.target.value > parseInt(itemQuantitySelector[v].max)) {
+          erreur[v].innerHTML = `
               <div class="cart__item__content__settings__quantity">
               <p style="color:red" = "red">Qté MAX 100 articles: </p>
-              <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${Cart[v].quantity}">
+              <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${list[v].quantity}">
             </div>`;
-              location.reload();
-            } else if (cart[v].id === Cart.id && cart[v].color === Cart.color){
-              console.log(e.target.value);
-              console.log(Cart);
-              Cart[v].quantity = e.target.value;
-              localStorage.setItem("order", JSON.stringify(Cart));
-              location.reload();
-            }
-          });
-          deleteItemSelector[v].addEventListener("click", (event) => {
-            event.preventDefault;
-            test = Cart.filter((el) => el !== Cart[v]);
-            localStorage.setItem("order", JSON.stringify(test));
-            location.reload();
-          });
+          setTimeout(() => {
+            erreur[v].innerHTML = `
+              <div class="cart__item__content__settings__quantity">
+              <p style="color:red" = "red">Qté MAX 100 articles: </p>
+              <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${list[v].quantity}">
+            </div>`;
+          }, 2000);
+          location.reload();
+          // validation de la quantité à modifier \\
+        } else {
+          list[v].quantity = e.target.value;
+          localStorage.setItem("order", JSON.stringify(list));
+          totalBasket()
+      
         }
      
-    } }
-  
+       });
+        deleteItemSelector[v].addEventListener("click", (event) => {
+          // event.preventDefault;
+            test = getCartTotal()
+          const cardParent = event.composedPath().at(4)
+          console.log(cardParent.dataset);
+          const del = cartItems.removeChild(cardParent)
+
+
+          const restProduct  = test.filter((el) => el.id !== cardParent.dataset.id && el.color !== cardParent.dataset.color);
+          console.log(restProduct);
+          // localStorage.setItem("order", JSON.stringify(restProduct));
+        
+          totalBasket()
+        })
+       
+      }
+    })
+  }
+  totalBasket()
+};
+
 
 // -----------------------------fin fetch produit ok --------------------------------\\
+const getCartTotal = () => {
+  // for (var i = 0; i < localStorage.length; i++)
+  if (listOrder === null) {
+    emptybasket.innerHTML = `<p > OUPSS <br> <br>
+      Aucun de nos articles ne vous plait ? <br>
+      Votre panier est vide
+       <br>
+       <br>
+      <a href="./index.html" style="text-decoration:none" >Retour à nos produits </a></p>`;
+    emptymain.innerHTML = ``;
+    return [];
+    //---------tri des produits par noms et couleurs --------------\\
+  } else {
+    return JSON.parse(listOrder);
+  }
+};
 
 
 //___________________ total des produits et prix ____________________________\\
 
+async function totalBasket() {
+  // await getCartTotal()
+  let totalQuantityValue = 0;
+  let totalPriceValue = 0;
+  const totalQuantity = document.getElementById("totalQuantity");
+  const totalPrice = document.getElementById("totalPrice");
+  let listOrder = localStorage.getItem("order");
+  // -------------- panier vide et tri des produits ( non fonctionnel parametres serveur manquant)----\\
+  const getCartTotal = () => {
+    // for (var i = 0; i < localStorage.length; i++)
+    if (listOrder === null) {
+      emptybasket.innerHTML = `<p > OUPSS <br> <br>
+        Aucun de nos articles ne vous plait ? <br>
+        Votre panier est vide
+         <br>
+         <br>
+        <a href="./index.html" style="text-decoration:none" >Retour à nos produits </a></p>`;
+      emptymain.innerHTML = ``;
+      return [];
+      //---------tri des produits par noms et couleurs --------------\\
+    } else {
+      return JSON.parse(listOrder);
+    }
+  };
+  
+  let getProductsInArray =  getCartTotal();
+  let apiData = await fetch(`http://localhost:3000/api/products`)
+  .catch((error) => {
+    console.log(error.status);
+  })
+  .then((res) => res.json())
+   console.log(getProductsInArray);
+ 
+  if (getProductsInArray.length > 0) {
+      getProductsInArray.forEach((localStorageProduct) => {
+      
+          const item = apiData.find(element => element._id == localStorageProduct.id);
+          if (item) {
+              totalQuantityValue += parseInt(localStorageProduct.quantity);
+              totalPriceValue += parseInt(item.price * localStorageProduct.quantity);
 
-async function TotalBasket() {
-  await fetchItem();
-  let sumQuantity = 0;
-  let sumPrice = 0
-  sum.forEach((e,i) => {
-    sumPrice += (sum[i].priceProduct * parseInt(sum[i].quantityProduct));
-    sumQuantity += parseInt(sum[i].quantityProduct);
-    totalPrice.innerHTML = sumPrice;
-    totalQuantity.innerHTML = sumQuantity;
-  });
+              totalQuantity.innerText = totalQuantityValue;
+              totalPrice.innerText = totalPriceValue;
+          }
+      });
+  } else {
+   
+      emptybasket.innerHTML = `<p > OUPSS <br> <br>
+        Aucun de nos articles ne vous plait ? <br>
+        Votre panier est vide
+      <br>
+      <br>
+        <a href="./index.html" style="text-decoration:none" >Retour à nos produits </a></p>`
+      emptymain.innerHTML = ``;
+    
+  }
 }
-//------------------------ formulaire info client -----------------\\
 
+
+// async function TotalBasket() {
+//   await fetchItem();
+//   let sumQuantity = 0;
+//   let sumPrice = 0
+//   sum.forEach((e,i) => {
+//     sumPrice += (sum[i].priceProduct * parseInt(sum[i].quantityProduct));
+//     sumQuantity += parseInt(sum[i].quantityProduct);
+//     totalPrice.innerHTML = sumPrice;
+//     totalQuantity.innerHTML = sumQuantity;
+//   });
+// }
+// function TotalBasketProduct() {
+//   let sumQuantity = 0;
+//   let sumPrice = 0;
+//   sum.forEach((e, i) => {
+//     sumPrice += sum[i].priceProduct * parseInt(sum[i].quantityProduct);
+//     sumQuantity += parseInt(sum[i].quantityProduct);
+//     totalPrice.innerHTML = sumPrice;
+//     totalQuantity.innerHTML = sumQuantity;
+//   });
+// }
+//------------------------ formulaire info client -----------------\\
 
 //_________________ parametre de verification info avant requete POST_____________________\\
 let firstNameError = document.querySelector("#firstNameErrorMsg");
@@ -210,12 +310,12 @@ const formError = (fieldlabel, regex, fieldResult, message, errorName) => {
   fieldlabel.addEventListener("input", () => {
     if (regex.test(fieldlabel.value)) {
       fieldResult.innerHTML = `<span style="color:green"> Validé </span>`;
-      fieldlabel.style.background = "green";
+      fieldlabel.style.background = "#439451";
       errors[errorName] = false;
       orderButton.style.background = "#2c3e50";
     } else {
       fieldResult.innerHTML = message;
-      fieldlabel.style.background = "red";
+      fieldlabel.style.background = "#8a5b5b";
       errors[errorName] = true;
     }
   });
@@ -287,7 +387,7 @@ orderButton.addEventListener("click", async (e) => {
     }
   }
 
-  if (allOk === false || Cart.length === 0) {
+  if (allOk === false || list.length === 0) {
     // orderButton.disabled
     orderButton.animate([{ transform: `translate(4%)` }], {
       duration: 200,
@@ -297,10 +397,7 @@ orderButton.addEventListener("click", async (e) => {
     setTimeout(() => {
       orderButton.style.background = "#2c3e50";
     }, 2000);
-
-    
   } else {
-   
     orderButton.style.background = "green";
 
     let infoOrder = {
@@ -312,11 +409,11 @@ orderButton.addEventListener("click", async (e) => {
         city: city.value,
       },
 
-      products: Cart.map((i) => {
+      products: list.map((i) => {
         return i.id;
       }),
     };
-   //__________ envoi requete API POST apres vreification validité info ___________\\
+    //__________ envoi requete API POST apres vreification validité info ___________\\
 
     res = await fetch("http://localhost:3000/api/products/order", {
       method: "POST",
@@ -330,7 +427,6 @@ orderButton.addEventListener("click", async (e) => {
 
     if (res.ok) {
       let orderConfirm = await res.json();
-     
 
       window.location.href = `confirmation.html?order_id=${orderConfirm.orderId}`;
     } else {
@@ -341,9 +437,9 @@ orderButton.addEventListener("click", async (e) => {
   }
 });
 
-// fetchItem()
+fetchItem();
+getCartTotal()
+totalBasket();
+// TotalBasketProduct ();
 
-TotalBasket();
-
-
-//======================= end cart ; next => confirmation =========================\\
+//======================= end list ; next => confirmation =========================\\

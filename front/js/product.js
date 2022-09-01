@@ -180,7 +180,7 @@ let addToBasket = () => {
             return JSON.parse(cart);
           }
         };
-        //* ajout produits dans la panier ( push basket et save basket ) *\\
+        //* ajout produits dans le panier ( push basket et save basket ) *\\
         const addCart = (cart) => {
           let basket = getCart();
 
