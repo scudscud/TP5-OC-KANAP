@@ -4,26 +4,7 @@ emptymain = document.querySelector(".cart");
 
 let sum = [];
 
-// let listOrder = localStorage.getItem("order");
-//-------------- panier vide et tri des produits ( non fonctionnel parametres serveur manquant)----\\
-// const getCart = () => {
-//   // for (var i = 0; i < localStorage.length; i++)
-//   if (listOrder === null) {
-//     emptybasket.innerHTML = `<p > OUPSS <br> <br>
-//       Aucun de nos articles ne vous plait ? <br>
-//       Votre panier est vide
-//        <br>
-//        <br>
-//       <a href="./index.html" style="text-decoration:none" >Retour à nos produits </a></p>`;
-//     emptymain.innerHTML = ``;
-//     return [];
-//     //---------tri des produits par noms et couleurs --------------\\
-//   } else {
-//      list = JSON.parse(listOrder);
-//   }
-// };
-
-// ------------------fetch produit requete API localstorage  ------------------------------\\
+// ------------------fetch produit requete API ------------------------------\\
 const fetchItem = async () => {
   await getCartTotal;
 
@@ -34,7 +15,7 @@ const fetchItem = async () => {
       Votre panier est vide
     <br>
     <br>
-      <a href="./index.html" style="text-decoration:none" >Retour à nos produits </a></p>`
+      <a href="./index.html" style="text-decoration:none" >Retour à nos produits </a></p>`;
     emptymain.innerHTML = ``;
   }
   //_____________ requete API produit du panier____________________\\
@@ -51,7 +32,7 @@ const fetchItem = async () => {
           colorProduct: list[e].color,
           imageProduct: data.imageUrl,
           descriptionProduct: data.description,
-          nameProduct: data.name, 
+          nameProduct: data.name,
           priceProduct: data.price,
           quantityProduct: list[e].quantity,
         });
@@ -72,7 +53,6 @@ const fetchItem = async () => {
         //_________ affichage des produits _______________________\\
       })
       .then(() => {
-      
         let listArticle = ` <article class="cart__item" data-id="${sum[e].idProduct}" data-color="${sum[e].colorProduct}">
           <div class="cart__item__img">
           <img src="${sum[e].imageProduct}" alt="${sum[e].descriptionProduct}">
@@ -95,96 +75,87 @@ const fetchItem = async () => {
           </div>
         </article>  `;
         cart__items.innerHTML += listArticle;
-  
-      }).then(()=>{
-    //--------------modification quantité ou suppression des produits du client ----------------\\
-
-    const itemQuantitySelector = document.querySelectorAll(".itemQuantity");
-    // const deleteItemSelector = document.querySelectorAll(".deleteItem");
-    // const cartItems = document.querySelector("#cart__items");
-    const erreur = document.querySelectorAll(
-       ".cart__item__content__settings__quantity"
-       );
-        for (let v = 0; v  <itemQuantitySelector.length; v++) {
-      // -------verification de la quantité du produit et modification du produit ----------- \\
-                         // geston des erreurs dûe au client \\
-       itemQuantitySelector[v].addEventListener("change", (e) => {
-        // console.log(e.target.value);
-        if (e.target.value < parseInt(itemQuantitySelector[v].min)) {
-          erreur[v].innerHTML = `
+      })
+             //--------------modification quantité des produits du client ----------------\\
+      .then(() => {
+        const itemQuantitySelector = document.querySelectorAll(".itemQuantity");
+        const erreur = document.querySelectorAll(
+          ".cart__item__content__settings__quantity"
+        );
+        for (let v = 0; v < itemQuantitySelector.length; v++) {
+                               // geston des erreurs dûe au client \\
+          itemQuantitySelector[v].addEventListener("change", (e) => {
+            // console.log(e.target.value);
+            if (e.target.value < parseInt(itemQuantitySelector[v].min)) {
+              erreur[v].innerHTML = `
               <div class="cart__item__content__settings__quantity">
               <p style="color:red" = "red">Qté MIN 1 article: </p>
               <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${list[v].quantity}"></div>`;
-          setTimeout(() => {
-            erreur[v].innerHTML = `
+              setTimeout(() => {
+                erreur[v].innerHTML = `
                 <div class="cart__item__content__settings">
               <div class="cart__item__content__settings__quantity">
                 <p>Qté : </p>
                 <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${list[v].quantity}">
               </div>`;
-          }, 2000);
-          location.reload();
-        } else if (e.target.value > parseInt(itemQuantitySelector[v].max)) {
-          erreur[v].innerHTML = `
+              }, 2000);
+              location.reload();
+            } else if (e.target.value > parseInt(itemQuantitySelector[v].max)) {
+              erreur[v].innerHTML = `
               <div class="cart__item__content__settings__quantity">
               <p style="color:red" = "red">Qté MAX 100 articles: </p>
               <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${list[v].quantity}">
             </div>`;
-          setTimeout(() => {
-            erreur[v].innerHTML = `
+              setTimeout(() => {
+                erreur[v].innerHTML = `
               <div class="cart__item__content__settings__quantity">
               <p style="color:red" = "red">Qté MAX 100 articles: </p>
               <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${list[v].quantity}">
             </div>`;
-          }, 2000);
-          location.reload();
-          // validation de la quantité à modifier \\
-        } else {
-          list[v].quantity = e.target.value;
-          localStorage.setItem("order", JSON.stringify(list));
-          totalBasket()
-      
+              }, 2000);
+              location.reload();
+              // validation de la quantité à modifier \\
+            } else {
+              list[v].quantity = e.target.value;
+              localStorage.setItem("order", JSON.stringify(list));
+              totalBasket();
+            }
+          });
         }
-     
-       });
-    
-       
-      }
-    })
+      });
   }
-  totalBasket()
+  totalBasket();
 };
-const delBtn = async () => {
-await fetchItem()
-await getCartTotal()
 
-const deleteItemSelector = document.querySelectorAll(".deleteItem");
-const cartItems = document.querySelector("#cart__items");
-deleteItemSelector.forEach((v,i)=>{
-v.addEventListener("click", (event) => {
-  event.preventDefault;
- 
-  const cardParent = event.composedPath().at(4)
-  const del = cartItems.removeChild(cardParent)
+//---------------------- suppression article ------------\\
 
 
-  const findProduct  = list.find((el) => el.id === cardParent.dataset.id && el.color === cardParent.dataset.color);
-   restProduct = list.filter((el)=>el !== findProduct)
-  console.log(restProduct );
-  localStorage.setItem("order", JSON.stringify(restProduct));
+  const delBtn = async () => {
+  await fetchItem();
+  await getCartTotal();
+  const deleteItemSelector = document.querySelectorAll(".deleteItem");
+  const cartItems = document.querySelector("#cart__items");
+  deleteItemSelector.forEach((v, i) => {
+    v.addEventListener("click", (event) => {
+      event.preventDefault;
+      const cardParent = event.composedPath().at(4);
+      const del = cartItems.removeChild(cardParent);
+      const findProduct = list.find(
+        (el) =>
+          el.id === cardParent.dataset.id &&
+          el.color === cardParent.dataset.color
+      );
+      restProduct = list.filter((el) => el !== findProduct);
+      console.log(restProduct);
+      localStorage.setItem("order", JSON.stringify(restProduct));
+      totalBasket();
+      // fetchItem()
+    });
+  });
+};
 
-  totalBasket()
-  // fetchItem()
 
-})
-
-
-})
-  
-
-
-}
-// -----------------------------fin fetch produit ok --------------------------------\\
+//----------------------------recuperation des info produit dans LS ------------------\\
 const getCartTotal = () => {
   let listOrder = localStorage.getItem("order");
   // for (var i = 0; i < localStorage.length; i++)
@@ -197,97 +168,53 @@ const getCartTotal = () => {
       <a href="./index.html" style="text-decoration:none" >Retour à nos produits </a></p>`;
     emptymain.innerHTML = ``;
     return [];
-    //---------tri des produits par noms et couleurs --------------\\
   } else {
-   return list = JSON.parse(listOrder);
+    return (list = JSON.parse(listOrder));
   }
 };
-
 
 //___________________ total des produits et prix ____________________________\\
 
 async function totalBasket() {
   // await fetchItem
   // await delBtn
-  await getCartTotal()
+  await getCartTotal();
   let totalQuantityValue = 0;
   let totalPriceValue = 0;
   const totalQuantity = document.getElementById("totalQuantity");
   const totalPrice = document.getElementById("totalPrice");
-  // let listOrder = localStorage.getItem("order");
-  // -------------- panier vide et tri des produits ( non fonctionnel parametres serveur manquant)----\\
-  // const getCartTotal = () => {
-  //   // for (var i = 0; i < localStorage.length; i++)
-  //   if (listOrder === null) {
-  //     emptybasket.innerHTML = `<p > OUPSS <br> <br>
-  //       Aucun de nos articles ne vous plait ? <br>
-  //       Votre panier est vide
-  //        <br>
-  //        <br>
-  //       <a href="./index.html" style="text-decoration:none" >Retour à nos produits </a></p>`;
-  //     emptymain.innerHTML = ``;
-  //     return [];
-  //     //---------tri des produits par noms et couleurs --------------\\
-  //   } else {
-  //     return JSON.parse(listOrder);
-  //   }
-  // };
-  
-  let getProductsInArray = await getCartTotal()
+  let getProductsInArray = await getCartTotal();
   let apiData = await fetch(`http://localhost:3000/api/products`)
-  .catch((error) => {
-    console.log(error.status);
-  })
-  .then((res) => res.json())
+    .catch((error) => {
+      console.log(error.status);
+    })
+    .then((res) => res.json());
   //  console.log(getProductsInArray);
- 
-  if (getProductsInArray.length > 0) {
-      getProductsInArray.forEach((localStorageProduct) => {
-      
-          const item = apiData.find(element => element._id == localStorageProduct.id);
-          if (item) {
-              totalQuantityValue += parseInt(localStorageProduct.quantity);
-              totalPriceValue += parseInt(item.price * localStorageProduct.quantity);
 
-              totalQuantity.innerText = totalQuantityValue;
-              totalPrice.innerText = totalPriceValue;
-          }
-      });
+  if (getProductsInArray.length > 0) {
+    getProductsInArray.forEach((localStorageProduct) => {
+      const item = apiData.find(
+        (element) => element._id == localStorageProduct.id
+      );
+      if (item) {
+        totalQuantityValue += parseInt(localStorageProduct.quantity);
+        totalPriceValue += parseInt(item.price * localStorageProduct.quantity);
+
+        totalQuantity.innerText = totalQuantityValue;
+        totalPrice.innerText = totalPriceValue;
+      }
+    });
   } else {
-   
-      emptybasket.innerHTML = `<p > OUPSS <br> <br>
+    emptybasket.innerHTML = `<p > OUPSS <br> <br>
         Aucun de nos articles ne vous plait ? <br>
         Votre panier est vide
       <br>
       <br>
-        <a href="./index.html" style="text-decoration:none" >Retour à nos produits </a></p>`
-      emptymain.innerHTML = ``;
-    
+        <a href="./index.html" style="text-decoration:none" >Retour à nos produits </a></p>`;
+    emptymain.innerHTML = ``;
   }
 }
 
-
-// async function TotalBasket() {
-//   await fetchItem();
-//   let sumQuantity = 0;
-//   let sumPrice = 0
-//   sum.forEach((e,i) => {
-//     sumPrice += (sum[i].priceProduct * parseInt(sum[i].quantityProduct));
-//     sumQuantity += parseInt(sum[i].quantityProduct);
-//     totalPrice.innerHTML = sumPrice;
-//     totalQuantity.innerHTML = sumQuantity;
-//   });
-// }
-// function TotalBasketProduct() {
-//   let sumQuantity = 0;
-//   let sumPrice = 0;
-//   sum.forEach((e, i) => {
-//     sumPrice += sum[i].priceProduct * parseInt(sum[i].quantityProduct);
-//     sumQuantity += parseInt(sum[i].quantityProduct);
-//     totalPrice.innerHTML = sumPrice;
-//     totalQuantity.innerHTML = sumQuantity;
-//   });
-// }
 //------------------------ formulaire info client -----------------\\
 
 //_________________ parametre de verification info avant requete POST_____________________\\
@@ -333,7 +260,7 @@ const formError = (fieldlabel, regex, fieldResult, message, errorName) => {
       orderButton.style.background = "#2c3e50";
     } else {
       fieldResult.innerHTML = message;
-      fieldlabel.style.background = "#8a5b5b";
+      fieldlabel.style.background = "#f89792";
       errors[errorName] = true;
     }
   });
@@ -456,9 +383,9 @@ orderButton.addEventListener("click", async (e) => {
 });
 
 // fetchItem();
-getCartTotal()
+getCartTotal();
 totalBasket();
-delBtn()
+delBtn();
 // TotalBasketProduct ();
 
 //======================= end list ; next => confirmation =========================\\
