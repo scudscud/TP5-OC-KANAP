@@ -152,23 +152,24 @@ let addToBasket = () => {
           id: IdProduct,
           quantity: quantity.value,
           color: colors.value,
-          price: product.price,
-          name: product.name,
+        
         };
 
         //** enregistrement du panier dans local storage = LS **\\
         const saveCart = (cart) => {
           cart.sort((a, b) => {
-            if (a.id < b.id) {
-              return -1;
-            }
-            if (a.id > b.id) {
-              return 1;
-            }
-            if (a.id === b.id) {
-              return 0;
-            }
-          });
+
+              if (a.id < b.id) {
+                return -1;
+              }
+              if (a.id > b.id) {
+                return 1;
+              }
+              if (a.id === b.id) {
+                return 0;
+              }
+            });
+
           localStorage.setItem("order", JSON.stringify(cart));
         };
 
@@ -182,7 +183,7 @@ let addToBasket = () => {
             return JSON.parse(cart);
           }
         };
-        //* ajout produits dans la panier ( push basket et save basket ) *\\
+        //* ajout produits dans le panier ( push basket et save basket ) *\\
         const addCart = (cart) => {
           let basket = getCart();
 
@@ -193,10 +194,11 @@ let addToBasket = () => {
           if (findbasket != undefined) {
             findbasket.quantity = order.quantity;
           } else {
+
             basket.push(cart);
           }
 
-          saveCart(basket);
+          saveCart(basket)
         };
 
         addCart(order);
