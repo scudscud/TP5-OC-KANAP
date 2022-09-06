@@ -27,6 +27,7 @@ const fetchItem = async () => {
       })
       .then((res) => res.json())
       .then((data) => {
+
         return (info = {
           idProduct: list[e].id,
           colorProduct: list[e].color,
@@ -51,6 +52,7 @@ const fetchItem = async () => {
           }
         });
         //_________ affichage des produits _______________________\\
+
       })
       .then(() => {
         let listArticle = ` <article class="cart__item" data-id="${sum[e].idProduct}" data-color="${sum[e].colorProduct}">
@@ -59,9 +61,11 @@ const fetchItem = async () => {
           </div>
           <div class="cart__item__content">
             <div class="cart__item__content__description">
+
               <h2>${sum[e].nameProduct}</h2>
               <p>${sum[e].colorProduct}</p>
               <p>${sum[e].priceProduct}€</p>
+
             </div>
             <div class="cart__item__content__settings">
               <div class="cart__item__content__settings__quantity">
