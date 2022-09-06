@@ -6,7 +6,7 @@ let sum = [];
 
 // ------------------fetch produit requete API ------------------------------\\
 const fetchItem = async () => {
-  await getCartTotal;
+  await getCartTotal();
 
   // ----------- verification de panier  -------------------\\
   if (list.length < 1) {
