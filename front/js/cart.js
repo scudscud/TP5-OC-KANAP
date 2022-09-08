@@ -87,7 +87,7 @@ const fetchItem = async () => {
           ".cart__item__content__settings__quantity"
         );
         for (let v = 0; v < itemQuantitySelector.length; v++) {
-                               // geston des erreurs dûe au client \\
+                        // geston des erreurs dûe au client \\
           itemQuantitySelector[v].addEventListener("change", (e) => {
             // console.log(e.target.value);
             if (e.target.value < parseInt(itemQuantitySelector[v].min)) {
@@ -272,35 +272,35 @@ const formError = (fieldlabel, regex, fieldResult, message, errorName) => {
 
 formError(
   firstName,
-  /^[a-zA-Z-\s]+$/,
+  /^[a-zA-Z-Ü-ü\s]+$/,
   firstNameError,
   `<span style=color:orange>tu as passé l'age d'ecrire ton pr3n0m avec des mun3r0 ou avec des ...</span>`,
   "firstName"
 );
 formError(
   lastName,
-  /^[a-zA-Z-\s]+$/,
+  /^[a-zA-Z-Ü-ü\s]+$/,
   lastNameError,
   `<span style=color:orange>tu as passé l'age d'ecrire ton n0m avec des num3r0s ou avec des ...</span>`,
   "lastName"
 );
 formError(
   address,
-  /^[A-Za-z-0-9|\s]{3,30}$/,
+  /^[A-Za-z-0-9-Ü-ü|\s]{3,30}$/,
   addressError,
   `<span style=color:orange>A moins que tu habite sur une autre planete, il y a un probleme dans ton adresse</span> `,
   "address"
 );
 formError(
   city,
-  /^[a-zA-Z-\s]+$/,
+  /^[a-zA-Z-Ü-ü\s]+$/,
   cityError,
   `<span style=color:orange>le nom de ta ville svp pas un code postal</span>`,
   "city"
 );
 formError(
   email,
-  /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,7}$/,
+  /^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/,
   emailError,
   `<span style=color:orange>il m@nque un dét@il pour v@lider l'em@il</span>`,
   "email"
@@ -327,7 +327,6 @@ orderButton.addEventListener("click", async (e) => {
       setTimeout(() => {
         inputValue.value = "";
       }, 2000);
-
       console.log(allOk);
       allOk = false;
       break;
@@ -335,7 +334,6 @@ orderButton.addEventListener("click", async (e) => {
       allOk = true;
     }
   }
-
   if (allOk === false || list.length === 0) {
     // orderButton.disabled
     orderButton.animate([{ transform: `translate(4%)` }], {
@@ -348,7 +346,6 @@ orderButton.addEventListener("click", async (e) => {
     }, 2000);
   } else {
     orderButton.style.background = "green";
-
     let infoOrder = {
       contact: {
         firstName: firstName.value,
@@ -357,11 +354,11 @@ orderButton.addEventListener("click", async (e) => {
         email: email.value,
         city: city.value,
       },
-
       products: list.map((i) => {
         return i.id;
       }),
     };
+    
     //__________ envoi requete API POST apres vreification validité info ___________\\
 
     res = await fetch("http://localhost:3000/api/products/order", {

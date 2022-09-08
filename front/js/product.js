@@ -192,10 +192,13 @@ let addToBasket = () => {
           );
 
           if (findbasket != undefined) {
-            findbasket.quantity = order.quantity;
+         
+           let total = parseInt(findbasket.quantity) + parseInt(order.quantity);
+          findbasket.quantity = total
+        
           } else {
-
             basket.push(cart);
+          
           }
 
           saveCart(basket)
